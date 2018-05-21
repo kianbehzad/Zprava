@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>stylesheet.qss</file>
+        <file>form_stylesheet.qss</file>
         <file>building.png</file>
         <file>signup.png</file>
         <file>login.png</file>
