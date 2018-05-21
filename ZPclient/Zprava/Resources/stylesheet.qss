@@ -5,7 +5,7 @@ background-color: light-green;
 }
 QLabel#icon_label
 {
-background-color: white;
+background-color: #9933ff;
 border-radius: 48px;
 }
 QLabel#topic_label
