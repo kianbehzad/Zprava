@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>form_stylesheet.qss</file>
+        <file>building.png</file>
+        <file>signup.png</file>
+        <file>login.png</file>
+        <file>building.jpg</file>
+    </qresource>
+</RCC>
