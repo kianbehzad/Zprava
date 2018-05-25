@@ -152,12 +152,61 @@ void ZpForm::create_form_widget()
 
 void ZpForm::slotLogin_Button_Clicked()
 {
-
+    bool isCorrect = true;
+    if(wrong_login_input_action_id != nullptr)
+        login_id_text->removeAction(wrong_login_input_action_id);
+    if(wrong_login_input_action_pass != nullptr)
+        login_pass_text->removeAction(wrong_login_input_action_pass);
+    QString id = login_id_text->text();
+    QString pass = login_pass_text->text();
+    if(id == "")
+    {
+        isCorrect = false;
+        login_id_text->setClearButtonEnabled(true);
+        wrong_login_input_action_id = login_id_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(pass == "")
+    {
+        isCorrect = false;
+        login_pass_text->setClearButtonEnabled(true);
+        wrong_login_input_action_pass = login_pass_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(isCorrect)
+        send_login_info(id, pass);
 }
 
 void ZpForm::slotSignUp_Button_Clicked()
 {
-
+    bool isCorrect = true;
+    if(wrong_signup_input_action_email != nullptr)
+        signup_email_text->removeAction(wrong_signup_input_action_email);
+    if(wrong_signup_input_action_id != nullptr)
+        signup_id_text->removeAction(wrong_signup_input_action_id);
+    if(wrong_signup_input_action_pass != nullptr)
+        signup_pass_text->removeAction(wrong_signup_input_action_pass);
+    QString email = signup_email_text->text();
+    QString id = signup_id_text->text();
+    QString pass = signup_pass_text->text();
+    if(email == "")
+    {
+        isCorrect = false;
+        signup_email_text->setClearButtonEnabled(true);
+        wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(id == "")
+    {
+        isCorrect = false;
+        signup_id_text->setClearButtonEnabled(true);
+        wrong_signup_input_action_id = signup_id_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(pass == "")
+    {
+        isCorrect = false;
+        signup_pass_text->setClearButtonEnabled(true);
+        wrong_signup_input_action_pass = signup_pass_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(isCorrect)
+        send_signup_info(email, id, pass);
 }
 
 void ZpForm::initiate_networking()
@@ -165,6 +214,24 @@ void ZpForm::initiate_networking()
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
     request->setUrl(QUrl("http://127.0.0.1:8080/?state=hello"));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
+}
+
+void ZpForm::send_login_info(QString id, QString pass)
+{
+    request->setUrl(QUrl("http://127.0.0.1:8080/?state=login&&ID="+id+"&&Pass="+pass));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
+}
+
+void ZpForm::send_signup_info(QString email, QString id, QString pass)
+{
+    request->setUrl(QUrl("http://127.0.0.1:8080/?state=sign_up&&Email="+email+"&&ID="+id+"&&Pass="+pass));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -199,6 +266,11 @@ void ZpForm::slotReadyRead()
     }
 
     reply_string = allbuf;
+    disconnect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    disconnect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    disconnect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));    reply->close();
+    reply->reset();
+    qDebug() << reply_string;//TODO remove this
 }
 
 void ZpForm::slotError(QNetworkReply::NetworkError err)

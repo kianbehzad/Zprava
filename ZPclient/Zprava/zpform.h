@@ -21,12 +21,21 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QAction>
 
 class ZpForm : public QWidget
 {
     Q_OBJECT
 public:
     explicit ZpForm(QWidget *parent = 0);
+private:
+    enum class STATE
+    {
+        NONE = 0,
+        LOGIN = 1,
+        SIGNUP = 2
+    };
+    STATE state = ZpForm::STATE::NONE;
 
     //::GRAPHICAL USER INTERFACE::\\
 private:
@@ -66,6 +75,12 @@ private:
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS
     QHBoxLayout* whole_lay;
+    //QActions
+    QAction* wrong_login_input_action_id;
+    QAction* wrong_login_input_action_pass;
+    QAction* wrong_signup_input_action_email;
+    QAction* wrong_signup_input_action_id;
+    QAction* wrong_signup_input_action_pass;
 private:
     void create_form_widget();
 private slots:
@@ -84,14 +99,17 @@ private:
     QString reply_string;
 private:
     void initiate_networking();
+    void send_login_info(QString id, QString pass);
+    void send_signup_info(QString email, QString id, QString pass);
 private slots:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError err);
     void slotSslErrors(QList<QSslError> err);
 ////////////////////////////////////////////////////
 
-
+//Outputs
 signals:
+    void login_validate();
 
 public slots:
 };
