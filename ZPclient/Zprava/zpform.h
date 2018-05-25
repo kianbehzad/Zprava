@@ -18,14 +18,18 @@
 #include <QDir>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 class ZpForm : public QWidget
 {
     Q_OBJECT
 public:
     explicit ZpForm(QWidget *parent = 0);
-    //GUI
-public:
+
+    //::GRAPHICAL USER INTERFACE::\\
+private:
     //STYLESHEET
     QFile File;
     QString FormStyleSheet;
@@ -62,6 +66,30 @@ public:
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS
     QHBoxLayout* whole_lay;
+private:
+    void create_form_widget();
+private slots:
+    void slotLogin_Button_Clicked();
+    void slotSignUp_Button_Clicked();
+////////////////////////////////////////////////////
+
+public:
+
+
+    //::NETWORKING::\\
+private:
+    QNetworkAccessManager* network;
+    QNetworkRequest* request;
+    QNetworkReply* reply;
+    QString reply_string;
+private:
+    void initiate_networking();
+private slots:
+    void slotReadyRead();
+    void slotError(QNetworkReply::NetworkError err);
+    void slotSslErrors(QList<QSslError> err);
+////////////////////////////////////////////////////
+
 
 signals:
 

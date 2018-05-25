@@ -2,6 +2,15 @@
 
 ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
 {
+    //widget
+    create_form_widget();
+
+    //network
+    initiate_networking();
+}
+
+void ZpForm::create_form_widget()
+{
     //getting style sheets
     File.setFileName(":/form_stylesheet.qss");
     qDebug() << "is qt form_stylesheet opend: " <<File.open(QFile::ReadOnly);
@@ -136,4 +145,71 @@ ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
     whole_lay->setSpacing(100);
     whole_lay->addWidget(login_form_widg);
     this->setLayout(whole_lay);
+
+    connect(login_button, SIGNAL(clicked(bool)), this, SLOT(slotLogin_Button_Clicked()));
+    connect(signup_button, SIGNAL(clicked(bool)), this, SLOT(slotSignUp_Button_Clicked()));
+}
+
+void ZpForm::slotLogin_Button_Clicked()
+{
+
+}
+
+void ZpForm::slotSignUp_Button_Clicked()
+{
+
+}
+
+void ZpForm::initiate_networking()
+{
+    network = new QNetworkAccessManager();
+    request = new QNetworkRequest();
+    request->setUrl(QUrl("http://127.0.0.1:8080/?state=hello"));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
+}
+
+void ZpForm::slotReadyRead()
+{
+    std::vector<char> buf;
+    qint64 chunk;
+
+    QString allbuf;
+
+    while(reply->bytesAvailable() > 0) {
+        chunk = reply->bytesAvailable();
+        if(chunk > 4096)
+            chunk = 4096;
+
+        buf.resize(chunk + 1);
+        memset(& buf[0], 0, chunk + 1);
+
+        if(chunk != reply->read(& buf[0], chunk))
+        {
+            qDebug() <<"-> read error";//TODO: in QLabel
+        }
+        else
+        {
+            qDebug() <<"-> read ok";//TODO: in QLabel
+        }
+
+        allbuf += & buf[0];
+    }
+
+    reply_string = allbuf;
+}
+
+void ZpForm::slotError(QNetworkReply::NetworkError err)
+{
+    //TODO: in QLabel
+    qDebug() << "network error" << err;
+}
+
+void ZpForm::slotSslErrors(QList<QSslError> err)
+{
+    //TODO: in QLabel
+    qDebug() << "unknown network error";
+
 }
