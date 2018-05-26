@@ -146,7 +146,7 @@ void ZpForm::create_form_widget()
     whole_lay->addWidget(signup_form_widg);
     whole_lay->setSpacing(100);
     whole_lay->addWidget(login_form_widg);
-    if(this->layout() != nullptr)
+    if(this->layout() != nullptr)//TODO must delete all containig widgets
         delete this->layout();
     this->setLayout(whole_lay);
 
@@ -281,9 +281,28 @@ void ZpForm::create_verify_widget()
     verify_form_widg->setLayout(verify_form_lay);
     verify_final_lay = new QHBoxLayout();
     verify_final_lay->addWidget(verify_form_widg);
-    if(this->layout() != nullptr)
+    if(this->layout() != nullptr)//TODO must delete all containig widgets
         delete this->layout();
     this->setLayout(verify_final_lay);
+}
+
+void ZpForm::slotFading_widget()
+{
+    fading_percent -=10;
+    if(fading_percent > 0)
+    {
+        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_percent)+"%);}"};
+        login_form_widg->setStyleSheet(fading_style);
+        signup_form_widg->setStyleSheet(fading_style);
+    }
+    else if(fading_percent == 0)
+    {
+        qApp->setStyleSheet(FormStyleSheet);
+        create_verify_widget();
+        fading_timer->stop();
+        return;
+    }
+
 }
 
 void ZpForm::initiate_networking()
@@ -349,7 +368,10 @@ void ZpForm::handle_reply(QString _reply)
         }
         else if(_reply == "Veryfying")//TODO vocab mistake
         {
-            create_verify_widget();
+            fading_timer = new QTimer(this);
+                connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_widget()));
+                fading_timer->start(30);
+            //create_verify_widget();
         }
     }
         break;

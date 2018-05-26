@@ -22,6 +22,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QAction>
+#include <QTimer>
 
 class ZpForm : public QWidget
 {
@@ -38,6 +39,7 @@ private:
     STATE state = ZpForm::STATE::NONE;
 
     void apply_stylesheet();
+    QTimer* fading_timer;
     //::FORM GRAPHICAL USER INTERFACE::\\
 private:
     //STYLESHEET
@@ -111,6 +113,10 @@ private:
     QHBoxLayout* verify_final_lay;
 private:
     void create_verify_widget();
+    int fading_percent = 100;
+private slots:
+    void slotFading_widget();
+public:
 
     //::NETWORKING::\\
 private:
