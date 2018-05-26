@@ -162,13 +162,13 @@ void ZpForm::slotLogin_Button_Clicked()
     if(id == "")
     {
         isCorrect = false;
-        login_id_text->setClearButtonEnabled(true);
+        //login_id_text->setClearButtonEnabled(true);
         wrong_login_input_action_id = login_id_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(pass == "")
     {
         isCorrect = false;
-        login_pass_text->setClearButtonEnabled(true);
+        //login_pass_text->setClearButtonEnabled(true);
         wrong_login_input_action_pass = login_pass_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(isCorrect)
@@ -190,19 +190,19 @@ void ZpForm::slotSignUp_Button_Clicked()
     if(email == "")
     {
         isCorrect = false;
-        signup_email_text->setClearButtonEnabled(true);
+        //signup_email_text->setClearButtonEnabled(true);
         wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(id == "")
     {
         isCorrect = false;
-        signup_id_text->setClearButtonEnabled(true);
+        //signup_id_text->setClearButtonEnabled(true);
         wrong_signup_input_action_id = signup_id_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(pass == "")
     {
         isCorrect = false;
-        signup_pass_text->setClearButtonEnabled(true);
+        //signup_pass_text->setClearButtonEnabled(true);
         wrong_signup_input_action_pass = signup_pass_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(isCorrect)
@@ -213,7 +213,7 @@ void ZpForm::initiate_networking()
 {
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    request->setUrl(QUrl("http://127.0.0.1:8080/?state=hello"));
+    request->setUrl(QUrl("http://127.0.0.1:8080/?state=Hello"));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
