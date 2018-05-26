@@ -148,6 +148,12 @@ void ZpForm::create_form_widget()
 
     connect(login_button, SIGNAL(clicked(bool)), this, SLOT(slotLogin_Button_Clicked()));
     connect(signup_button, SIGNAL(clicked(bool)), this, SLOT(slotSignUp_Button_Clicked()));
+
+    wrong_signup_input_action_email = nullptr;
+    wrong_signup_input_action_id = nullptr;
+    wrong_signup_input_action_pass = nullptr;
+    wrong_login_input_action_id = nullptr;
+    wrong_login_input_action_pass = nullptr;
 }
 
 void ZpForm::slotLogin_Button_Clicked()
