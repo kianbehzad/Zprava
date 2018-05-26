@@ -37,7 +37,8 @@ private:
     };
     STATE state = ZpForm::STATE::NONE;
 
-    //::GRAPHICAL USER INTERFACE::\\
+    void apply_stylesheet();
+    //::FORM GRAPHICAL USER INTERFACE::\\
 private:
     //STYLESHEET
     QFile File;
@@ -89,7 +90,27 @@ private slots:
 ////////////////////////////////////////////////////
 
 public:
-
+//::VERIFYING GRAPHICAL USER INTERFACE::\\
+private:
+    QLabel* verify_icon_label;
+    QPixmap* verify_icon_map;
+    QHBoxLayout* verify_icon_lay;
+    QWidget* verify_icon_widg;
+    QLabel* verify_topic_label;
+    QHBoxLayout* verify_topic_lay;
+    QWidget* verify_topic_widg;
+    QLabel* verify_descript_label;
+    QHBoxLayout* verify_descript_lay;
+    QWidget* verify_descript_widg;
+    QLineEdit* verify_code_number;
+    QPushButton* verify_button;
+    QHBoxLayout* verify_button_lay;
+    QWidget* verify_button_widg;
+    QVBoxLayout* verify_form_lay;
+    QWidget* verify_form_widg;
+    QHBoxLayout* verify_final_lay;
+private:
+    void create_verify_widget();
 
     //::NETWORKING::\\
 private:
