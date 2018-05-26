@@ -257,7 +257,23 @@ void ZpForm::handle_reply(QString _reply)
             return;
         else if(_reply == "existEmail")
         {
-            qDebug() << "inja";
+            if(wrong_signup_input_action_email != nullptr)
+                signup_email_text->removeAction(wrong_signup_input_action_email);
+            wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "existID")
+        {
+            if(wrong_signup_input_action_id != nullptr)
+                signup_id_text->removeAction(wrong_signup_input_action_id);
+            wrong_signup_input_action_id = signup_id_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "existBoth")
+        {
+            if(wrong_signup_input_action_email != nullptr)
+                signup_email_text->removeAction(wrong_signup_input_action_email);
+            if(wrong_signup_input_action_id != nullptr)
+                signup_id_text->removeAction(wrong_signup_input_action_id);
+            wrong_signup_input_action_id = signup_id_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
             wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
         }
     }
