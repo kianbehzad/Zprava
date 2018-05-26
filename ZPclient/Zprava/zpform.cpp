@@ -237,6 +237,7 @@ void ZpForm::send_login_info(QString id, QString pass)
 
 void ZpForm::send_signup_info(QString email, QString id, QString pass)
 {
+    state = ZpForm::STATE::SIGNUP;
     request->setUrl(QUrl("http://127.0.0.1:8080/?state=sign_up&&Email="+email+"&&ID="+id+"&&Pass="+pass));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
@@ -244,8 +245,34 @@ void ZpForm::send_signup_info(QString email, QString id, QString pass)
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
 }
 
+void ZpForm::handle_reply(QString _reply)
+{
+    switch (state) {
+    case ZpForm::STATE::NONE:
+
+        break;
+    case ZpForm::STATE::SIGNUP:
+    {
+        if(_reply == "incomplete")
+            return;
+        else if(_reply == "existEmail")
+        {
+            qDebug() << "inja";
+            wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+    }
+        break;
+    case ZpForm::STATE::LOGIN:
+
+        break;
+    default:
+        break;
+    }
+}
+
 void ZpForm::slotReadyRead()
 {
+    QString reply_string;
     std::vector<char> buf;
     qint64 chunk;
 
@@ -277,6 +304,7 @@ void ZpForm::slotReadyRead()
     disconnect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));    reply->close();
     reply->reset();
     qDebug() << reply_string;//TODO remove this
+    handle_reply(reply_string);
 }
 
 void ZpForm::slotError(QNetworkReply::NetworkError err)

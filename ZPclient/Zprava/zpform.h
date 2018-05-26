@@ -96,11 +96,11 @@ private:
     QNetworkAccessManager* network;
     QNetworkRequest* request;
     QNetworkReply* reply;
-    QString reply_string;
 private:
     void initiate_networking();
     void send_login_info(QString id, QString pass);
     void send_signup_info(QString email, QString id, QString pass);
+    void handle_reply(QString _reply);
 private slots:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError err);
