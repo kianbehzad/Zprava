@@ -18,14 +18,30 @@
 #include <QDir>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QAction>
+#include <QTimer>
 
 class ZpForm : public QWidget
 {
     Q_OBJECT
 public:
     explicit ZpForm(QWidget *parent = 0);
-    //GUI
-public:
+private:
+    enum class STATE
+    {
+        NONE = 0,
+        LOGIN = 1,
+        SIGNUP = 2
+    };
+    STATE state = ZpForm::STATE::NONE;
+
+    void apply_stylesheet();
+    QTimer* fading_timer;
+    //::FORM GRAPHICAL USER INTERFACE::\\
+private:
     //STYLESHEET
     QFile File;
     QString FormStyleSheet;
@@ -62,8 +78,65 @@ public:
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS
     QHBoxLayout* whole_lay;
+    //QActions
+    QAction* wrong_login_input_action_id;
+    QAction* wrong_login_input_action_pass;
+    QAction* wrong_signup_input_action_email;
+    QAction* wrong_signup_input_action_id;
+    QAction* wrong_signup_input_action_pass;
+private:
+    void create_form_widget();
+private slots:
+    void slotLogin_Button_Clicked();
+    void slotSignUp_Button_Clicked();
+////////////////////////////////////////////////////
 
+public:
+//::VERIFYING GRAPHICAL USER INTERFACE::\\
+private:
+    QLabel* verify_icon_label;
+    QPixmap* verify_icon_map;
+    QHBoxLayout* verify_icon_lay;
+    QWidget* verify_icon_widg;
+    QLabel* verify_topic_label;
+    QHBoxLayout* verify_topic_lay;
+    QWidget* verify_topic_widg;
+    QLabel* verify_descript_label;
+    QHBoxLayout* verify_descript_lay;
+    QWidget* verify_descript_widg;
+    QLineEdit* verify_code_number;
+    QPushButton* verify_button;
+    QHBoxLayout* verify_button_lay;
+    QWidget* verify_button_widg;
+    QVBoxLayout* verify_form_lay;
+    QWidget* verify_form_widg;
+    QHBoxLayout* verify_final_lay;
+private:
+    void create_verify_widget();
+    int fading_percent = 100;
+private slots:
+    void slotFading_widget();
+public:
+
+    //::NETWORKING::\\
+private:
+    QNetworkAccessManager* network;
+    QNetworkRequest* request;
+    QNetworkReply* reply;
+private:
+    void initiate_networking();
+    void send_login_info(QString id, QString pass);
+    void send_signup_info(QString email, QString id, QString pass);
+    void handle_reply(QString _reply);
+private slots:
+    void slotReadyRead();
+    void slotError(QNetworkReply::NetworkError err);
+    void slotSslErrors(QList<QSslError> err);
+////////////////////////////////////////////////////
+
+//Outputs
 signals:
+    void login_validate();
 
 public slots:
 };

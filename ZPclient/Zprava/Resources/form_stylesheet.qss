@@ -8,6 +8,12 @@ QLabel#icon_label
 background-color: #9933ff;
 border-radius: 48px;
 }
+QLabel#description_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 12pt "Arial";
+}
 QLabel#topic_label
 {
 selection-color: rgb(255, 255, 255);
@@ -23,6 +29,17 @@ border-radius: 8px;
 padding-left: 6px;
 color: white;
 font: 12pt "Arial";
+}
+QLineEdit#input_number
+{
+height: 40px;
+background-color: rgba(0%, 0%, 0%, 0%);
+border: 3px solid white;
+border-radius: 8px;
+padding-left: 6px;
+color: white;
+font: 20pt "Arial";
+qproperty-alignment: AlignCenter;
 }
 QWidget#form_widg
 {
@@ -64,4 +81,8 @@ border: 1px solid white;
 border-radius: 25px;
 color: white;
 font: 18pt "Arial";
+}
+QWidget
+{
+border: none;
 }
