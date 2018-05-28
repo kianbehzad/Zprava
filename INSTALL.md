@@ -1,4 +1,4 @@
-# GrSim - INSTALL
+# Zprava - INSTALL
 
 ## Overview
 
