@@ -2,17 +2,17 @@
 
 ## Overview
 
-We developed grSim on Mac OS. (Mac OS 10.12+ tested and is recommended). It is  important that the graphics card driver is installed properly. Zprava will compile and run in both 32 and 64 bits Linux and Mac OS.
+We developed Zprava on Mac OS. (Mac OS 10.12+ tested and is recommended). It is  important that the graphics card driver is installed properly. Zprava will compile and run in both 32 and 64 bits Linux and Mac OS.
 
 Zprava is written in C++, in order to compile it, you will need a working toolchain and a c++ compiler.
 
-#incomplete
+###incomplete
 
 ### Linux/Unix Installation
 
 Pre-requirements:
 
-Zprava still doesnt have a official domain and host so to run the with the server capabilities do as follow from Zprava directory:
+Zprava still doesnt have a official domain and host so to run the code with the server capabilities do as follow:
 If you dont have node.js installed on your system please install it from the following link:
 - [Install Node.js](https://nodejs.org/en/download/)
 
@@ -24,7 +24,7 @@ $ cd ZPserver
 $ nodejs ZPserver.js
 ```
 
-Next, all you need to do is to compile and run the client code.
+Now, all you need to do is to compile and run the client code.
 In order to do so open the provided ".pro" file in the "ZPclient/Zprava" directory with qtcreator IDE and then run the code from the menubar.
 
 
@@ -33,7 +33,7 @@ In order to do so open the provided ".pro" file in the "ZPclient/Zprava" directo
 
 Pre-requirements:
 
-Zprava still doesnt have a official domain and host so to run the with the server capabilities do as follow from Zprava directory:
+Zprava still doesnt have a official domain and host so to run the code with the server capabilities do as follow:
 If you dont have node.js installed on your system please install it from the following link:
 - [Install Node.js](https://nodejs.org/en/download/)
 
@@ -45,7 +45,7 @@ $ cd ZPserver
 $ node ZPserver.js
 ```
 
-Next, all you need to do is to compile and run the client code.
+Now, all you need to do is to compile and run the client code.
 In order to do so open the provided ".pro" file in the "ZPclient/Zprava" directory with qtcreator IDE and then run the code from the menubar.
 
 
