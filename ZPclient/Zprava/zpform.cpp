@@ -1,6 +1,6 @@
 #include "zpform.h"
 
-ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
+ZpForm::ZpForm(bool check_remember_me, QWidget *parent) : QWidget(parent)
 {
 
     //stylesheet
@@ -13,7 +13,8 @@ ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
     initiate_networking();
 
     //keep me logged in
-    is_kept_logged_in();
+    if(check_remember_me)
+        is_kept_logged_in();
 
 }
 
@@ -127,11 +128,6 @@ void ZpForm::create_form_widget()
     login_remember_checkbox = new QCheckBox();
     login_remember_checkbox->setObjectName("checkbox");
     login_remember_checkbox->setText("Remember Me");
-    login_remember_lay = new QHBoxLayout();
-    login_remember_lay->addWidget(login_remember_checkbox);
-    login_remember_lay->setAlignment(login_remember_checkbox, Qt::AlignLeft);
-    login_remember_widg = new QWidget();
-    login_remember_widg->setLayout(login_remember_lay);
 
     //submit button
     login_button = new QPushButton();
@@ -151,7 +147,7 @@ void ZpForm::create_form_widget()
     login_form_lay->addWidget(login_id_text);
     login_form_lay->addWidget(login_pass_text);
     login_form_lay->addSpacing(20);
-    login_form_lay->addWidget(login_remember_widg);
+    login_form_lay->addWidget(login_remember_checkbox);
     login_form_lay->addWidget(login_button_widg);
     login_form_widg = new QWidget();
     login_form_widg->setObjectName("form_widg");

@@ -29,7 +29,7 @@ class ZpForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ZpForm(QWidget *parent = 0);
+    explicit ZpForm(bool check_remember_me, QWidget *parent = 0);
 private:
     enum class STATE
     {

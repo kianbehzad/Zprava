@@ -1,5 +1,4 @@
 #include "zprava.h"
-#include <QHBoxLayout>
 
 
 
@@ -16,7 +15,7 @@ Zprava::Zprava(QWidget *parent)
         height = QApplication::desktop()->availableGeometry().height();
     setFixedSize(width, height);
     //add form into main window
-    form = new ZpForm();
+    form = new ZpForm(true);
     QHBoxLayout* lay = new QHBoxLayout();
     form->setFixedSize(2*width/3, 2*height/3);
     lay->addWidget(form);
