@@ -123,16 +123,6 @@ void ZpForm::create_form_widget()
     login_pass_text->setObjectName("input_text");
     login_pass_text->setPlaceholderText("Password");
 
-    //submit button
-    login_button = new QPushButton();
-    login_button->setObjectName("submit_button");
-    login_button->setText("Login");
-    login_button_lay = new QHBoxLayout();
-    login_button_lay->addWidget(login_button);
-    login_button_lay->setAlignment(login_button, Qt::AlignCenter);
-    login_button_widg = new QWidget();
-    login_button_widg->setLayout(login_button_lay);
-
     //remember me checkbox
     login_remember_checkbox = new QCheckBox();
     login_remember_checkbox->setObjectName("checkbox");
@@ -142,6 +132,16 @@ void ZpForm::create_form_widget()
     login_remember_lay->setAlignment(login_remember_checkbox, Qt::AlignLeft);
     login_remember_widg = new QWidget();
     login_remember_widg->setLayout(login_remember_lay);
+
+    //submit button
+    login_button = new QPushButton();
+    login_button->setObjectName("submit_button");
+    login_button->setText("Login");
+    login_button_lay = new QHBoxLayout();
+    login_button_lay->addWidget(login_button);
+    login_button_lay->setAlignment(login_button, Qt::AlignCenter);
+    login_button_widg = new QWidget();
+    login_button_widg->setLayout(login_button_lay);
 
     //final form
     login_form_lay = new QVBoxLayout();
@@ -408,7 +408,7 @@ void ZpForm::send_verify_info(QString code)
 void ZpForm::is_kept_logged_in()
 {
     login_data.setFileName(qApp->applicationDirPath() + "/login_data.txt");
-    bool is_opened = login_data.open(QFile::WriteOnly);
+    bool is_opened = login_data.open(QFile::ReadOnly);
     qDebug() << "is login_data: " << is_opened;
     if (is_opened)
     {
@@ -543,11 +543,7 @@ void ZpForm::slotReadyRead()
     }
 
     reply_string = allbuf;
-    disconnect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
-    disconnect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
-    disconnect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));    reply->close();
-    reply->reset();
-    qDebug() << reply_string;//TODO remove this
+    qDebug() <<reply_string;//TODO remove this
     handle_reply(reply_string);
 }
 
