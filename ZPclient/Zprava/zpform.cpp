@@ -290,6 +290,11 @@ void ZpForm::create_verify_widget()
     if(this->layout() != nullptr)//TODO must delete all containig widgets
         delete this->layout();
     this->setLayout(verify_final_lay);
+
+    connect(verify_button, SIGNAL(clicked(bool)), this, SLOT(slotVerify_Button_Clicked()));
+
+    wrong_verify_input_action_number = nullptr;
+
 }
 
 void ZpForm::slotFading_widget()
@@ -309,6 +314,24 @@ void ZpForm::slotFading_widget()
         return;
     }
 
+}
+
+void ZpForm::slotVerify_Button_Clicked()
+{
+    bool isCorrect = true;
+    if(wrong_verify_input_action_number != nullptr)
+        verify_code_number->removeAction(wrong_verify_input_action_number);
+    QString code = verify_code_number->text();
+    if(code == "")
+    {
+        isCorrect = false;
+        //login_id_text->setClearButtonEnabled(true);
+        wrong_verify_input_action_number = verify_code_number->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(isCorrect)
+    {
+        send_verify_info(code);
+    }
 }
 
 void ZpForm::initiate_networking()
@@ -342,7 +365,17 @@ void ZpForm::send_signup_info(QString email)
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
 }
 
-void ZpForm::handle_reply(QString _reply)
+void ZpForm::send_verify_info(QString code)
+{
+    state = ZpForm::STATE::VERIFY;
+    request->setUrl(QUrl("http://127.0.0.1:8000/signup/verification/?username="+username+"&&verification_code="+code));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
+}
+
+void ZpForm::handle_reply(QString _reply)//TODO for just returning states
 {
     switch (state) {
     case ZpForm::STATE::NONE:
@@ -413,6 +446,23 @@ void ZpForm::handle_reply(QString _reply)
         }
     }
         break;
+    case ZpForm::STATE::VERIFY:
+    {
+        if(_reply == "incomplete")
+            return;
+        else if(_reply == "InvalidUsername")
+            return;
+        else if(_reply == "InvalidCode")
+        {
+            if(wrong_verify_input_action_number != nullptr)
+                verify_code_number->removeAction(wrong_verify_input_action_number);
+            wrong_verify_input_action_number = verify_code_number->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "Enter")
+        {
+            emit login_validate(username, password);
+        }
+    }
     default:
         break;
     }
