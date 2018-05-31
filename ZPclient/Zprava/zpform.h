@@ -34,12 +34,14 @@ private:
     {
         NONE = 0,
         LOGIN = 1,
-        SIGNUP = 2
+        SIGNUP = 2,
+        VERIFY = 3
     };
     STATE state = ZpForm::STATE::NONE;
 
     void apply_stylesheet();
     QTimer* fading_timer;
+    QString username, password;
     //::FORM GRAPHICAL USER INTERFACE::\\
 private:
     //STYLESHEET
@@ -111,11 +113,13 @@ private:
     QVBoxLayout* verify_form_lay;
     QWidget* verify_form_widg;
     QHBoxLayout* verify_final_lay;
+    QAction* wrong_verify_input_action_number;
 private:
     void create_verify_widget();
     int fading_percent = 100;
 private slots:
     void slotFading_widget();
+    void slotVerify_Button_Clicked();
 public:
 
     //::NETWORKING::\\
@@ -125,8 +129,9 @@ private:
     QNetworkReply* reply;
 private:
     void initiate_networking();
-    void send_login_info(QString id, QString pass);
-    void send_signup_info(QString email, QString id, QString pass);
+    void send_login_info();
+    void send_signup_info(QString email);
+    void send_verify_info(QString code);
     void handle_reply(QString _reply);
 private slots:
     void slotReadyRead();
@@ -136,7 +141,7 @@ private slots:
 
 //Outputs
 signals:
-    void login_validate();
+    void login_validate(QString username, QString password);
 
 public slots:
 };
