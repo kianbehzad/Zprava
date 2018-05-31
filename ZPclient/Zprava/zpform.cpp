@@ -309,7 +309,7 @@ void ZpForm::initiate_networking()
 {
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    request->setUrl(QUrl("http://127.0.0.1:8080/?state=Hello"));
+    request->setUrl(QUrl("http://127.0.0.1:8000/signup/hello/"));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -328,7 +328,7 @@ void ZpForm::send_login_info(QString id, QString pass)
 void ZpForm::send_signup_info(QString email, QString id, QString pass)
 {
     state = ZpForm::STATE::SIGNUP;
-    request->setUrl(QUrl("http://127.0.0.1:8080/?state=sign_up&&Email="+email+"&&ID="+id+"&&Pass="+pass));
+    request->setUrl(QUrl("http://127.0.0.1:8000/signup/registration/?username="+id+"&&password="+pass+"&&email="+email));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -366,7 +366,7 @@ void ZpForm::handle_reply(QString _reply)
             wrong_signup_input_action_id = signup_id_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
             wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
         }
-        else if(_reply == "Veryfying")//TODO vocab mistake
+        else if(_reply == "pre_verified")
         {
             fading_timer = new QTimer(this);
                 connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_widget()));
