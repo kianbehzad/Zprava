@@ -49,7 +49,7 @@ private:
     QFile File;
     QString FormStyleSheet;
     //KEEP ME IN DATA FILE
-    QFile data;
+    QFile login_data;
     //SIGNUP FORM WIDGETS
     QLabel* signup_icon_label;
     QPixmap* signup_icon_map;
@@ -79,9 +79,9 @@ private:
     QPushButton* login_button;
     QHBoxLayout* login_button_lay;
     QWidget* login_button_widg;
-    QCheckBox* rem_me;
-    QHBoxLayout* rem_me_lay;
-    QWidget* rem_me_widg;
+    QCheckBox* login_remember_checkbox;
+    QHBoxLayout* login_remember_lay;
+    QWidget* login_remember_widg;
     QVBoxLayout* login_form_lay;
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS

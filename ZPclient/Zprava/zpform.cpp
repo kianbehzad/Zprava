@@ -2,6 +2,7 @@
 
 ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
 {
+
     //stylesheet
     apply_stylesheet();
 
@@ -23,6 +24,7 @@ void ZpForm::apply_stylesheet()
     qDebug() << "is qt form_stylesheet opend: " <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     qApp->setStyleSheet(FormStyleSheet);
+    File.close();
 
 }
 
@@ -131,16 +133,15 @@ void ZpForm::create_form_widget()
     login_button_widg = new QWidget();
     login_button_widg->setLayout(login_button_lay);
 
-    // keep me in checkbox
-    rem_me = new QCheckBox();
-    rem_me->setObjectName("remember");
-    rem_me->setText("Remember Me");
-    rem_me->setStyleSheet("QCheckBox{ color: cyan }");
-    rem_me_lay = new QHBoxLayout();
-    rem_me_lay->addWidget(rem_me);
-    rem_me_lay->setAlignment(rem_me, Qt::AlignCenter);
-    rem_me_widg = new QWidget();
-    rem_me_widg->setLayout(rem_me_lay);
+    //remember me checkbox
+    login_remember_checkbox = new QCheckBox();
+    login_remember_checkbox->setObjectName("checkbox");
+    login_remember_checkbox->setText("Remember Me");
+    login_remember_lay = new QHBoxLayout();
+    login_remember_lay->addWidget(login_remember_checkbox);
+    login_remember_lay->setAlignment(login_remember_checkbox, Qt::AlignLeft);
+    login_remember_widg = new QWidget();
+    login_remember_widg->setLayout(login_remember_lay);
 
     //final form
     login_form_lay = new QVBoxLayout();
@@ -150,7 +151,7 @@ void ZpForm::create_form_widget()
     login_form_lay->addWidget(login_id_text);
     login_form_lay->addWidget(login_pass_text);
     login_form_lay->addSpacing(20);
-    login_form_lay->addWidget(rem_me_widg);
+    login_form_lay->addWidget(login_remember_widg);
     login_form_lay->addWidget(login_button_widg);
     login_form_widg = new QWidget();
     login_form_widg->setObjectName("form_widg");
@@ -200,28 +201,19 @@ void ZpForm::slotLogin_Button_Clicked()
     if(isCorrect)
     {
         username = id;  password = pass;
-        QFile file("/Users/parsaa/Desktop/Data.txt");
-        if(rem_me->isChecked())
+        if(login_remember_checkbox->isChecked())
         {
-            qDebug()<<"check box not checked\n";
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            login_data.setFileName(qApp->applicationDirPath() + "/login_data.txt");
+            bool is_opened = login_data.open(QFile::WriteOnly);
+            qDebug() << "is login_data: " << is_opened;
+            if (is_opened)
             {
-                qDebug()<<"user data file does not created\n";
-            }
-
-            else
-            {
-                 qDebug()<<"user data file created\n";
-                 QTextStream out(&file);
+                 QTextStream out(&login_data);
                  // line 1 -->username , line2 --> password
                  out << username << "\n" << password << "\n";
             }
+            login_data.close();
         }
-        else
-        {
-            qDebug()<<"check box not checked\n";
-        }
-
         send_login_info();
     }
 }
@@ -415,29 +407,16 @@ void ZpForm::send_verify_info(QString code)
 
 void ZpForm::is_kept_logged_in()
 {
-    QFile file("/Users/parsaa/Desktop/Data.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    login_data.setFileName(qApp->applicationDirPath() + "/login_data.txt");
+    bool is_opened = login_data.open(QFile::WriteOnly);
+    qDebug() << "is login_data: " << is_opened;
+    if (is_opened)
     {
-        qDebug()<<"user data file does not opened\n";
-    }
-
-    else
-    {
-        if(file.size() == 0)
-        {
-             qDebug()<<"empty data file\n";
-        }
-        else
-        {
-            qDebug()<<"data captured from file\n";
-            QTextStream in(&file);
+            QTextStream in(&login_data);
             // line 1 -->username , line2 --> password
             in>>username;
             in>>password;
-            qDebug() <<"username:"<< username<<","<<"password:"<<password<<"\n";
             send_login_info();
-        }
-
     }
 
 }
