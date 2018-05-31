@@ -182,7 +182,10 @@ void ZpForm::slotLogin_Button_Clicked()
         wrong_login_input_action_pass = login_pass_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(isCorrect)
-        send_login_info(id, pass);
+    {
+        username = id;  password = pass;
+        send_login_info();
+    }
 }
 
 void ZpForm::slotSignUp_Button_Clicked()
@@ -216,7 +219,10 @@ void ZpForm::slotSignUp_Button_Clicked()
         wrong_signup_input_action_pass = signup_pass_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
     }
     if(isCorrect)
-        send_signup_info(email, id, pass);
+    {
+        username = id;  password = pass;
+        send_signup_info(email);
+    }
 }
 
 void ZpForm::create_verify_widget()
@@ -316,19 +322,20 @@ void ZpForm::initiate_networking()
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
 }
 
-void ZpForm::send_login_info(QString id, QString pass)
+void ZpForm::send_login_info()
 {
-    request->setUrl(QUrl("http://127.0.0.1:8080/?state=login&&ID="+id+"&&Pass="+pass));
+    state = ZpForm::STATE::LOGIN;
+    request->setUrl(QUrl("http://127.0.0.1:8000/login/?username="+username+"&&password="+password));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
 }
 
-void ZpForm::send_signup_info(QString email, QString id, QString pass)
+void ZpForm::send_signup_info(QString email)
 {
     state = ZpForm::STATE::SIGNUP;
-    request->setUrl(QUrl("http://127.0.0.1:8000/signup/registration/?username="+id+"&&password="+pass+"&&email="+email));
+    request->setUrl(QUrl("http://127.0.0.1:8000/signup/registration/?username="+username+"&&password="+password+"&&email="+email));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -345,19 +352,19 @@ void ZpForm::handle_reply(QString _reply)
     {
         if(_reply == "incomplete")
             return;
-        else if(_reply == "existEmail")
+        else if(_reply == "EmailExist")
         {
             if(wrong_signup_input_action_email != nullptr)
                 signup_email_text->removeAction(wrong_signup_input_action_email);
             wrong_signup_input_action_email = signup_email_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
         }
-        else if(_reply == "existID")
+        else if(_reply == "UsernameExist")
         {
             if(wrong_signup_input_action_id != nullptr)
                 signup_id_text->removeAction(wrong_signup_input_action_id);
             wrong_signup_input_action_id = signup_id_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
         }
-        else if(_reply == "existBoth")
+        else if(_reply == "BothExist")
         {
             if(wrong_signup_input_action_email != nullptr)
                 signup_email_text->removeAction(wrong_signup_input_action_email);
@@ -376,7 +383,35 @@ void ZpForm::handle_reply(QString _reply)
     }
         break;
     case ZpForm::STATE::LOGIN:
-
+    {
+        if(_reply == "incomplete")
+            return;
+        else if(_reply == "InvalidUsername")
+        {
+            if(wrong_login_input_action_id != nullptr)
+                login_id_text->removeAction(wrong_login_input_action_id);
+            wrong_login_input_action_id = login_id_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "NotValidate")
+        {
+            if(wrong_login_input_action_id != nullptr)
+                login_id_text->removeAction(wrong_login_input_action_id);
+            if(wrong_login_input_action_pass != nullptr)
+                login_pass_text->removeAction(wrong_login_input_action_pass);
+            wrong_login_input_action_id = login_id_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+            wrong_login_input_action_pass = login_pass_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "InvalidPassword")
+        {
+            if(wrong_login_input_action_pass != nullptr)
+                login_pass_text->removeAction(wrong_login_input_action_pass);
+            wrong_login_input_action_pass = login_pass_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "Enter")
+        {
+            emit login_validate(username, password);
+        }
+    }
         break;
     default:
         break;

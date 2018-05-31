@@ -40,6 +40,7 @@ private:
 
     void apply_stylesheet();
     QTimer* fading_timer;
+    QString username, password;
     //::FORM GRAPHICAL USER INTERFACE::\\
 private:
     //STYLESHEET
@@ -125,8 +126,8 @@ private:
     QNetworkReply* reply;
 private:
     void initiate_networking();
-    void send_login_info(QString id, QString pass);
-    void send_signup_info(QString email, QString id, QString pass);
+    void send_login_info();
+    void send_signup_info(QString email);
     void handle_reply(QString _reply);
 private slots:
     void slotReadyRead();
@@ -136,7 +137,7 @@ private slots:
 
 //Outputs
 signals:
-    void login_validate();
+    void login_validate(QString username, QString password);
 
 public slots:
 };
