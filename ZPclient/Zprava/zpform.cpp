@@ -128,6 +128,16 @@ void ZpForm::create_form_widget()
     login_remember_checkbox = new QCheckBox();
     login_remember_checkbox->setObjectName("checkbox");
     login_remember_checkbox->setText("Remember Me");
+    login_forgot_button = new QPushButton();
+    login_forgot_button->setObjectName("forgot_button");
+    login_forgot_button->setText("Forgot My Password");
+    login_option_lay = new QHBoxLayout();
+    login_option_lay->addWidget(login_remember_checkbox);
+    login_option_lay->addWidget(login_forgot_button);
+    login_option_widg = new QWidget();
+    login_option_widg->setObjectName("login_option");
+    login_option_widg->setFixedHeight(38);
+    login_option_widg->setLayout(login_option_lay);
 
     //submit button
     login_button = new QPushButton();
@@ -146,8 +156,8 @@ void ZpForm::create_form_widget()
     login_form_lay->addSpacing(20);
     login_form_lay->addWidget(login_id_text);
     login_form_lay->addWidget(login_pass_text);
-    login_form_lay->addSpacing(20);
-    login_form_lay->addWidget(login_remember_checkbox);
+    //login_form_lay->addSpacing(20);
+    login_form_lay->addWidget(login_option_widg);
     login_form_lay->addWidget(login_button_widg);
     login_form_widg = new QWidget();
     login_form_widg->setObjectName("form_widg");
@@ -165,6 +175,7 @@ void ZpForm::create_form_widget()
 
     connect(login_button, SIGNAL(clicked(bool)), this, SLOT(slotLogin_Button_Clicked()));
     connect(signup_button, SIGNAL(clicked(bool)), this, SLOT(slotSignUp_Button_Clicked()));
+    connect(login_forgot_button, SIGNAL(clicked(bool)), this, SLOT(slotLogin_ForgotButton_Clicked()));
 
     wrong_signup_input_action_email = nullptr;
     wrong_signup_input_action_id = nullptr;
@@ -251,6 +262,13 @@ void ZpForm::slotSignUp_Button_Clicked()
     }
 }
 
+void ZpForm::slotLogin_ForgotButton_Clicked()
+{
+    fading_timer = new QTimer(this);
+    connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_forget_widget()));
+    fading_timer->start(30);
+}
+
 void ZpForm::create_verify_widget()
 {
     //VERIFY
@@ -323,16 +341,16 @@ void ZpForm::create_verify_widget()
 
 }
 
-void ZpForm::slotFading_widget()
+void ZpForm::slotFading_verify_widget()
 {
-    fading_percent -=10;
-    if(fading_percent > 0)
+    fading_verify_percent -=10;
+    if(fading_verify_percent > 0)
     {
-        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_percent)+"%);}"};
+        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_verify_percent)+"%);}"};
         login_form_widg->setStyleSheet(fading_style);
         signup_form_widg->setStyleSheet(fading_style);
     }
-    else if(fading_percent == 0)
+    else if(fading_verify_percent == 0)
     {
         qApp->setStyleSheet(FormStyleSheet);
         create_verify_widget();
@@ -340,6 +358,42 @@ void ZpForm::slotFading_widget()
         return;
     }
 
+}
+
+void ZpForm::slotFading_forget_widget()
+{
+    fading_forget_percent -=10;
+    if(fading_forget_percent > 0)
+    {
+        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_forget_percent)+"%);}"};
+        login_form_widg->setStyleSheet(fading_style);
+        signup_form_widg->setStyleSheet(fading_style);
+    }
+    else if(fading_forget_percent == 0)
+    {
+        qApp->setStyleSheet(FormStyleSheet);
+        create_forget_widget();
+        fading_timer->stop();
+        return;
+    }
+}
+
+void ZpForm::slotForget_Button_Clicked()
+{
+    bool isCorrect = true;
+    if(wrong_forget_input_action_number != nullptr)
+        forget_email_text->removeAction(wrong_forget_input_action_number);
+    QString email = forget_email_text->text();
+    if(email == "")
+    {
+        isCorrect = false;
+        //login_id_text->setClearButtonEnabled(true);
+        wrong_forget_input_action_number = forget_email_text->addAction(QIcon(":/Red_X.png"), QLineEdit::TrailingPosition);
+    }
+    if(isCorrect)
+    {
+        send_forget_info(email);
+    }
 }
 
 void ZpForm::slotVerify_Button_Clicked()
@@ -358,6 +412,77 @@ void ZpForm::slotVerify_Button_Clicked()
     {
         send_verify_info(code);
     }
+}
+
+void ZpForm::create_forget_widget()
+{
+    //FORGET
+    //top icon
+    forget_icon_label = new QLabel();
+    forget_icon_label->setObjectName("icon_label");
+    forget_icon_map = new QPixmap(":/verifying.png");
+    forget_icon_label->setPixmap(*forget_icon_map);
+    forget_icon_label->setMaximumSize(100, 100);
+    forget_icon_lay = new QHBoxLayout();
+    forget_icon_lay->addWidget(forget_icon_label);
+    forget_icon_lay->setAlignment(forget_icon_label, Qt::AlignCenter);
+    forget_icon_widg = new QWidget();
+    forget_icon_widg->setLayout(forget_icon_lay);
+
+    //topic name
+    forget_topic_label = new QLabel();
+    forget_topic_label->setText("FORGET PASSWORD");
+    forget_topic_label->setObjectName("topic_label");
+    forget_topic_lay = new QHBoxLayout();
+    forget_topic_lay->addWidget(forget_topic_label);
+    forget_topic_lay->setAlignment(forget_topic_label, Qt::AlignCenter);
+    forget_topic_widg = new QWidget();
+    forget_topic_widg->setLayout(forget_topic_lay);
+
+    //description label
+    forget_descript_label = new QLabel();
+    forget_descript_label->setText("Please Enter Your Email Address And We Will Send Your Data!");
+    forget_descript_label->setObjectName("description_label");
+    forget_descript_lay = new QHBoxLayout();
+    forget_descript_lay->addWidget(forget_descript_label);
+    forget_descript_lay->setAlignment(forget_descript_label, Qt::AlignCenter);
+    forget_descript_widg = new QWidget();
+    forget_descript_widg->setLayout(forget_descript_lay);
+
+    //inputs
+    forget_email_text = new QLineEdit();
+    forget_email_text->setObjectName("input_number");
+    forget_email_text->setPlaceholderText("Email Address");
+
+    //submit button
+    forget_button = new QPushButton();
+    forget_button->setObjectName("submit_button");
+    forget_button->setText("Send");
+    forget_button_lay = new QHBoxLayout();
+    forget_button_lay->addWidget(forget_button);
+    forget_button_lay->setAlignment(forget_button, Qt::AlignCenter);
+    forget_button_widg = new QWidget();
+    forget_button_widg->setLayout(forget_button_lay);
+
+    //final form
+    forget_form_lay = new QVBoxLayout();
+    forget_form_lay->addWidget(forget_icon_widg);
+    forget_form_lay->addWidget(forget_topic_widg);
+    forget_form_lay->addWidget(forget_descript_widg);
+    forget_form_lay->addWidget(forget_email_text);
+    forget_form_lay->addWidget(forget_button_widg);
+    forget_form_widg = new QWidget();
+    forget_form_widg->setObjectName("form_widg");
+    forget_form_widg->setLayout(forget_form_lay);
+    forget_final_lay = new QHBoxLayout();
+    forget_final_lay->addWidget(forget_form_widg);
+    if(this->layout() != nullptr)//TODO must delete all containig widgets
+        delete this->layout();
+    this->setLayout(forget_final_lay);
+
+    connect(forget_button, SIGNAL(clicked(bool)), this, SLOT(slotForget_Button_Clicked()));
+
+    wrong_forget_input_action_number = nullptr;
 }
 
 void ZpForm::initiate_networking()
@@ -395,6 +520,16 @@ void ZpForm::send_verify_info(QString code)
 {
     state = ZpForm::STATE::VERIFY;
     request->setUrl(QUrl("http://127.0.0.1:8000/signup/verification/?username="+username+"&&verification_code="+code));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
+}
+
+void ZpForm::send_forget_info(QString email)
+{
+    state = ZpForm::STATE::FORGET;
+    request->setUrl(QUrl("http://127.0.0.1:8000/signup/forget/?email="+email));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -451,7 +586,7 @@ void ZpForm::handle_reply(QString _reply)//TODO for just returning states
         else if(_reply == "pre_verified")
         {
             fading_timer = new QTimer(this);
-                connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_widget()));
+                connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_verify_widget()));
                 fading_timer->start(30);
             //create_verify_widget();
         }

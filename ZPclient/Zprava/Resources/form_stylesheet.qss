@@ -50,7 +50,14 @@ border-radius: 20px;
 QCheckBox#checkbox
 {
 color:white;
-margin-left:10px;
+}
+QPushButton#forgot_button
+{
+color:white;
+}
+QPushButton:pressed#forgot_button
+{
+color: red;
 }
 QPushButton#submit_button
 {
