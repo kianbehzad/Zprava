@@ -36,7 +36,8 @@ private:
         NONE = 0,
         LOGIN = 1,
         SIGNUP = 2,
-        VERIFY = 3
+        VERIFY = 3,
+        FORGET = 4
     };
     STATE state = ZpForm::STATE::NONE;
 
@@ -80,8 +81,9 @@ private:
     QHBoxLayout* login_button_lay;
     QWidget* login_button_widg;
     QCheckBox* login_remember_checkbox;
-    QHBoxLayout* login_remember_lay;
-    QWidget* login_remember_widg;
+    QPushButton* login_forgot_button;
+    QHBoxLayout* login_option_lay;
+    QWidget* login_option_widg;
     QVBoxLayout* login_form_lay;
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS
@@ -98,6 +100,7 @@ private:
 private slots:
     void slotLogin_Button_Clicked();
     void slotSignUp_Button_Clicked();
+    void slotLogin_ForgotButton_Clicked();
 ////////////////////////////////////////////////////
 
 public:
@@ -123,10 +126,38 @@ private:
     QAction* wrong_verify_input_action_number;
 private:
     void create_verify_widget();
-    int fading_percent = 100;
+    int fading_verify_percent = 100;
 private slots:
-    void slotFading_widget();
+    void slotFading_verify_widget();
     void slotVerify_Button_Clicked();
+
+public:
+//::FORGET GRAPHICAL USER INTERFACE::\\
+private:
+    QLabel* forget_icon_label;
+    QPixmap* forget_icon_map;
+    QHBoxLayout* forget_icon_lay;
+    QWidget* forget_icon_widg;
+    QLabel* forget_topic_label;
+    QHBoxLayout* forget_topic_lay;
+    QWidget* forget_topic_widg;
+    QLabel* forget_descript_label;
+    QHBoxLayout* forget_descript_lay;
+    QWidget* forget_descript_widg;
+    QLineEdit* forget_email_text;
+    QPushButton* forget_button;
+    QHBoxLayout* forget_button_lay;
+    QWidget* forget_button_widg;
+    QVBoxLayout* forget_form_lay;
+    QWidget* forget_form_widg;
+    QHBoxLayout* forget_final_lay;
+    QAction* wrong_forget_input_action_number;
+private:
+    void create_forget_widget();
+    int fading_forget_percent = 100;
+private slots:
+    void slotFading_forget_widget();
+    void slotForget_Button_Clicked();
 public:
 
     //::NETWORKING::\\
@@ -139,6 +170,7 @@ private:
     void send_login_info();
     void send_signup_info(QString email);
     void send_verify_info(QString code);
+    void send_forget_info(QString email);
     void handle_reply(QString _reply);
 private slots:
     void slotReadyRead();
