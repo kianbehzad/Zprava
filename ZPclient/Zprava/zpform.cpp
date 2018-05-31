@@ -1,7 +1,8 @@
 #include "zpform.h"
 
-ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
+ZpForm::ZpForm(bool check_remember_me, QWidget *parent) : QWidget(parent)
 {
+
     //stylesheet
     apply_stylesheet();
 
@@ -10,6 +11,11 @@ ZpForm::ZpForm(QWidget *parent) : QWidget(parent)
 
     //network
     initiate_networking();
+
+    //keep me logged in
+    if(check_remember_me)
+        is_kept_logged_in();
+
 }
 
 void ZpForm::apply_stylesheet()
@@ -19,6 +25,7 @@ void ZpForm::apply_stylesheet()
     qDebug() << "is qt form_stylesheet opend: " <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     qApp->setStyleSheet(FormStyleSheet);
+    File.close();
 
 }
 
@@ -117,6 +124,11 @@ void ZpForm::create_form_widget()
     login_pass_text->setObjectName("input_text");
     login_pass_text->setPlaceholderText("Password");
 
+    //remember me checkbox
+    login_remember_checkbox = new QCheckBox();
+    login_remember_checkbox->setObjectName("checkbox");
+    login_remember_checkbox->setText("Remember Me");
+
     //submit button
     login_button = new QPushButton();
     login_button->setObjectName("submit_button");
@@ -135,6 +147,7 @@ void ZpForm::create_form_widget()
     login_form_lay->addWidget(login_id_text);
     login_form_lay->addWidget(login_pass_text);
     login_form_lay->addSpacing(20);
+    login_form_lay->addWidget(login_remember_checkbox);
     login_form_lay->addWidget(login_button_widg);
     login_form_widg = new QWidget();
     login_form_widg->setObjectName("form_widg");
@@ -184,6 +197,19 @@ void ZpForm::slotLogin_Button_Clicked()
     if(isCorrect)
     {
         username = id;  password = pass;
+        if(login_remember_checkbox->isChecked())
+        {
+            login_data.setFileName(qApp->applicationDirPath() + "/login_data.txt");
+            bool is_opened = login_data.open(QFile::WriteOnly);
+            qDebug() << "is login_data: " << is_opened;
+            if (is_opened)
+            {
+                 QTextStream out(&login_data);
+                 // line 1 -->username , line2 --> password
+                 out << username << "\n" << password << "\n";
+            }
+            login_data.close();
+        }
         send_login_info();
     }
 }
@@ -375,6 +401,22 @@ void ZpForm::send_verify_info(QString code)
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
 }
 
+void ZpForm::is_kept_logged_in()
+{
+    login_data.setFileName(qApp->applicationDirPath() + "/login_data.txt");
+    bool is_opened = login_data.open(QFile::ReadOnly);
+    qDebug() << "is login_data: " << is_opened;
+    if (is_opened)
+    {
+            QTextStream in(&login_data);
+            // line 1 -->username , line2 --> password
+            in>>username;
+            in>>password;
+            send_login_info();
+    }
+
+}
+
 void ZpForm::handle_reply(QString _reply)//TODO for just returning states
 {
     switch (state) {
@@ -497,11 +539,7 @@ void ZpForm::slotReadyRead()
     }
 
     reply_string = allbuf;
-    disconnect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
-    disconnect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
-    disconnect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));    reply->close();
-    reply->reset();
-    qDebug() << reply_string;//TODO remove this
+    qDebug() <<reply_string;//TODO remove this
     handle_reply(reply_string);
 }
 
