@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include <QAction>
 #include <QTimer>
+#include <QCheckBox>
 
 class ZpForm : public QWidget
 {
@@ -47,6 +48,8 @@ private:
     //STYLESHEET
     QFile File;
     QString FormStyleSheet;
+    //KEEP ME IN DATA FILE
+    QFile data;
     //SIGNUP FORM WIDGETS
     QLabel* signup_icon_label;
     QPixmap* signup_icon_map;
@@ -76,6 +79,9 @@ private:
     QPushButton* login_button;
     QHBoxLayout* login_button_lay;
     QWidget* login_button_widg;
+    QCheckBox* rem_me;
+    QHBoxLayout* rem_me_lay;
+    QWidget* rem_me_widg;
     QVBoxLayout* login_form_lay;
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS
@@ -88,6 +94,7 @@ private:
     QAction* wrong_signup_input_action_pass;
 private:
     void create_form_widget();
+    void is_kept_logged_in();
 private slots:
     void slotLogin_Button_Clicked();
     void slotSignUp_Button_Clicked();
