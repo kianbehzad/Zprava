@@ -12,7 +12,7 @@ Zprava::Zprava(QWidget *parent)
         width = QApplication::desktop()->availableGeometry().width();
     if(QApplication::desktop()->availableGeometry().height() < 939)
         height = QApplication::desktop()->availableGeometry().height();
-    setFixedSize(width, height);
+    setMaximumSize(width, height);//setFixedSize(width, height);
 
     //stylesheet
     apply_stylesheet();
@@ -20,7 +20,7 @@ Zprava::Zprava(QWidget *parent)
     //add form into main window
     form = new ZpForm(true);
     QHBoxLayout* lay = new QHBoxLayout();
-    form->setFixedSize(2*width/3, 2*height/3);
+    form->setMaximumSize(2*width/3, 2*height/3);//form->setFixedSize(2*width/3, 2*height/3);
     lay->addWidget(form);
     QWidget* w = new QWidget(this);
     w->setLayout(lay);
