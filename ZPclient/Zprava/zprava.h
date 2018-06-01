@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "zpform.h"
+#include "zpchatwindow.h"
 
 
 
@@ -15,6 +16,7 @@ public:
     ~Zprava();
     //FORM
     ZpForm* form;
+    zpchatwindow* chat;
 
 
 

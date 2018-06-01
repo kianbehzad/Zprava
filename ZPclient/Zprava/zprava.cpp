@@ -16,13 +16,13 @@ Zprava::Zprava(QWidget *parent)
         height = QApplication::desktop()->availableGeometry().height();
     setFixedSize(width, height);
     //add form into main window
-    form = new ZpForm();
+    chat = new zpchatwindow();
     QHBoxLayout* lay = new QHBoxLayout();
-    form->setFixedSize(2*width/3, 2*height/3);
-    lay->addWidget(form);
+    chat->setFixedSize(2*width/3, 2*height/3);
+    lay->addWidget(chat);
     QWidget* w = new QWidget(this);
     w->setLayout(lay);
-    setCentralWidget(w);
+    setCentralWidget(chat);
 
 
 }

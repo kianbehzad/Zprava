@@ -203,7 +203,7 @@ void ZpForm::slotLogin_Button_Clicked()
         QFile file("/Users/parsaa/Desktop/Data.txt");
         if(rem_me->isChecked())
         {
-            qDebug()<<"check box not checked\n";
+            qDebug()<<"check box checked\n";
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
             {
                 qDebug()<<"user data file does not created\n";
@@ -429,7 +429,7 @@ void ZpForm::is_kept_logged_in()
         }
         else
         {
-            qDebug()<<"data captured from file\n";
+            qDebug()<<"user & pass captured from data file succefuly\n";
             QTextStream in(&file);
             // line 1 -->username , line2 --> password
             in>>username;

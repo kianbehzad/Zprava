@@ -8,5 +8,7 @@
         <file>Red_X.png</file>
         <file>Exclamation_sign.png</file>
         <file>verifying.png</file>
+        <file>chat_stylesheet.qss</file>
+        <file>chat_background.jpg</file>
     </qresource>
 </RCC>
