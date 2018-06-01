@@ -2,6 +2,8 @@
 #define ZPRAVA_H
 
 #include <QMainWindow>
+#include <QFile>
+#include <QString>
 #include "zpform.h"
 
 
@@ -13,6 +15,10 @@ class Zprava : public QMainWindow
 public:
     Zprava(QWidget *parent = 0);
     ~Zprava();
+    //stylesheet
+    void apply_stylesheet();
+    QFile File;
+    QString FormStyleSheet;
     //FORM
     ZpForm* form;
 

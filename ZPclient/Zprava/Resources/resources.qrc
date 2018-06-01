@@ -8,5 +8,6 @@
         <file>Red_X.png</file>
         <file>Exclamation_sign.png</file>
         <file>verifying.png</file>
+        <file>qApp_stylesheet.qss</file>
     </qresource>
 </RCC>

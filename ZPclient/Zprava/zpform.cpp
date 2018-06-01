@@ -24,7 +24,7 @@ void ZpForm::apply_stylesheet()
     File.setFileName(":/form_stylesheet.qss");
     qDebug() << "is qt form_stylesheet opend: " <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
-    qApp->setStyleSheet(FormStyleSheet);
+    this->setStyleSheet(FormStyleSheet);
     File.close();
 
 }
@@ -352,7 +352,7 @@ void ZpForm::slotFading_verify_widget()
     }
     else if(fading_verify_percent == 0)
     {
-        qApp->setStyleSheet(FormStyleSheet);
+        this->setStyleSheet(FormStyleSheet);
         create_verify_widget();
         fading_timer->stop();
         return;
@@ -371,7 +371,7 @@ void ZpForm::slotFading_forget_widget()
     }
     else if(fading_forget_percent == 0)
     {
-        qApp->setStyleSheet(FormStyleSheet);
+        this->setStyleSheet(FormStyleSheet);
         create_forget_widget();
         fading_timer->stop();
         return;
