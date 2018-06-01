@@ -88,6 +88,8 @@ private:
     QWidget* login_form_widg;
     //WHOLE FORM WIDGETS
     QHBoxLayout* whole_lay;
+    QWidget* whole_form_widg;
+    QHBoxLayout* mother_lay;
     //QActions
     QAction* wrong_login_input_action_id;
     QAction* wrong_login_input_action_pass;
@@ -126,9 +128,9 @@ private:
     QAction* wrong_verify_input_action_number;
 private:
     void create_verify_widget();
-    int fading_verify_percent = 100;
+    int fading_formTOverify_percent = 100;
 private slots:
-    void slotFading_verify_widget();
+    void slotFading_formTOverify_widget();
     void slotVerify_Button_Clicked();
 
 public:
@@ -154,9 +156,11 @@ private:
     QAction* wrong_forget_input_action_number;
 private:
     void create_forget_widget();
-    int fading_forget_percent = 100;
+    int fading_formTOforget_percent = 100;
+    int fading_forgetTOform_percent = 100;
 private slots:
-    void slotFading_forget_widget();
+    void slotFading_formTOforget_widget();
+    void slotFading_forgetTOform_widget();
     void slotForget_Button_Clicked();
 public:
 

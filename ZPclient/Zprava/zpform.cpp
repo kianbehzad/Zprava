@@ -6,7 +6,7 @@ ZpForm::ZpForm(bool check_remember_me, QWidget *parent) : QWidget(parent)
     //stylesheet
     apply_stylesheet();
 
-    //widget
+    //creatin all widgets
     create_form_widget();
 
     //network
@@ -169,9 +169,13 @@ void ZpForm::create_form_widget()
     whole_lay->addWidget(signup_form_widg);
     whole_lay->setSpacing(100);
     whole_lay->addWidget(login_form_widg);
+    whole_form_widg = new QWidget();
+    whole_form_widg->setLayout(whole_lay);
+    mother_lay = new QHBoxLayout();
+    mother_lay->addWidget(whole_form_widg);
     if(this->layout() != nullptr)//TODO must delete all containig widgets
         delete this->layout();
-    this->setLayout(whole_lay);
+    this->setLayout(mother_lay);
 
     connect(login_button, SIGNAL(clicked(bool)), this, SLOT(slotLogin_Button_Clicked()));
     connect(signup_button, SIGNAL(clicked(bool)), this, SLOT(slotSignUp_Button_Clicked()));
@@ -265,7 +269,7 @@ void ZpForm::slotSignUp_Button_Clicked()
 void ZpForm::slotLogin_ForgotButton_Clicked()
 {
     fading_timer = new QTimer(this);
-    connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_forget_widget()));
+    connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_formTOforget_widget()));
     fading_timer->start(30);
 }
 
@@ -341,38 +345,61 @@ void ZpForm::create_verify_widget()
 
 }
 
-void ZpForm::slotFading_verify_widget()
+void ZpForm::slotFading_formTOverify_widget()
 {
-    fading_verify_percent -=10;
-    if(fading_verify_percent > 0)
+    fading_formTOverify_percent -=10;
+    if(fading_formTOverify_percent > 0)
     {
-        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_verify_percent)+"%);}"};
+        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_formTOverify_percent)+"%);}"};
         login_form_widg->setStyleSheet(fading_style);
         signup_form_widg->setStyleSheet(fading_style);
     }
-    else if(fading_verify_percent == 0)
+    else if(fading_formTOverify_percent == 0)
     {
         this->setStyleSheet(FormStyleSheet);
+        whole_form_widg->hide();
         create_verify_widget();
+        fading_formTOverify_percent = 100;
         fading_timer->stop();
         return;
     }
 
 }
 
-void ZpForm::slotFading_forget_widget()
+void ZpForm::slotFading_formTOforget_widget()
 {
-    fading_forget_percent -=10;
-    if(fading_forget_percent > 0)
+    fading_formTOforget_percent -=10;
+    if(fading_formTOforget_percent > 0)
     {
-        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_forget_percent)+"%);}"};
+        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_formTOforget_percent)+"%);}"};
         login_form_widg->setStyleSheet(fading_style);
         signup_form_widg->setStyleSheet(fading_style);
     }
-    else if(fading_forget_percent == 0)
+    else if(fading_formTOforget_percent == 0)
     {
         this->setStyleSheet(FormStyleSheet);
+        whole_form_widg->hide();
         create_forget_widget();
+        fading_formTOforget_percent = 100;
+        fading_timer->stop();
+        return;
+    }
+}
+
+void ZpForm::slotFading_forgetTOform_widget()
+{
+    fading_forgetTOform_percent -=10;
+    if(fading_forgetTOform_percent > 0)
+    {
+        QString fading_style{"QWidget#form_widg{background-color: rgba(0%, 0%, 0%, "+QString::number(fading_forgetTOform_percent)+"%);}"};
+        forget_form_widg->setStyleSheet(fading_style);
+    }
+    else if(fading_forgetTOform_percent == 0)
+    {
+        this->setStyleSheet(FormStyleSheet);
+        forget_form_widg->hide();
+        create_form_widget();
+        fading_forgetTOform_percent = 100;
         fading_timer->stop();
         return;
     }
@@ -560,7 +587,7 @@ void ZpForm::handle_reply(QString _reply)//TODO for just returning states
         break;
     case ZpForm::STATE::SIGNUP:
     {
-        if(_reply == "incomplete")
+        if(_reply == "Incomplete")
             return;
         else if(_reply == "EmailExist")
         {
@@ -586,15 +613,14 @@ void ZpForm::handle_reply(QString _reply)//TODO for just returning states
         else if(_reply == "pre_verified")
         {
             fading_timer = new QTimer(this);
-                connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_verify_widget()));
-                fading_timer->start(30);
-            //create_verify_widget();
+            connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_formTOverify_widget()));
+            fading_timer->start(30);
         }
     }
         break;
     case ZpForm::STATE::LOGIN:
     {
-        if(_reply == "incomplete")
+        if(_reply == "Incomplete")
             return;
         else if(_reply == "InvalidUsername")
         {
@@ -625,7 +651,7 @@ void ZpForm::handle_reply(QString _reply)//TODO for just returning states
         break;
     case ZpForm::STATE::VERIFY:
     {
-        if(_reply == "incomplete")
+        if(_reply == "Incomplete")
             return;
         else if(_reply == "InvalidUsername")
             return;
@@ -638,6 +664,23 @@ void ZpForm::handle_reply(QString _reply)//TODO for just returning states
         else if(_reply == "Enter")
         {
             emit login_validate(username, password);
+        }
+    }
+    case ZpForm::STATE::FORGET:
+    {
+        if(_reply == "Incomplete")
+            return;
+        else if(_reply == "InvalidEmail")
+        {
+            if(wrong_forget_input_action_number != nullptr)
+                forget_email_text->removeAction(wrong_forget_input_action_number);
+            wrong_forget_input_action_number = forget_email_text->addAction(QIcon(":/Exclamation_sign.png"), QLineEdit::TrailingPosition);
+        }
+        else if(_reply == "Sent")
+        {
+            fading_timer = new QTimer(this);
+            connect(fading_timer, SIGNAL(timeout()), this, SLOT(slotFading_forgetTOform_widget()));
+            fading_timer->start(30);
         }
     }
     default:
