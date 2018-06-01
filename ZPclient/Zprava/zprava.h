@@ -21,7 +21,8 @@ public:
     QString FormStyleSheet;
     //FORM
     ZpForm* form;
-
+public slots:
+    void SLOTlogin_validate(QString username, QString password);
 
 
 

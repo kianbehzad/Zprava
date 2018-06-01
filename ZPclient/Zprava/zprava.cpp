@@ -26,6 +26,9 @@ Zprava::Zprava(QWidget *parent)
     w->setLayout(lay);
     setCentralWidget(w);
 
+    //chatwindow
+    connect(form, SIGNAL(login_validate(QString,QString)), this, SLOT(SLOTlogin_validate(QString,QString)));
+
 
 }
 
@@ -42,4 +45,19 @@ void Zprava::apply_stylesheet()
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();
+}
+
+void Zprava::SLOTlogin_validate(QString username, QString password)
+{
+    QLabel* information = new QLabel();
+    information->setText("your username is\n: " + username);
+    information->setFixedSize(400, 400);
+    information->setAlignment(Qt::AlignCenter);
+    QHBoxLayout* information_lay = new QHBoxLayout();
+    information_lay->addWidget(information);
+    QWidget* information_widg = new QWidget();
+    information_widg->setLayout(information_lay);
+    this->setCentralWidget(information_widg);
+    this->setStyleSheet("Zprava{background-image:url(\":/chatwindow.png\"); background-position: center;}QLabel{background-color: rgba(10%, 20%, 15%, 75%);color: white;font: 50pt 'Arial';text-align:center;border-radius: 48px;}");
+
 }
