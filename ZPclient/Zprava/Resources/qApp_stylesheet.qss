@@ -1,0 +1,5 @@
+Zprava
+{
+background-image:url(\":/building.jpg\"); background-position: center;
+background-color: light-green;
+}
