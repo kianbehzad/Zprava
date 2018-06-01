@@ -4,7 +4,9 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QString>
+#include <QDockWidget>
 #include "zpform.h"
+#include "zpnavigationbar.h"
 
 
 
@@ -21,6 +23,9 @@ public:
     QString FormStyleSheet;
     //FORM
     ZpForm* form;
+    //NAVBAR
+    ZpNavigationBar* navbar_widg;
+    QDockWidget* navbar_dock;
 
 
 

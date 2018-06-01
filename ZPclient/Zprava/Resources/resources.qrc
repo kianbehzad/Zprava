@@ -9,5 +9,7 @@
         <file>Exclamation_sign.png</file>
         <file>verifying.png</file>
         <file>qApp_stylesheet.qss</file>
+        <file>Logo.png</file>
+        <file>navbar_stylesheet.qss</file>
     </qresource>
 </RCC>

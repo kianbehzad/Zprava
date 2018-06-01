@@ -26,7 +26,11 @@ Zprava::Zprava(QWidget *parent)
     w->setLayout(lay);
     setCentralWidget(w);
 
-
+    //add form navigationbar
+    navbar_dock = new QDockWidget();
+    navbar_widg = new ZpNavigationBar();
+    navbar_dock->setWidget(navbar_widg);
+    this->addDockWidget(Qt::TopDockWidgetArea, navbar_dock);
 }
 
 Zprava::~Zprava()

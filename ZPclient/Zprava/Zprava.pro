@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         zprava.cpp \
-    zpform.cpp
+    zpform.cpp \
+    zpnavigationbar.cpp
 
 HEADERS  += zprava.h \
-    zpform.h
+    zpform.h \
+    zpnavigationbar.h
 
 RESOURCES += \
     Resources/resources.qrc
