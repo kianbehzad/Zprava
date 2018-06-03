@@ -526,7 +526,7 @@ void ZpForm::initiate_networking()
 void ZpForm::send_login_info()
 {
     state = ZpForm::STATE::LOGIN;
-    request->setUrl(QUrl("http://127.0.0.1:8000/login/?username="+username+"&&password="+password));
+    request->setUrl(QUrl("http://127.0.0.1:8000/login/login/?username="+username+"&&password="+password));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -556,7 +556,7 @@ void ZpForm::send_verify_info(QString code)
 void ZpForm::send_forget_info(QString email)
 {
     state = ZpForm::STATE::FORGET;
-    request->setUrl(QUrl("http://127.0.0.1:8000/signup/forget/?email="+email));
+    request->setUrl(QUrl("http://127.0.0.1:8000/login/forget/?email="+email));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
