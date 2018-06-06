@@ -20,6 +20,9 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
     grid_lay->addWidget(icon, 0, 3, 1, 1);
     icon_map = new QPixmap();
 
+    //date and time
+    datetime = new QDateTime();
+
 }
 
 void ZpContact::set_notification()
@@ -36,3 +39,33 @@ void ZpContact::remove_notification()
 {
     icon->clear();
 }
+
+void ZpContact::set_datetime(int year, int month, int day, int hour, int minute, int second)
+{
+    QDate date_temp{};
+    date_temp.setDate(year, month, day);
+    QTime time_temp{};
+    if(!date_temp.isValid() || !time_temp.setHMS(hour, minute, second))
+    {
+        qDebug() << "wrong datetime entry please check again";
+        return;
+    }
+    datetime->setDate(QDate(year, month, day));
+    datetime->setTime(QTime(hour, minute, second));
+}
+
+bool ZpContact::operator<(const ZpContact &op) const
+{
+    return (datetime->operator <(*op.datetime));
+}
+
+bool ZpContact::operator ==(const ZpContact &op) const
+{
+    return (datetime->operator ==(*op.datetime));
+}
+
+void ZpContact::mousePressEvent(QMouseEvent *event)
+{
+    emit clicked(contact->text());
+}
+
