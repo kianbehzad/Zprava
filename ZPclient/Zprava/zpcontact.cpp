@@ -23,6 +23,12 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
     //date and time
     datetime = new QDateTime();
 
+    //context menu
+    context_menu = new QMenu(this);
+    menu_set_muted = context_menu->addAction("mute");
+    menu_set_unmuted = context_menu->addAction("unmute");
+    connect(context_menu, SIGNAL(triggered(QAction*)), this, SLOT(slot_menu_triggered(QAction*)));
+
 }
 
 void ZpContact::set_notification()
@@ -33,11 +39,27 @@ void ZpContact::set_notification()
         icon_map->load(":/new_message_mute.png");
     icon->setAlignment(Qt::AlignCenter);
     icon->setPixmap(*icon_map);
+    has_notification = true;
 }
 
 void ZpContact::remove_notification()
 {
     icon->clear();
+    has_notification = false;
+}
+
+void ZpContact::set_muted()
+{
+    is_muted = true;
+    if(has_notification)
+        set_notification();
+}
+
+void ZpContact::set_unmuted()
+{
+    is_muted = false;
+    if(has_notification)
+        set_notification();
 }
 
 void ZpContact::set_datetime(int year, int month, int day, int hour, int minute, int second)
@@ -64,8 +86,30 @@ bool ZpContact::operator ==(const ZpContact &op) const
     return (datetime->operator ==(*op.datetime));
 }
 
+void ZpContact::slot_menu_triggered(QAction * menu_action)
+{
+    if(menu_action->text() == "mute")
+        this->set_muted();
+    if(menu_action->text() == "unmute")
+        this->set_unmuted();
+}
+
 void ZpContact::mousePressEvent(QMouseEvent *event)
 {
-    emit clicked(contact->text());
+    switch (event->button())
+    {
+        case Qt::LeftButton:
+        {
+            emit clicked(contact->text());
+            break;
+        }
+        case Qt::RightButton:
+        {
+            context_menu->exec(event->globalPos());
+            break;
+        }
+        default:
+            break;
+    }
 }
 

@@ -9,6 +9,9 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QDateTime>
+#include <QMouseEvent>
+#include <QMenu>
+#include <QAction>
 #include <utility>
 
 using namespace std::rel_ops;
@@ -24,8 +27,8 @@ public:
     //notification functions
     void set_notification();
     void remove_notification();
-    void set_muted()   {is_muted = true;}
-    void set_unmuted() {is_muted = false;}
+    void set_muted();
+    void set_unmuted();
     //date and time function//which one is earlier is smaller
     void set_datetime(int year, int month, int day, int hour, int minute, int second);
     bool operator<(const ZpContact& op) const;
@@ -40,14 +43,20 @@ private:
     //notification
     QPixmap* icon_map;
     bool is_muted = false;
+    bool has_notification;
     //date and time
     QDateTime* datetime;
+    //context menu
+    QMenu* context_menu;
+    QAction* menu_set_muted;
+    QAction* menu_set_unmuted;
+
 
 signals:
     void clicked(QString user);
 
-public slots:
-
+private slots:
+    void slot_menu_triggered(QAction*menu_action);
 protected:
     void mousePressEvent(QMouseEvent* event);
 };
