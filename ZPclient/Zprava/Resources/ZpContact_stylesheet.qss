@@ -1,4 +1,5 @@
 QLabel
 {
-border: 3px solid white;
+background-color: #f2e6ff;
+border-top: 5px solid #8000ff;
 }
