@@ -1,6 +1,6 @@
 #include "zpcontact.h"
 
-ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
+ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
@@ -12,6 +12,7 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
     //creating Zpcontact widget
     contact = new QLabel(this);
     contact->setObjectName("contact_label");
+    contact->setText(username);
     icon = new QLabel(this);
     icon->setObjectName("icon_label");
     grid_lay = new QGridLayout(this);

@@ -20,7 +20,7 @@ class ZpContact : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ZpContact(QWidget *parent = 0);
+    explicit ZpContact(QString username, QWidget *parent = 0);
     //ZpContact Widget public
     QLabel* contact;
     QLabel* icon;
