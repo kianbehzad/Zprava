@@ -15,6 +15,7 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
     icon = new QLabel(this);
     icon->setObjectName("icon_label");
     grid_lay = new QGridLayout(this);
+    grid_lay->setContentsMargins(0, 0, 0,0);
     grid_lay->setSpacing(0);
     grid_lay->addWidget(contact, 0, 0, 1, 3);
     grid_lay->addWidget(icon, 0, 3, 1, 1);
