@@ -33,7 +33,7 @@ private slots:
     void slotSslErrors(QList<QSslError> err);
 
 signals:
-
+    void updated();
 public slots:
 };
 

@@ -30,8 +30,10 @@ void ZpUser::handle_reply(QString _reply)//TODO for just returning states
     if(!QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate).isValid())
     {
         qWarning() << "ZpUser -> invalid datetime";
+        return;
     }
     last_message_datetime = QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate);
+    emit updated();
 }
 
 
@@ -80,4 +82,5 @@ void ZpUser::slotSslErrors(QList<QSslError> err)
     qDebug() << "unknown network error";
 
 }
+
 
