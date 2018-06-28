@@ -1,7 +1,10 @@
 #include "zpcontact.h"
 
-ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
+ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
+    user = new ZpUser(username, this);
+    connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
+
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
     qDebug() << "is qt ZpContact_stylesheet opend: " <<File.open(QFile::ReadOnly);
@@ -9,20 +12,25 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
     this->setStyleSheet(FormStyleSheet);
     File.close();
 
+    this->setFixedHeight(80);
     //creating Zpcontact widget
-    contact = new QLabel(this);
-    contact->setObjectName("contact_label");
-    icon = new QLabel(this);
-    icon->setObjectName("icon_label");
-    grid_lay = new QGridLayout(this);
-    grid_lay->setSpacing(0);
-    grid_lay->addWidget(contact, 0, 0, 1, 3);
-    grid_lay->addWidget(icon, 0, 3, 1, 1);
-    icon_map = new QPixmap();
-
-    //date and time
-    datetime = new QDateTime();
-
+    grid = new QGridLayout(this);
+    grid->setContentsMargins(0, 0, 0,0);
+    grid->setSpacing(0);
+    picture = new QLabel(this);
+    picture->setObjectName("picture_label");
+    title = new QLabel(this);
+    title->setObjectName("title_label");
+    notification = new QLabel(this);
+    notification->setObjectName("notification_label");
+    notification_map = new QPixmap();
+    datetime = new QLabel(this);
+    datetime->setObjectName("datetime_label");
+    grid->addWidget(picture, 0, 0, 3, 1);
+    grid->addWidget(title, 0, 1, 3, 3);
+    grid->addWidget(notification, 0, 4, 2, 2);
+    grid->addWidget(datetime, 2, 4, 1, 2);
+    this->setLayout(grid);
     //context menu
     context_menu = new QMenu(this);
     menu_set_muted = context_menu->addAction("mute");
@@ -34,17 +42,21 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
 void ZpContact::set_notification()
 {
     if(!is_muted)
-        icon_map->load(":/new_message_unmute.png");
+    {
+        notification_map->load(":/notification_unmute.png");
+    }
     else
-        icon_map->load(":/new_message_mute.png");
-    icon->setAlignment(Qt::AlignCenter);
-    icon->setPixmap(*icon_map);
+    {
+        notification_map->load(":/notification_mute.png");
+    }
+    notification->setAlignment(Qt::AlignRight);
+    notification->setPixmap(*notification_map);
     has_notification = true;
 }
 
 void ZpContact::remove_notification()
 {
-    icon->clear();
+    notification->clear();
     has_notification = false;
 }
 
@@ -62,29 +74,6 @@ void ZpContact::set_unmuted()
         set_notification();
 }
 
-void ZpContact::set_datetime(int year, int month, int day, int hour, int minute, int second)
-{
-    QDate date_temp{};
-    date_temp.setDate(year, month, day);
-    QTime time_temp{};
-    if(!date_temp.isValid() || !time_temp.setHMS(hour, minute, second))
-    {
-        qDebug() << "wrong datetime entry please check again";
-        return;
-    }
-    datetime->setDate(QDate(year, month, day));
-    datetime->setTime(QTime(hour, minute, second));
-}
-
-bool ZpContact::operator<(const ZpContact &op) const
-{
-    return (datetime->operator <(*op.datetime));
-}
-
-bool ZpContact::operator ==(const ZpContact &op) const
-{
-    return (datetime->operator ==(*op.datetime));
-}
 
 void ZpContact::slot_menu_triggered(QAction * menu_action)
 {
@@ -94,13 +83,26 @@ void ZpContact::slot_menu_triggered(QAction * menu_action)
         this->set_unmuted();
 }
 
+void ZpContact::handle_update()
+{
+    QImage img(":/login.png");
+    QImage img2 = img.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    picture->setScaledContents(true);
+    picture->setAlignment(Qt::AlignCenter);
+    picture->setPixmap(QPixmap::fromImage(img2));
+    title->setText(user->username);
+    title->setAlignment(Qt::AlignCenter);
+    datetime->setText(user->last_message_datetime.time().toString());
+    datetime->setAlignment(Qt::AlignCenter);
+}
+
 void ZpContact::mousePressEvent(QMouseEvent *event)
 {
     switch (event->button())
     {
         case Qt::LeftButton:
         {
-            emit clicked(contact->text());
+            emit clicked(title->text());
             break;
         }
         case Qt::RightButton:
