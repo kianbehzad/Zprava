@@ -24,7 +24,17 @@ Zprava::Zprava(QWidget *parent)
     lay->addWidget(form);
     QWidget* w = new QWidget(this);
     w->setLayout(lay);
-    setCentralWidget(w);
+    if(true)
+    {
+        //production mode
+        setCentralWidget(w);
+    }
+    else
+    {
+        //experimental mode
+        experiment = new ZpExperimental(this);
+        setCentralWidget(experiment);
+    }
 
 
 }

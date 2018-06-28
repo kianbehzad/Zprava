@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QString>
+#include <zpexperimental.h>
 #include "zpform.h"
 
 
@@ -19,6 +20,8 @@ public:
     void apply_stylesheet();
     QFile File;
     QString FormStyleSheet;
+    //experimental
+    ZpExperimental* experiment;
     //FORM
     ZpForm* form;
 
