@@ -27,12 +27,14 @@ SOURCES += main.cpp\
         zprava.cpp \
     zpform.cpp \
     zpcontact.cpp \
-    zpexperimental.cpp
+    zpexperimental.cpp \
+    zpuser.cpp
 
 HEADERS  += zprava.h \
     zpform.h \
     zpcontact.h \
-    zpexperimental.h
+    zpexperimental.h \
+    zpuser.h
 
 RESOURCES += \
     Resources/resources.qrc
