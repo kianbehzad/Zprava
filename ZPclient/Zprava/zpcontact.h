@@ -31,6 +31,7 @@ public:
     void remove_notification();
     void set_muted();
     void set_unmuted();
+    static const int Height = 80;
 
 
 private:

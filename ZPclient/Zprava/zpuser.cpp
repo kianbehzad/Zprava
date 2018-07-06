@@ -2,7 +2,8 @@
 
 ZpUser::ZpUser(QString _username, QObject *parent) : QObject(parent)
 {
-    username = "unknown";
+    username = _username;
+    last_message_datetime = QDateTime::currentDateTime();
     email = "unknown";
 
     //network

@@ -12,7 +12,7 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
     this->setStyleSheet(FormStyleSheet);
     File.close();
 
-    this->setFixedHeight(80);
+    this->setFixedHeight(Height);
     //creating Zpcontact widget
     grid = new QGridLayout(this);
     grid->setContentsMargins(0, 0, 0,0);
@@ -30,7 +30,11 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
     grid->addWidget(title, 0, 1, 3, 3);
     grid->addWidget(notification, 0, 4, 2, 2);
     grid->addWidget(datetime, 2, 4, 1, 2);
+    grid->setContentsMargins(0, 0, 0, 0);
+    grid->setSpacing(0);
+    grid->setMargin(0);
     this->setLayout(grid);
+    this->setContentsMargins(0, 0, 0, 0);
     //context menu
     context_menu = new QMenu(this);
     menu_set_muted = context_menu->addAction("mute");
