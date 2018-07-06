@@ -63,3 +63,8 @@ void ZpContactList::handle_update()
 {
     this->sort();
 }
+
+void ZpContactList::resizeEvent(QResizeEvent *)
+{
+    filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+}

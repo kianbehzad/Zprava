@@ -5,6 +5,7 @@
 #include <QList>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QResizeEvent>
 #include "zpcontact.h"
 
 class ZpContactList : public QScrollArea
@@ -25,6 +26,7 @@ private:
     QVBoxLayout* contacts_list_layout;
     QWidget* contact_list_widget;
     QWidget* filler;
+    void resizeEvent(QResizeEvent*);
 
 signals:
 
