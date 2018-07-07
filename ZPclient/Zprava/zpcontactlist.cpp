@@ -32,6 +32,7 @@ void ZpContactList::add_contact(QString username)
             return;
     ZpContact* new_contact = new ZpContact(username, this);
     connect(new_contact->user, SIGNAL(updated()), this, SLOT(handle_update()));
+    connect(new_contact, SIGNAL(clicked(QString)), this, SLOT(handle_clicked(QString)));
     contacts_list_layout->addWidget(new_contact, 0, Qt::AlignTop);
     contacts_list.push_back(new_contact);
     contacts_list_layout->removeWidget(filler);
@@ -69,4 +70,11 @@ void ZpContactList::handle_update()
 void ZpContactList::resizeEvent(QResizeEvent *)
 {
     filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+}
+
+void ZpContactList::handle_clicked(QString username)
+{
+    for(const auto& contact : contacts_list)
+        contact->set_focused(false);
+    get_contact(username)->set_focused(true);
 }

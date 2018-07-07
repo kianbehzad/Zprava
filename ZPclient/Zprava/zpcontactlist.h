@@ -31,6 +31,7 @@ private:
 signals:
 
 public slots:
+    void handle_clicked(QString username);
 };
 
 #endif // ZPCONTACTLIST_H

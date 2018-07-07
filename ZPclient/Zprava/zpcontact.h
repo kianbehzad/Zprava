@@ -13,6 +13,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QImage>
+#include <QStyle>
 #include "zpuser.h"
 
 class ZpContact : public QWidget
@@ -31,6 +32,7 @@ public:
     void remove_notification();
     void set_muted();
     void set_unmuted();
+    void set_focused(bool isFocused);
     static const int Height = 80;
 
 
@@ -58,6 +60,8 @@ private slots:
     void handle_update();
 protected:
     void mousePressEvent(QMouseEvent* event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
 };
 
 #endif // ZPCONTACT_H

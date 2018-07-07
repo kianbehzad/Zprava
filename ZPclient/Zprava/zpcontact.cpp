@@ -78,6 +78,29 @@ void ZpContact::set_unmuted()
         set_notification();
 }
 
+void ZpContact::set_focused(bool isFocused)
+{
+    title->setProperty("clicked", isFocused);
+    title->style()->unpolish(title);
+    title->style()->polish(title);
+    title->update();
+
+    picture->setProperty("clicked", isFocused);
+    picture->style()->unpolish(picture);
+    picture->style()->polish(picture);
+    picture->update();
+
+    notification->setProperty("clicked", isFocused);
+    notification->style()->unpolish(notification);
+    notification->style()->polish(notification);
+    notification->update();
+
+    datetime->setProperty("clicked", isFocused);
+    datetime->style()->unpolish(datetime);
+    datetime->style()->polish(datetime);
+    datetime->update();
+}
+
 
 void ZpContact::slot_menu_triggered(QAction * menu_action)
 {
@@ -117,5 +140,51 @@ void ZpContact::mousePressEvent(QMouseEvent *event)
         default:
             break;
     }
+}
+
+void ZpContact::enterEvent(QEvent *event)
+{
+    title->setProperty("hovered", true);
+    title->style()->unpolish(title);
+    title->style()->polish(title);
+    title->update();
+
+    picture->setProperty("hovered", true);
+    picture->style()->unpolish(picture);
+    picture->style()->polish(picture);
+    picture->update();
+
+    notification->setProperty("hovered", true);
+    notification->style()->unpolish(notification);
+    notification->style()->polish(notification);
+    notification->update();
+
+    datetime->setProperty("hovered", true);
+    datetime->style()->unpolish(datetime);
+    datetime->style()->polish(datetime);
+    datetime->update();
+}
+
+void ZpContact::leaveEvent(QEvent *event)
+{
+    title->setProperty("hovered", false);
+    title->style()->unpolish(title);
+    title->style()->polish(title);
+    title->update();
+
+    picture->setProperty("hovered", false);
+    picture->style()->unpolish(picture);
+    picture->style()->polish(picture);
+    picture->update();
+
+    notification->setProperty("hovered", false);
+    notification->style()->unpolish(notification);
+    notification->style()->polish(notification);
+    notification->update();
+
+    datetime->setProperty("hovered", false);
+    datetime->style()->unpolish(datetime);
+    datetime->style()->polish(datetime);
+    datetime->update();
 }
 
