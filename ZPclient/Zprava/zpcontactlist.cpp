@@ -69,7 +69,10 @@ void ZpContactList::handle_update()
 
 void ZpContactList::resizeEvent(QResizeEvent *)
 {
-    filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+    if(this->height() - contacts_list.size()*ZpContact::Height >= 0)
+        filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+    else
+        filler->setFixedHeight(0);
 }
 
 void ZpContactList::handle_clicked(QString username)
