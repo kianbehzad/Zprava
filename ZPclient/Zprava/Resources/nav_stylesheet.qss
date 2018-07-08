@@ -1,0 +1,60 @@
+QLabel#icon_logo
+{
+background-color: pink;
+height: 20px;
+border: 2px solid black;
+}
+QLabel:hover#icon_logo
+{
+color: purple;
+height: 20px;
+border: 2px solid black;
+}
+QLineEdit#search_bar
+{
+height: 20px;
+background-color: rgba(30%, 0%, 50%, 80%);
+border: 3px solid black;
+padding-left: 6px;
+color: white;
+selection-color: purple;
+selection-background-color: white;
+font: 12pt "Arial";
+}
+QPushButton#search_but
+{
+height: 22px;
+width: 7px;
+background-color: grey;
+border: 2px solid black;
+color: black;
+}
+QPushButton:hover#search_but
+{
+height: 22px;
+width: 7px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 2px solid black;
+color: white;
+}
+
+
+QPushButton#setting_but
+{
+height: 22px;
+width: 7px;
+background-color: grey;
+border: 2px solid black;
+color: black;
+}
+QPushButton:hover#setting_but
+{
+height: 22px;
+width: 7px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 2px solid black;
+color: black;
+}
+
