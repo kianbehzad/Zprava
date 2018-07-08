@@ -33,7 +33,7 @@ public:
     void set_muted();
     void set_unmuted();
     void set_focused(bool isFocused);
-    static const int Height = 80;
+    static const int Height = 70;
 
 
 private:

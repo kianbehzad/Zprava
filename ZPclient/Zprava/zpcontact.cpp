@@ -27,9 +27,9 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
     datetime = new QLabel(this);
     datetime->setObjectName("datetime_label");
     grid->addWidget(picture, 0, 0, 3, 1);
-    grid->addWidget(title, 0, 1, 3, 3);
-    grid->addWidget(notification, 0, 4, 2, 2);
-    grid->addWidget(datetime, 2, 4, 1, 2);
+    grid->addWidget(title, 0, 1, 3, 2);
+    grid->addWidget(notification, 0, 3, 2, 1);
+    grid->addWidget(datetime, 2, 3, 1, 1);
     grid->setContentsMargins(0, 0, 0, 0);
     grid->setSpacing(0);
     grid->setMargin(0);
@@ -114,12 +114,12 @@ void ZpContact::handle_update()
 {
     QImage img(":/login.png");
     QImage img2 = img.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    picture->setScaledContents(true);
+    //picture->setScaledContents(true);//oh for god sake remove this
     picture->setAlignment(Qt::AlignCenter);
     picture->setPixmap(QPixmap::fromImage(img2));
     title->setText(user->username);
     title->setAlignment(Qt::AlignCenter);
-    datetime->setText(user->last_message_datetime.time().toString());
+    datetime->setText(user->last_message_datetime.time().toString("hh:mm"));
     datetime->setAlignment(Qt::AlignCenter);
 }
 
