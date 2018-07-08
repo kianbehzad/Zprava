@@ -1,7 +1,10 @@
 #include "zpcontact.h"
 
-ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
+ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
+    user = new ZpUser(username, this);
+    connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
+
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
     qDebug() << "is qt ZpContact_stylesheet opend: " <<File.open(QFile::ReadOnly);
@@ -9,20 +12,29 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
     this->setStyleSheet(FormStyleSheet);
     File.close();
 
+    this->setFixedHeight(Height);
     //creating Zpcontact widget
-    contact = new QLabel(this);
-    contact->setObjectName("contact_label");
-    icon = new QLabel(this);
-    icon->setObjectName("icon_label");
-    grid_lay = new QGridLayout(this);
-    grid_lay->setSpacing(0);
-    grid_lay->addWidget(contact, 0, 0, 1, 3);
-    grid_lay->addWidget(icon, 0, 3, 1, 1);
-    icon_map = new QPixmap();
-
-    //date and time
-    datetime = new QDateTime();
-
+    grid = new QGridLayout(this);
+    grid->setContentsMargins(0, 0, 0,0);
+    grid->setSpacing(0);
+    picture = new QLabel(this);
+    picture->setObjectName("picture_label");
+    title = new QLabel(this);
+    title->setObjectName("title_label");
+    notification = new QLabel(this);
+    notification->setObjectName("notification_label");
+    notification_map = new QPixmap();
+    datetime = new QLabel(this);
+    datetime->setObjectName("datetime_label");
+    grid->addWidget(picture, 0, 0, 3, 1);
+    grid->addWidget(title, 0, 1, 3, 2);
+    grid->addWidget(notification, 0, 3, 2, 1);
+    grid->addWidget(datetime, 2, 3, 1, 1);
+    grid->setContentsMargins(0, 0, 0, 0);
+    grid->setSpacing(0);
+    grid->setMargin(0);
+    this->setLayout(grid);
+    this->setContentsMargins(0, 0, 0, 0);
     //context menu
     context_menu = new QMenu(this);
     menu_set_muted = context_menu->addAction("mute");
@@ -34,17 +46,21 @@ ZpContact::ZpContact(QWidget *parent) : QWidget(parent)
 void ZpContact::set_notification()
 {
     if(!is_muted)
-        icon_map->load(":/new_message_unmute.png");
+    {
+        notification_map->load(":/notification_unmute.png");
+    }
     else
-        icon_map->load(":/new_message_mute.png");
-    icon->setAlignment(Qt::AlignCenter);
-    icon->setPixmap(*icon_map);
+    {
+        notification_map->load(":/notification_mute.png");
+    }
+    notification->setAlignment(Qt::AlignRight);
+    notification->setPixmap(*notification_map);
     has_notification = true;
 }
 
 void ZpContact::remove_notification()
 {
-    icon->clear();
+    notification->clear();
     has_notification = false;
 }
 
@@ -62,29 +78,29 @@ void ZpContact::set_unmuted()
         set_notification();
 }
 
-void ZpContact::set_datetime(int year, int month, int day, int hour, int minute, int second)
+void ZpContact::set_focused(bool isFocused)
 {
-    QDate date_temp{};
-    date_temp.setDate(year, month, day);
-    QTime time_temp{};
-    if(!date_temp.isValid() || !time_temp.setHMS(hour, minute, second))
-    {
-        qDebug() << "wrong datetime entry please check again";
-        return;
-    }
-    datetime->setDate(QDate(year, month, day));
-    datetime->setTime(QTime(hour, minute, second));
+    title->setProperty("clicked", isFocused);
+    title->style()->unpolish(title);
+    title->style()->polish(title);
+    title->update();
+
+    picture->setProperty("clicked", isFocused);
+    picture->style()->unpolish(picture);
+    picture->style()->polish(picture);
+    picture->update();
+
+    notification->setProperty("clicked", isFocused);
+    notification->style()->unpolish(notification);
+    notification->style()->polish(notification);
+    notification->update();
+
+    datetime->setProperty("clicked", isFocused);
+    datetime->style()->unpolish(datetime);
+    datetime->style()->polish(datetime);
+    datetime->update();
 }
 
-bool ZpContact::operator<(const ZpContact &op) const
-{
-    return (datetime->operator <(*op.datetime));
-}
-
-bool ZpContact::operator ==(const ZpContact &op) const
-{
-    return (datetime->operator ==(*op.datetime));
-}
 
 void ZpContact::slot_menu_triggered(QAction * menu_action)
 {
@@ -94,13 +110,26 @@ void ZpContact::slot_menu_triggered(QAction * menu_action)
         this->set_unmuted();
 }
 
+void ZpContact::handle_update()
+{
+    QImage img(":/login.png");
+    QImage img2 = img.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    //picture->setScaledContents(true);//oh for god sake remove this
+    picture->setAlignment(Qt::AlignCenter);
+    picture->setPixmap(QPixmap::fromImage(img2));
+    title->setText(user->username);
+    title->setAlignment(Qt::AlignCenter);
+    datetime->setText(user->last_message_datetime.time().toString("hh:mm"));
+    datetime->setAlignment(Qt::AlignCenter);
+}
+
 void ZpContact::mousePressEvent(QMouseEvent *event)
 {
     switch (event->button())
     {
         case Qt::LeftButton:
         {
-            emit clicked(contact->text());
+            emit clicked(title->text());
             break;
         }
         case Qt::RightButton:
@@ -111,5 +140,51 @@ void ZpContact::mousePressEvent(QMouseEvent *event)
         default:
             break;
     }
+}
+
+void ZpContact::enterEvent(QEvent *event)
+{
+    title->setProperty("hovered", true);
+    title->style()->unpolish(title);
+    title->style()->polish(title);
+    title->update();
+
+    picture->setProperty("hovered", true);
+    picture->style()->unpolish(picture);
+    picture->style()->polish(picture);
+    picture->update();
+
+    notification->setProperty("hovered", true);
+    notification->style()->unpolish(notification);
+    notification->style()->polish(notification);
+    notification->update();
+
+    datetime->setProperty("hovered", true);
+    datetime->style()->unpolish(datetime);
+    datetime->style()->polish(datetime);
+    datetime->update();
+}
+
+void ZpContact::leaveEvent(QEvent *event)
+{
+    title->setProperty("hovered", false);
+    title->style()->unpolish(title);
+    title->style()->polish(title);
+    title->update();
+
+    picture->setProperty("hovered", false);
+    picture->style()->unpolish(picture);
+    picture->style()->polish(picture);
+    picture->update();
+
+    notification->setProperty("hovered", false);
+    notification->style()->unpolish(notification);
+    notification->style()->polish(notification);
+    notification->update();
+
+    datetime->setProperty("hovered", false);
+    datetime->style()->unpolish(datetime);
+    datetime->style()->polish(datetime);
+    datetime->update();
 }
 

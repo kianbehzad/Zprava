@@ -10,7 +10,7 @@
         <file>verifying.png</file>
         <file>qApp_stylesheet.qss</file>
         <file>ZpContact_stylesheet.qss</file>
-        <file>new_message_mute.png</file>
-        <file>new_message_unmute.png</file>
+        <file>notification_unmute.png</file>
+        <file>notification_mute.png</file>
     </qresource>
 </RCC>

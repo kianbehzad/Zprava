@@ -14,17 +14,27 @@ Zprava::Zprava(QWidget *parent)
         height = QApplication::desktop()->availableGeometry().height();
     setMaximumSize(width, height);//setFixedSize(width, height);
 
-    //stylesheet
-    apply_stylesheet();
+    if(false)
+    {
+        //production mode
+        //stylesheet
+        apply_stylesheet();
 
-    //add form into main window
-    form = new ZpForm(true);
-    QHBoxLayout* lay = new QHBoxLayout();
-    form->setMaximumSize(2*width/3, 2*height/3);//form->setFixedSize(2*width/3, 2*height/3);
-    lay->addWidget(form);
-    QWidget* w = new QWidget(this);
-    w->setLayout(lay);
-    setCentralWidget(w);
+        //add form into main window
+        form = new ZpForm(true);
+        QHBoxLayout* lay = new QHBoxLayout();
+        form->setMaximumSize(2*width/3, 2*height/3);//form->setFixedSize(2*width/3, 2*height/3);
+        lay->addWidget(form);
+        QWidget* w = new QWidget(this);
+        w->setLayout(lay);
+        setCentralWidget(w);
+    }
+    else
+    {
+        //experimental mode
+        experiment = new ZpExperimental(this);
+        setCentralWidget(experiment);
+    }
 
 
 }

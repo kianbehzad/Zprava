@@ -1,5 +1,94 @@
-QLabel
+QLabel#picture_label
 {
-background-color: #f2e6ff;
-border-top: 5px solid #8000ff;
+background-color: white;
+border:none;
+border-bottom: 2px solid white;
+border-left: 2px solid white;
+border-top: 2px solid white;
+}
+QLabel#title_label
+{
+background-color: white;
+border:none;
+font: 20pt "Arial";
+font-weight: bold;
+border-bottom: 2px solid white;
+border-top: 2px solid white;
+}
+QLabel#notification_label
+{
+background-color: white;
+border:none;
+border-top: 2px solid white;
+border-right: 2px solid white;
+}
+QLabel#datetime_label
+{
+background-color: white;
+border-bottom: 2px solid white;
+border-right: 2px solid white;
+}
+
+QLabel#picture_label[hovered=true]
+{
+background-color: grey;
+border:none;
+border-bottom: 2px solid white;
+border-left: 2px solid white;
+border-top: 2px solid white;
+}
+QLabel#title_label[hovered=true]
+{
+background-color: grey;
+border:none;
+font: 20pt "Arial";
+font-weight: bold;
+border-bottom: 2px solid white;
+border-top: 2px solid white;
+}
+QLabel#notification_label[hovered=true]
+{
+background-color: grey;
+border:none;
+border-top: 2px solid white;
+border-right: 2px solid white;
+}
+QLabel#datetime_label[hovered=true]
+{
+background-color: grey;
+border-bottom: 2px solid white;
+border-right: 2px solid white;
+}
+
+QLabel#picture_label[clicked=true]
+{
+background-color: purple;
+border:none;
+border-bottom: 2px solid white;
+border-left: 2px solid white;
+border-top: 2px solid white;
+}
+QLabel#title_label[clicked=true]
+{
+background-color: purple;
+color: white;
+border:none;
+font: 20pt "Arial";
+font-weight: bold;
+border-bottom: 2px solid white;
+border-top: 2px solid white;
+}
+QLabel#notification_label[clicked=true]
+{
+background-color: purple;
+border:none;
+border-top: 2px solid white;
+border-right: 2px solid white;
+}
+QLabel#datetime_label[clicked=true]
+{
+background-color: purple;
+color: white;
+border-bottom: 2px solid white;
+border-right: 2px solid white;
 }

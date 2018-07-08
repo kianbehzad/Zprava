@@ -12,40 +12,40 @@
 #include <QMouseEvent>
 #include <QMenu>
 #include <QAction>
-#include <utility>
-
-using namespace std::rel_ops;
+#include <QImage>
+#include <QStyle>
+#include "zpuser.h"
 
 class ZpContact : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ZpContact(QWidget *parent = 0);
+    explicit ZpContact(QString username, QWidget *parent = 0);
+    ZpUser* user;
     //ZpContact Widget public
-    QLabel* contact;
-    QLabel* icon;
+    QLabel* picture;
+    QLabel* title;
+    QLabel* notification;
+    QLabel* datetime;
     //notification functions
     void set_notification();
     void remove_notification();
     void set_muted();
     void set_unmuted();
-    //date and time function//which one is earlier is smaller
-    void set_datetime(int year, int month, int day, int hour, int minute, int second);
-    bool operator<(const ZpContact& op) const;
-    bool operator==(const ZpContact& op) const;
+    void set_focused(bool isFocused);
+    static const int Height = 70;
+
 
 private:
     //STYLESHEET
     QFile File;
     QString FormStyleSheet;
     //ZpContact Widgets private
-    QGridLayout* grid_lay;
+    QGridLayout* grid;
+    QPixmap* notification_map;
     //notification
-    QPixmap* icon_map;
     bool is_muted = false;
     bool has_notification;
-    //date and time
-    QDateTime* datetime;
     //context menu
     QMenu* context_menu;
     QAction* menu_set_muted;
@@ -57,8 +57,11 @@ signals:
 
 private slots:
     void slot_menu_triggered(QAction*menu_action);
+    void handle_update();
 protected:
     void mousePressEvent(QMouseEvent* event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
 };
 
 #endif // ZPCONTACT_H

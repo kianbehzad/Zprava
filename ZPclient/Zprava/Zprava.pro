@@ -26,11 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         zprava.cpp \
     zpform.cpp \
-    zpcontact.cpp
+    zpcontact.cpp \
+    zpexperimental.cpp \
+    zpuser.cpp \
+    zpcontactlist.cpp
 
 HEADERS  += zprava.h \
     zpform.h \
-    zpcontact.h
+    zpcontact.h \
+    zpexperimental.h \
+    zpuser.h \
+    zpcontactlist.h
 
 RESOURCES += \
     Resources/resources.qrc
