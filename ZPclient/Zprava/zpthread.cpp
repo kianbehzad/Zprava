@@ -30,6 +30,7 @@ void ZpThread::handle_reply(QString reply_string)
         data << reply_string;
     }
     file.close();
+    emit updated();
 }
 
 void ZpThread::handle_timer()

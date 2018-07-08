@@ -35,7 +35,8 @@ public:
     QTimer* timer;
     QFile file;
 
-
+signals:
+    void updated();
 
 };
 
