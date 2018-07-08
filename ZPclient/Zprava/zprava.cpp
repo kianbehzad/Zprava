@@ -14,7 +14,8 @@ Zprava::Zprava(QWidget *parent)
         height = QApplication::desktop()->availableGeometry().height();
     setMaximumSize(width, height);//setFixedSize(width, height);
 
-    if(false)
+    //change to ::FALSE:: for experimental mode
+    if(true)
     {
         //production mode
         //stylesheet
