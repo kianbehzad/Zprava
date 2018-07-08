@@ -8,6 +8,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDebug>
+#include <QFile>
+#include <QApplication>
+#include <QTextStream>
+
 
 class ZpThread : public QThread
 {
@@ -19,6 +23,7 @@ public:
     QNetworkAccessManager* network;
     QNetworkRequest* request;
     QNetworkReply* reply;
+    void handle_reply(QString reply_string);
 
 public slots:
     void handle_timer();
@@ -27,8 +32,9 @@ public slots:
     void slotSslErrors(QList<QSslError> err);
 
 public:
-    bool getallchats;
     QTimer* timer;
+    QFile file;
+
 
 
 };

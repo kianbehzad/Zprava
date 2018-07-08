@@ -2,33 +2,44 @@
 
 ZpThread::ZpThread(QString _username)
 {
-    getallchats = true;
     username = _username;
+    file.setFileName(qApp->applicationDirPath() + "/chats_data.json");
 }
 
 void ZpThread::run()
 {
     timer = new QTimer();
-    timer->start(2000);
+    timer->start(3000);
     timer->moveToThread(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(handle_timer()));
     exec();
 
 }
 
+void ZpThread::handle_reply(QString reply_string)
+{
+    if(reply_string == "InvalidUserName") return;
+    if(reply_string == "EmptyMessages") return;
+    if(reply_string == "NoNewMessages") return;
+    //else
+    bool is_opened = file.open(QFile::WriteOnly);
+    //qDebug() << "is chats_data: " << is_opened;
+    if(is_opened)
+    {
+        QTextStream data{&file};
+        data << reply_string;
+    }
+    file.close();
+}
+
 void ZpThread::handle_timer()
 {
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    if(getallchats)
-    {
-        getallchats = false;
+    //if(getallchats)
         request->setUrl(QUrl("http://127.0.0.1:8000/chat/getallchats/?username=" + username));
-    }
-    else
-    {
-        request->setUrl(QUrl("http://127.0.0.1:8000/chat/getnewchats/?username=" + username));
-    }
+    //else
+    //    request->setUrl(QUrl("http://127.0.0.1:8000/chat/getnewchats/?username=" + username));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -64,8 +75,8 @@ void ZpThread::slotReadyRead()
     }
 
     reply_string = allbuf;
-    qDebug() <<reply_string;//TODO remove this
-    //handle_reply(reply_string);
+    //qDebug() <<reply_string;//TODO remove this
+    handle_reply(reply_string);
 }
 
 void ZpThread::slotError(QNetworkReply::NetworkError err)
