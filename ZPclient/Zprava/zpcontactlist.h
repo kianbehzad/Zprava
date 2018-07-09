@@ -13,16 +13,16 @@ class ZpContactList : public QScrollArea
     Q_OBJECT
 public:
     explicit ZpContactList(QScrollArea *parent = 0);
-    void add_contact(ZpUser *user);
+    void add_contact(QString username);
     ZpContact* get_contact(QString username);
     void sort();
+    QList<ZpContact*> contacts_list;
 
 private slots:
     void handle_update();
 
 private:
     //create ZpContactList widget
-    QList<ZpContact*> contacts_list;
     QVBoxLayout* contacts_list_layout;
     QWidget* contact_list_widget;
     QWidget* filler;

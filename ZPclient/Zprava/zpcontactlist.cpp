@@ -24,13 +24,13 @@ ZpContactList::ZpContactList(QScrollArea *parent) : QScrollArea(parent)
 
 }
 
-void ZpContactList::add_contact(ZpUser* user)
+void ZpContactList::add_contact(QString username)
 {
     //check if the username already exists
     for(int i{}; i < contacts_list.size(); i++)
-        if(contacts_list[i]->user->username == user->username)
+        if(contacts_list[i]->user->username == username)
             return;
-    ZpContact* new_contact = new ZpContact(user, this);
+    ZpContact* new_contact = new ZpContact(username, this);
     connect(new_contact->user, SIGNAL(updated()), this, SLOT(handle_update()));
     connect(new_contact, SIGNAL(clicked(QString)), this, SLOT(handle_clicked(QString)));
     contacts_list_layout->addWidget(new_contact, 0, Qt::AlignTop);

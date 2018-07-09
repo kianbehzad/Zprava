@@ -14,13 +14,19 @@
 #include <QAction>
 #include <QImage>
 #include <QStyle>
+#include <QFile>
+#include <QApplication>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 #include "zpuser.h"
 
 class ZpContact : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ZpContact(ZpUser *_user, QWidget *parent = 0);
+    explicit ZpContact(QString username, QWidget *parent = 0);
     ZpUser* user;
     //ZpContact Widget public
     QLabel* picture;
@@ -50,10 +56,16 @@ private:
     QMenu* context_menu;
     QAction* menu_set_muted;
     QAction* menu_set_unmuted;
+    //server data
+    QFile serverfile;
+    QString file_data;
 
 
 signals:
     void clicked(QString user);
+
+public slots:
+    void handle_threadUpdate();
 
 private slots:
     void slot_menu_triggered(QAction*menu_action);

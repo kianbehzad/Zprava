@@ -1,8 +1,10 @@
 #include "zpcontact.h"
 
-ZpContact::ZpContact(ZpUser* _user, QWidget *parent) : QWidget(parent)
+ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
-    user = _user;
+    serverfile.setFileName(qApp->applicationDirPath() + "/chats_data.json");
+
+    user = new ZpUser(username);
     connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
 
     //getting style sheets
@@ -99,6 +101,42 @@ void ZpContact::set_focused(bool isFocused)
     datetime->style()->unpolish(datetime);
     datetime->style()->polish(datetime);
     datetime->update();
+}
+
+void ZpContact::handle_threadUpdate()
+{
+    QJsonObject mine;
+
+    bool is_opened = serverfile.open(QFile::ReadOnly);
+    //qDebug() << "is chats_data: " << is_opened;
+    if(is_opened)
+        file_data = serverfile.readAll();
+    serverfile.close();
+    QJsonDocument document = QJsonDocument::fromJson(file_data.toUtf8());
+    QJsonObject object = document.object();
+    for(const auto& username: object.keys())
+        if(user->username == username)
+        {
+            QJsonValue usr{ object[username] };
+            mine = usr.toObject();
+        }
+    for(const auto& pk : mine.keys())
+    {
+        int Pk;
+        bool amIPub;
+        QString type;
+        Pk = QString(pk).toInt();
+        QJsonObject pkobj{ mine[pk].toObject() };
+        for(const auto& item : pkobj)
+        {
+            if(item.isBool())
+                amIPub = item.toBool();
+            if(item.isString())
+                type = item.toString();
+        }
+
+        //qDebug() << pk << ", " << amIPub << ", " << type;
+    }
 }
 
 
