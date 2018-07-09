@@ -1,13 +1,12 @@
 #ifndef ZPMESSAGE_H
 #define ZPMESSAGE_H
 
-#include <QDateTime>
-#include <QString>
-#include <QWidget>
+#include <QObject>
 #include "zpuser.h"
 
-class ZpMessage
+class ZpMessage : public QObject
 {
+    Q_OBJECT
 public:
     enum class Type
     {
@@ -16,9 +15,10 @@ public:
         AUDIO = 2,
         VIDEO = 3
     };
-    ZpMessage(ZpUser* _opponent, bool _amIpublisher, QString _datetime, bool _is_seen, Type _type, int _pk);
-    void set_data(ZpUser* _opponent, bool _amIpublisher, QString _datetime, bool _is_seen, Type _type, int _pk);
+    explicit ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QObject *parent = 0);
     virtual QWidget* widget() = 0;
+    int widget_height;
+    int widget_width;
     ZpUser* opponent;
     bool amIpublisher;
     QDateTime datetime;
@@ -26,6 +26,21 @@ public:
     Type type;
     int pk;
 
+protected:
+    QNetworkAccessManager* network;
+    QNetworkRequest* request;
+    QNetworkReply* reply;
+    virtual void handle_reply(QString _reply) = 0;
+
+protected slots:
+    void slotReadyRead();
+    void slotError(QNetworkReply::NetworkError err);
+    void slotSslErrors(QList<QSslError> err);
+
+signals:
+    void updated();
+
+public slots:
 };
 
 #endif // ZPMESSAGE_H
