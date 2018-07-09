@@ -2,7 +2,10 @@
 #define ZPMESSAGE_H
 
 #include <QObject>
+#include <QDateTime>
 #include "zpuser.h"
+
+extern ZpUser* WHOAMI;
 
 class ZpMessage : public QObject
 {

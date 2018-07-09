@@ -12,5 +12,6 @@
         <file>ZpContact_stylesheet.qss</file>
         <file>notification_unmute.png</file>
         <file>notification_mute.png</file>
+        <file>ZpTextMessage_stylesheet.qss</file>
     </qresource>
 </RCC>

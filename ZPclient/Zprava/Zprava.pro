@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     zpuser.cpp \
     zpcontactlist.cpp \
     zpthread.cpp \
-    zpmessage.cpp
+    zpmessage.cpp \
+    zptextmessage.cpp
 
 HEADERS  += zprava.h \
     zpform.h \
@@ -40,7 +41,8 @@ HEADERS  += zprava.h \
     zpuser.h \
     zpcontactlist.h \
     zpthread.h \
-    zpmessage.h
+    zpmessage.h \
+    zptextmessage.h
 
 RESOURCES += \
     Resources/resources.qrc
