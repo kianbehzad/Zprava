@@ -1,0 +1,82 @@
+#include "zptextmessage.h"
+
+ZpTextMessage::ZpTextMessage(ZpUser* _opponent, bool _amIpublisher, int _pk)
+    : ZpMessage(_opponent, _amIpublisher, _pk)
+{
+    type = ZpMessage::Type::TEXT;
+    //network
+    network = new QNetworkAccessManager();
+    request = new QNetworkRequest();
+    request->setUrl(QUrl("http://127.0.0.1:8000/chat/getmessage/?firstside="+opponent->username+"&secondside="+WHOAMI->username+"&pk="+QString::number(pk)));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
+}
+
+QWidget *ZpTextMessage::widget()
+{
+    widg = new QWidget();
+    //getting style sheets
+    File.setFileName(":/ZpTextMessage_stylesheet.qss");
+    qDebug() << "is qt ZpTextMessage_stylesheet opend: " << File.open(QFile::ReadOnly);
+    FormStyleSheet = QLatin1String(File.readAll());
+    widg->setStyleSheet(FormStyleSheet);
+    File.close();
+
+    text_label = new QLabel(widg);
+    text_label->setObjectName("text_label");
+    text_label->setText(text);
+    text_label->setAlignment(Qt::AlignLeft);
+    text_label->setContentsMargins(10, 5, 0, 5);
+    widget_height = 5* 15 + 15;
+    widget_width = 33*10 + 30;
+    datetime_label = new QLabel(widg);
+    datetime_label->setObjectName("datetime_label");
+    datetime_label->setText(datetime.toString("hh:mm"));
+    datetime_label->setAlignment(Qt::AlignBottom);
+    datetime_label->setContentsMargins(10, 5, 10, 5);
+
+    datetime_label->setProperty("amIpublisher", amIpublisher);
+    datetime_label->style()->unpolish(datetime_label);
+    datetime_label->style()->polish(datetime_label);
+    datetime_label->update();
+    text_label->setProperty("amIpublisher", amIpublisher);
+    text_label->style()->unpolish(text_label);
+    text_label->style()->polish(text_label);
+    text_label->update();
+
+    grid = new QGridLayout(widg);
+    grid->addWidget(text_label, 0, 0, 1, 10);
+    grid->addWidget(datetime_label, 0, 10, 1, 1);
+    grid->setSpacing(0);
+    grid->setContentsMargins(0, 0, 0, 0);
+    widg->setLayout(grid);
+    widg->setFixedSize(widget_width, widget_height);
+    return widg;
+}
+
+void ZpTextMessage::handle_reply(QString _reply)
+{
+    if(_reply == "InvalidChat")
+    {
+        qWarning() << "ZpTextMessage -> invalid chat";
+        return;
+    }
+    //else
+    QJsonDocument document = QJsonDocument::fromJson(_reply.toUtf8());
+    QJsonObject object = document.object();
+    if(object["is_seen"].toString() == "false")
+        is_seen = false;
+    else
+        is_seen = true;
+    text = object["text"].toString();
+    if(!QDateTime::fromString(object["datetime"].toString(), Qt::ISODate).isValid())
+    {
+        datetime = QDateTime::currentDateTime();
+        qWarning() << "ZpUser -> invalid datetime";
+        return;
+    }
+    datetime = QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
+    emit updated();
+}
