@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include"zpnavigationbar.h"
 
 class ZpExperimental : public QWidget
 {

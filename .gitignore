@@ -71,6 +71,7 @@ target_wrapper.*
 # QtCreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+*.DS_Store
 
 # QtCreator CMake
 CMakeLists.txt.user*

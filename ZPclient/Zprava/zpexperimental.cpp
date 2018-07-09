@@ -6,6 +6,7 @@ ZpExperimental::ZpExperimental(QWidget *parent) : QWidget(parent)
 
 
     exp= new QVBoxLayout(this);
-    //exp->addWidget(::WIDGET::);
+    ZpNavigationBar* nav = new ZpNavigationBar();
+    exp->addWidget(nav);
     this->setLayout(exp);
 }

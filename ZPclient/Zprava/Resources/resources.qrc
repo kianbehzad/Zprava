@@ -12,5 +12,13 @@
         <file>ZpContact_stylesheet.qss</file>
         <file>notification_unmute.png</file>
         <file>notification_mute.png</file>
+        <file>Chunkfive.otf</file>
+        <file>DancingScript-Regular.otf</file>
+        <file>Elsie-Regular.otf</file>
+        <file>GreatVibes-Regular.otf</file>
+        <file>LobsterTwo-Italic.otf</file>
+        <file>nav_stylesheet.qss</file>
+        <file>Quicksand-Regular.otf</file>
+        <file>Sofia-Regular.otf</file>
     </qresource>
 </RCC>
