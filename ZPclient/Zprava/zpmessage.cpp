@@ -1,6 +1,6 @@
 #include "zpmessage.h"
 
-ZpMessage::ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QObject *parent) : QObject(parent)
+ZpMessage::ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QWidget *parent) : QWidget(parent)
 {
     opponent = _opponent;
     amIpublisher = _amIpublisher;

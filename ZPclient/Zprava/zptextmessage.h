@@ -15,13 +15,11 @@ class ZpTextMessage : public ZpMessage
 {
 public:
     ZpTextMessage(ZpUser* _opponent, bool _amIpublisher, int _pk);
-    virtual QWidget* widget() override;
     virtual void handle_reply(QString _reply) override;
     QString text;
 
 private:
     //widget
-    QWidget* widg;
     QGridLayout* grid;
     QLabel* text_label;
     QLabel* datetime_label;
