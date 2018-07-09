@@ -6,6 +6,7 @@
 #include <QString>
 #include "zpexperimental.h"
 #include "zpform.h"
+#include "zpuser.h"
 
 
 

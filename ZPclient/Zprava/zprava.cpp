@@ -1,6 +1,6 @@
 #include "zprava.h"
 
-
+ZpUser* WHOAMI;
 
 
 Zprava::Zprava(QWidget *parent)
