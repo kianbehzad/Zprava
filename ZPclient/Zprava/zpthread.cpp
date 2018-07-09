@@ -1,8 +1,7 @@
 #include "zpthread.h"
 
-ZpThread::ZpThread(QString _username)
+ZpThread::ZpThread()
 {
-    username = _username;
     file.setFileName(qApp->applicationDirPath() + "/chats_data.json");
 }
 
@@ -38,7 +37,7 @@ void ZpThread::handle_timer()
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
     //if(getallchats)
-        request->setUrl(QUrl("http://127.0.0.1:8000/chat/getallchats/?username=" + username));
+        request->setUrl(QUrl("http://127.0.0.1:8000/chat/chatheaders/?username=" + WHOAMI->username));
     //else
     //    request->setUrl(QUrl("http://127.0.0.1:8000/chat/getnewchats/?username=" + username));
     reply = network->get(*request);

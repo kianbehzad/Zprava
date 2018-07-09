@@ -11,14 +11,15 @@
 #include <QFile>
 #include <QApplication>
 #include <QTextStream>
+#include "zpuser.h"
 
+extern ZpUser* WHOAMI;
 
 class ZpThread : public QThread
 {
     Q_OBJECT
 public:
-    ZpThread(QString _username);
-    QString username;
+    ZpThread();
     void run() override;
     QNetworkAccessManager* network;
     QNetworkRequest* request;
