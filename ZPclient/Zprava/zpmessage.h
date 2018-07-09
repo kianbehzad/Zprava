@@ -3,11 +3,12 @@
 
 #include <QObject>
 #include <QDateTime>
+#include <QWidget>
 #include "zpuser.h"
 
 extern ZpUser* WHOAMI;
 
-class ZpMessage : public QObject
+class ZpMessage : public QWidget
 {
     Q_OBJECT
 public:
@@ -18,8 +19,7 @@ public:
         AUDIO = 2,
         VIDEO = 3
     };
-    explicit ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QObject *parent = 0);
-    virtual QWidget* widget() = 0;
+    explicit ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QWidget *parent = 0);
     int widget_height;
     int widget_width;
     ZpUser* opponent;

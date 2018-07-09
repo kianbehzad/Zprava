@@ -12,26 +12,22 @@ ZpTextMessage::ZpTextMessage(ZpUser* _opponent, bool _amIpublisher, int _pk)
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
-}
 
-QWidget *ZpTextMessage::widget()
-{
-    widg = new QWidget();
     //getting style sheets
     File.setFileName(":/ZpTextMessage_stylesheet.qss");
     qDebug() << "is qt ZpTextMessage_stylesheet opend: " << File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
-    widg->setStyleSheet(FormStyleSheet);
+    this->setStyleSheet(FormStyleSheet);
     File.close();
 
-    text_label = new QLabel(widg);
+    text_label = new QLabel(this);
     text_label->setObjectName("text_label");
     text_label->setText(text);
     text_label->setAlignment(Qt::AlignLeft);
     text_label->setContentsMargins(10, 5, 0, 5);
     widget_height = 5* 15 + 15;
     widget_width = 33*10 + 30;
-    datetime_label = new QLabel(widg);
+    datetime_label = new QLabel(this);
     datetime_label->setObjectName("datetime_label");
     datetime_label->setText(datetime.toString("hh:mm"));
     datetime_label->setAlignment(Qt::AlignBottom);
@@ -46,14 +42,13 @@ QWidget *ZpTextMessage::widget()
     text_label->style()->polish(text_label);
     text_label->update();
 
-    grid = new QGridLayout(widg);
+    grid = new QGridLayout(this);
     grid->addWidget(text_label, 0, 0, 1, 10);
     grid->addWidget(datetime_label, 0, 10, 1, 1);
     grid->setSpacing(0);
     grid->setContentsMargins(0, 0, 0, 0);
-    widg->setLayout(grid);
-    widg->setFixedSize(widget_width, widget_height);
-    return widg;
+    this->setLayout(grid);
+    this->setFixedSize(widget_width, widget_height);
 }
 
 void ZpTextMessage::handle_reply(QString _reply)
@@ -71,6 +66,7 @@ void ZpTextMessage::handle_reply(QString _reply)
     else
         is_seen = true;
     text = object["text"].toString();
+    text_label->setText(text);
     if(!QDateTime::fromString(object["datetime"].toString(), Qt::ISODate).isValid())
     {
         datetime = QDateTime::currentDateTime();
@@ -78,5 +74,6 @@ void ZpTextMessage::handle_reply(QString _reply)
         return;
     }
     datetime = QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
+    datetime_label->setText(datetime.toString("hh:mm"));
     emit updated();
 }
