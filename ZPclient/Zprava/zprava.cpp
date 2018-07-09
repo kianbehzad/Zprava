@@ -15,7 +15,7 @@ Zprava::Zprava(QWidget *parent)
     setMaximumSize(width, height);//setFixedSize(width, height);
 
     //change to ::FALSE:: for experimental mode
-    if(true)
+    if(false)
     {
         //production mode
         //stylesheet

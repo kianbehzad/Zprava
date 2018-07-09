@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     zpexperimental.cpp \
     zpuser.cpp \
     zpcontactlist.cpp \
-    zpthread.cpp
+    zpthread.cpp \
+    zpnavigationbar.cpp
 
 HEADERS  += zprava.h \
     zpform.h \
@@ -38,7 +39,8 @@ HEADERS  += zprava.h \
     zpexperimental.h \
     zpuser.h \
     zpcontactlist.h \
-    zpthread.h
+    zpthread.h \
+    zpnavigationbar.h
 
 RESOURCES += \
     Resources/resources.qrc
