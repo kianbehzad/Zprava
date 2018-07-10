@@ -18,7 +18,7 @@ ZpWindow::ZpWindow(QSplitter *parent)
     this->addWidget(contactlist);
     this->addWidget(right_widg);
     sender->setStyleSheet("border: 3px solid black");//TODO: remove
-    chatview->setStyleSheet("border: 3px solid black");//TODO: remove
+    //chatview->setStyleSheet("border: 3px solid black");//TODO: remove
 }
 
 void ZpWindow::handle_threadUpdate()
@@ -41,6 +41,9 @@ void ZpWindow::handle_threadUpdate()
         {
             contactlist->add_contact(username);
             connect(this, SIGNAL(thread_updateStep2()), contactlist->get_contact(username), SLOT(handle_threadUpdate()));
+            QVBoxLayout* lay = new QVBoxLayout();
+            lay->addWidget(contactlist->get_contact(username)->chatview);
+            chatview->setLayout(lay);
         }
     }
     emit thread_updateStep2();

@@ -21,6 +21,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include "zpuser.h"
+#include "zpchatview.h"
 
 class ZpContact : public QWidget
 {
@@ -28,6 +29,7 @@ class ZpContact : public QWidget
 public:
     explicit ZpContact(QString username, QWidget *parent = 0);
     ZpUser* user;
+    ZpChatView* chatview;
     //ZpContact Widget public
     QLabel* picture;
     QLabel* title;

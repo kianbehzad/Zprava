@@ -6,7 +6,7 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 
     user = new ZpUser(username);
     connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
-
+    chatview = new ZpChatView(user);
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
     qDebug() << "is qt ZpContact_stylesheet opend: " <<File.open(QFile::ReadOnly);
@@ -134,7 +134,8 @@ void ZpContact::handle_threadUpdate()
             if(item.isString())
                 type = item.toString();
         }
-
+        if(type == "TEXT")
+            chatview->add_message(user, amIPub, Pk, ZpMessage::Type::TEXT);
         //qDebug() << pk << ", " << amIPub << ", " << type;
     }
 }
