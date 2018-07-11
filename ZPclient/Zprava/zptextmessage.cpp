@@ -22,11 +22,12 @@ ZpTextMessage::ZpTextMessage(ZpUser* _opponent, bool _amIpublisher, int _pk)
 
     text_label = new QLabel(this);
     text_label->setObjectName("text_label");
-    text_label->setText(text);
+    int num_lines{}, max_lenght{};
+    text_label->setText(text_process(max_lenght, num_lines));
     text_label->setAlignment(Qt::AlignLeft);
     text_label->setContentsMargins(10, 5, 0, 5);
-    widget_height = 5* 15 + 15;
-    widget_width = 33*10 + 30;
+    widget_height = num_lines* 15 + 15;
+    widget_width = max_lenght*8 + 90;
     datetime_label = new QLabel(this);
     datetime_label->setObjectName("datetime_label");
     datetime_label->setText(datetime.toString("hh:mm"));
@@ -66,7 +67,11 @@ void ZpTextMessage::handle_reply(QString _reply)
     else
         is_seen = true;
     text = object["text"].toString();
-    text_label->setText(text);
+    int num_lines{}, max_lenght{};
+    text_label->setText(text_process(max_lenght, num_lines));
+    widget_height = num_lines* 15 + 15;
+    widget_width = max_lenght*8 + 90;
+    this->setFixedSize(widget_width, widget_height);
     if(!QDateTime::fromString(object["datetime"].toString(), Qt::ISODate).isValid())
     {
         datetime = QDateTime::currentDateTime();
@@ -76,4 +81,66 @@ void ZpTextMessage::handle_reply(QString _reply)
     datetime = QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
     datetime_label->setText(datetime.toString("hh:mm"));
     emit updated();
+}
+
+QString ZpTextMessage::text_process(int &max_lenght, int &num_lines)
+{
+        std::vector<QString> v;
+        QStringList list = text.split('\n');
+        for(auto& l : list)
+            v.push_back(l);
+        for(int i{}; i < v.size(); i++)
+        {
+            auto temp {v[i].begin()};
+            auto max {v[i].begin()};
+            int n {v[i].size() / 55};
+            if(n > 0)
+            {
+                while((temp - v[i].begin()) < 55)
+                {
+                    max = temp;
+                    temp = std::find(temp + 1, v[i].end(), ' ');
+                }
+                if(max - v[i].begin() == 0)
+                {
+
+                    QString tmp{};
+                    for(int j{}; j < 55; j++)
+                        tmp.push_back(v[i][j]);
+                    QString _tmp{};
+                    for(int j{55}; j < v[i].size(); j++)
+                        _tmp.push_back(v[i][j]);
+                    v[i] = _tmp;
+                    v.insert(v.begin() + i, tmp);
+                }
+                else
+                {
+                    QString tmp{};
+                    for(int j{}; j < max - v[i].begin(); j++)
+                        tmp.push_back(v[i][j]);
+                    QString _tmp{};
+                    for(int j{static_cast<int>(max - v[i].begin() + 1)}; j < v[i].size(); j++)
+                        _tmp.push_back(v[i][j]);
+                    v[i] = _tmp;
+                    v.insert(v.begin() + i, tmp);
+                }
+             }
+        }
+        for(auto _v : v)
+            qDebug() << _v;
+
+        max_lenght = v[0].size();
+        num_lines = v.size();
+        for(int i{}; i < v.size(); i++)
+        {
+            if(max_lenght < v[i].size())
+                max_lenght = v[i].size();
+        }
+
+        QStringList final_list{};
+        for(auto& _v : v)
+            final_list << _v;
+        QString final {final_list.join('\n')};
+
+        return final;
 }

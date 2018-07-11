@@ -1,9 +1,11 @@
 #include "zpcontact.h"
 
-ZpContact::ZpContact(ZpUser* _user, QWidget *parent) : QWidget(parent)
+ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
-    user = _user;
+    user = new ZpUser(username);
     connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
+    chatview = new ZpChatView(user);
+    connect(this, SIGNAL(trig_ZpChatview()), chatview, SLOT(updating()));
 
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
@@ -121,6 +123,11 @@ void ZpContact::handle_update()
     title->setAlignment(Qt::AlignCenter);
     datetime->setText(user->last_message_datetime.time().toString("hh:mm"));
     datetime->setAlignment(Qt::AlignCenter);
+}
+
+void ZpContact::updating()
+{
+    emit trig_ZpChatview();
 }
 
 void ZpContact::mousePressEvent(QMouseEvent *event)

@@ -26,6 +26,7 @@ private:
     //STYLESHEET
     QFile File;
     QString FormStyleSheet;
+    QString text_process(int &max_lenght, int &num_lines);
 };
 
 #endif // ZPTEXTMESSAGE_H
