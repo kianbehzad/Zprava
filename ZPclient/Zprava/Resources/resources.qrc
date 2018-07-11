@@ -13,5 +13,6 @@
         <file>notification_unmute.png</file>
         <file>notification_mute.png</file>
         <file>ZpTextMessage_stylesheet.qss</file>
+        <file>ZpChatWindow_stylesheet.qss</file>
     </qresource>
 </RCC>
