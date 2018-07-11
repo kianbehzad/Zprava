@@ -1,4 +1,6 @@
 #include "zprava.h"
+#include <QList>
+#include <QString>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QDebug>
@@ -12,6 +14,9 @@ int main(int argc, char *argv[])
     r.moveCenter(QApplication::desktop()->availableGeometry().center());
     w.setGeometry(r);
     w.show();
+
+    //signal registration
+    qRegisterMetaType<QList<QString>>("QList<QString>");
 
     return a.exec();
 }

@@ -123,6 +123,11 @@ void ZpContact::handle_update()
     datetime->setAlignment(Qt::AlignCenter);
 }
 
+void ZpContact::updating()
+{
+
+}
+
 void ZpContact::mousePressEvent(QMouseEvent *event)
 {
     switch (event->button())

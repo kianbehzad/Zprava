@@ -58,6 +58,8 @@ signals:
 private slots:
     void slot_menu_triggered(QAction*menu_action);
     void handle_update();
+public slots:
+    void updating();
 protected:
     void mousePressEvent(QMouseEvent* event);
     void enterEvent(QEvent *event);
