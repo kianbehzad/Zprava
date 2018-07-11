@@ -68,6 +68,7 @@ private:
 
 signals:
     void trig_ZpContact();
+    void contact_clicked(QString username);
 
 public slots:
     void handle_clicked(QString username);
