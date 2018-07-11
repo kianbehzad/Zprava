@@ -1,8 +1,8 @@
 #include "zpcontact.h"
 
-ZpContact::ZpContact(ZpUser* _user, QWidget *parent) : QWidget(parent)
+ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
-    user = _user;
+    user = new ZpUser(username);
     connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
 
     //getting style sheets

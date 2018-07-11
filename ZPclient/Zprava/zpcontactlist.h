@@ -13,7 +13,7 @@ class ZpContactList : public QScrollArea
     Q_OBJECT
 public:
     explicit ZpContactList(QScrollArea *parent = 0);
-    void add_contact(ZpUser *user);
+    void add_contact(QString username);
     ZpContact* get_contact(QString username);
     void sort();
 
