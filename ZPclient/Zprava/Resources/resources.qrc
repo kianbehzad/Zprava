@@ -13,5 +13,16 @@
         <file>notification_unmute.png</file>
         <file>notification_mute.png</file>
         <file>ZpTextMessage_stylesheet.qss</file>
+        <file>chat_stylesheet.qss</file>
+        <file>Chunkfive.otf</file>
+        <file>DancingScript-Regular.otf</file>
+        <file>Elsie-Regular.otf</file>
+        <file>failure_logo.png</file>
+        <file>GreatVibes-Regular.otf</file>
+        <file>LobsterTwo-Italic.otf</file>
+        <file>Quicksand-Regular.otf</file>
+        <file>send_logo8.png</file>
+        <file>send_logo9.png</file>
+        <file>Sofia-Regular.otf</file>
     </qresource>
 </RCC>
