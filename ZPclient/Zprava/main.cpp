@@ -1,4 +1,5 @@
 #include "zprava.h"
+#include "zpchatview.h"
 #include <QList>
 #include <QString>
 #include <QApplication>
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
 
     //signal registration
     qRegisterMetaType<QList<QString>>("QList<QString>");
+    qRegisterMetaType<QList<MessageHeaders>>("QList<MessageHeaders>");
 
     return a.exec();
 }
