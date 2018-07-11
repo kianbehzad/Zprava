@@ -79,13 +79,7 @@ void ZpChatView::handle_update()
 
 void ZpChatView::resizeEvent(QResizeEvent *)
 {
-    int filler_height{};
-    for(const auto& msg: message_list)
-        filler_height += msg->widget_height;
-    if(this->height() - filler_height > 0)
-        filler->setFixedHeight(this->height() - filler_height);
-    else
-        filler->setFixedHeight(0);
+    this->sort();
 }
 
 
