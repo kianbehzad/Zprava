@@ -83,6 +83,7 @@ public:
     void add_message(ZpUser *_opponent, bool _amIpublisher, int _pk, ZpMessage::Type type);
     ZpMessage* get_message(int pk);
     void sort();
+    QWidget* get_widget();
 
 private slots:
     void handle_update();

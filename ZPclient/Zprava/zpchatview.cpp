@@ -76,6 +76,11 @@ void ZpChatView::sort()
     }
 }
 
+QWidget *ZpChatView::get_widget()
+{
+    return messages_list_widget;
+}
+
 void ZpChatView::handle_update()
 {
     this->sort();
