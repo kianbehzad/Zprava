@@ -58,7 +58,10 @@ void ZpContactList::sort()
     //update GUI
     for(const auto& contact : contacts_list)
         contacts_list_layout->addWidget(contact, 0, Qt::AlignTop);
-    filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+    if(this->height() - contacts_list.size()*ZpContact::Height > 0)
+        filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+    else
+        filler->setFixedHeight(0);
     contacts_list_layout->addWidget(filler);
 }
 
@@ -69,10 +72,7 @@ void ZpContactList::handle_update()
 
 void ZpContactList::resizeEvent(QResizeEvent *)
 {
-    if(this->height() - contacts_list.size()*ZpContact::Height >= 0)
-        filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
-    else
-        filler->setFixedHeight(0);
+    this->sort();
 }
 
 void ZpContactList::handle_clicked(QString username)
