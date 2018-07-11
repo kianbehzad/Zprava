@@ -39,7 +39,7 @@ void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpM
     message_list.push_back(msg);
 }
 
-ZpMessage *ZpChatView::get_contact(int pk)
+ZpMessage *ZpChatView::get_message(int pk)
 {
     for(const auto& msg: message_list)
         if(msg->pk == pk)

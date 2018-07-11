@@ -14,7 +14,7 @@ class ZpChatView : public QScrollArea
 public:
     explicit ZpChatView(ZpUser* _opponent, QScrollArea *parent = 0);
     void add_message(ZpUser *_opponent, bool _amIpublisher, int _pk, ZpMessage::Type type);
-    ZpMessage* get_contact(int pk);
+    ZpMessage* get_message(int pk);
     void sort();
 
 private slots:
