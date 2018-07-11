@@ -4,6 +4,8 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 {
     user = new ZpUser(username);
     connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
+    chatview = new ZpChatView(user);
+    connect(this, SIGNAL(trig_ZpChatview()), chatview, SLOT(updating()));
 
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
@@ -125,7 +127,7 @@ void ZpContact::handle_update()
 
 void ZpContact::updating()
 {
-
+    emit trig_ZpChatview();
 }
 
 void ZpContact::mousePressEvent(QMouseEvent *event)

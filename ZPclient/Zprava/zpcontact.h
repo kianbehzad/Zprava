@@ -15,6 +15,7 @@
 #include <QImage>
 #include <QStyle>
 #include "zpuser.h"
+#include "zpchatview.h"
 
 class ZpContact : public QWidget
 {
@@ -34,6 +35,7 @@ public:
     void set_unmuted();
     void set_focused(bool isFocused);
     static const int Height = 70;
+    ZpChatView* chatview;
 
 
 private:
@@ -54,6 +56,7 @@ private:
 
 signals:
     void clicked(QString user);
+    void trig_ZpChatview();
 
 private slots:
     void slot_menu_triggered(QAction*menu_action);
