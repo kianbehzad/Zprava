@@ -10,7 +10,8 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
     File.close();
 
     //widget
-    prev = new QWidget(this);
+    prev_chatview = new QWidget(this);
+    prev_chattype = new QWidget(this);
     chatview_holder = new QWidget(this);
     chatview_holder->setMinimumWidth(700);
     chatview_holder->setContentsMargins(0, 0, 0, 0);
@@ -27,14 +28,27 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
     contactlist = new ZpContactList();
     this->addWidget(contactlist);
     this->addWidget(right_widg);
+    //i dont know why but let the following be
+    prev_chatview->hide();
+    right_lay->addWidget(chatview_holder, 0, 0, 14, 1);
+    prev_chatview = chatview_holder;
+    prev_chatview->show();
+    prev_chattype->hide();
+    right_lay->addWidget(chattype_holder, 14, 0, 1, 1);
+    prev_chattype = chattype_holder;
+    prev_chattype->show();
 
     connect(contactlist, SIGNAL(contact_clicked(QString)), this, SLOT(handle_contact_clicked(QString)));
 }
 
 void ZpChatWindow::handle_contact_clicked(QString username)
 {
-    prev->hide();
+    prev_chatview->hide();
     right_lay->addWidget(contactlist->get_contact(username)->chatview, 0, 0, 14, 1);
-    prev = contactlist->get_contact(username)->chatview;
-    prev->show();
+    prev_chatview = contactlist->get_contact(username)->chatview;
+    prev_chatview->show();
+    prev_chattype->hide();
+    right_lay->addWidget(contactlist->get_contact(username)->chattype, 14, 0, 1, 1);
+    prev_chattype = contactlist->get_contact(username)->chattype;
+    prev_chattype->show();
 }

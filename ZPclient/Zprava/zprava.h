@@ -7,6 +7,8 @@
 #include "zpexperimental.h"
 #include "zpform.h"
 #include "zpuser.h"
+#include "zpthread.h"
+#include "zpchatwindow.h"
 
 
 
@@ -26,9 +28,12 @@ public:
     //FORM
     ZpForm* form;
 
+    //LOGIN
+    ZpThread* thread;
+    ZpChatWindow* chatwindow;
 
-
-
+public slots:
+    void login(QString username,QString password);
 
 };
 

@@ -20,5 +20,6 @@
         <file>send_logo8.png</file>
         <file>send_logo9.png</file>
         <file>ZpChatWindow_stylesheet.qss</file>
+        <file>chatview_backgroun.jpg</file>
     </qresource>
 </RCC>

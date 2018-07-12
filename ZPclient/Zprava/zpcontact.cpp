@@ -6,6 +6,7 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
     connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
     chatview = new ZpChatView(user);
     connect(this, SIGNAL(trig_ZpChatview()), chatview, SLOT(updating()));
+    chattype = new ZpChatType(user, this);
 
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
