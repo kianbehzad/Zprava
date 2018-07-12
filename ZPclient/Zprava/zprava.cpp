@@ -50,7 +50,7 @@ void Zprava::apply_stylesheet()
 {
     //getting style sheets
     File.setFileName(":/qApp_stylesheet.qss");
-    qDebug() << "is qt qApp_stylesheet opend: " <<File.open(QFile::ReadOnly);
+    qDebug() << "is qt qApp_stylesheet opend:" <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();

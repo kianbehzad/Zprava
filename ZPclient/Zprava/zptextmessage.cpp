@@ -126,8 +126,8 @@ QString ZpTextMessage::text_process(int &max_lenght, int &num_lines)
                 }
              }
         }
-        for(auto _v : v)
-            qDebug() << _v;
+        //for(auto _v : v)
+            //qDebug() << _v;
 
         max_lenght = v[0].size();
         num_lines = v.size();

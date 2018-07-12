@@ -68,7 +68,7 @@ void ZpThread::slotReadyRead()
         }
         else
         {
-            qDebug() <<"-> read ok";//TODO: in QLabel
+            //qDebug() <<"-> read ok";//TODO: in QLabel
         }
 
         allbuf += & buf[0];

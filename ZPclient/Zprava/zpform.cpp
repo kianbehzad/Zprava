@@ -22,7 +22,7 @@ void ZpForm::apply_stylesheet()
 {
     //getting style sheets
     File.setFileName(":/form_stylesheet.qss");
-    qDebug() << "is qt form_stylesheet opend: " <<File.open(QFile::ReadOnly);
+    qDebug() << "is qt form_stylesheet opend:" <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();
@@ -710,14 +710,14 @@ void ZpForm::slotReadyRead()
         }
         else
         {
-            qDebug() <<"-> read ok";//TODO: in QLabel
+            //qDebug() <<"-> read ok";//TODO: in QLabel
         }
 
         allbuf += & buf[0];
     }
 
     reply_string = allbuf;
-    qDebug() <<reply_string;//TODO remove this
+    //qDebug() <<reply_string;//TODO remove this
     handle_reply(reply_string);
 }
 

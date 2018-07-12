@@ -10,7 +10,7 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 
     //getting style sheets
     File.setFileName(":/ZpContact_stylesheet.qss");
-    qDebug() << "is qt ZpContact_stylesheet opend: " <<File.open(QFile::ReadOnly);
+    qDebug() << "is qt ZpContact_stylesheet opend:  " <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();

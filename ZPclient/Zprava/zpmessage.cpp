@@ -29,14 +29,14 @@ void ZpMessage::slotReadyRead()
         }
         else
         {
-            qDebug() <<"-> read ok";//TODO: in QLabel
+            //qDebug() <<"-> read ok";//TODO: in QLabel
         }
 
         allbuf += & buf[0];
     }
 
     reply_string = allbuf;
-    qDebug() <<reply_string;//TODO remove this
+    //qDebug() <<reply_string;//TODO remove this
     handle_reply(reply_string);
 }
 
