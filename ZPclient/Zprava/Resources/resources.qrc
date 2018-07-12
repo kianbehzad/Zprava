@@ -14,5 +14,11 @@
         <file>notification_mute.png</file>
         <file>ZpTextMessage_stylesheet.qss</file>
         <file>ZpChatWindow_stylesheet.qss</file>
+        <file>search_logo1.png</file>
+        <file>search_logo2.png</file>
+        <file>setting_logo1.png</file>
+        <file>setting_logo2.png</file>
+        <file>DancingScript-Regular.otf</file>
+        <file>nav_stylesheet.qss</file>
     </qresource>
 </RCC>
