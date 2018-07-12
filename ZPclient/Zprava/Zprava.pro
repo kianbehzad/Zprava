@@ -35,6 +35,7 @@ SOURCES += main.cpp\
     zptextmessage.cpp \
     zpchatview.cpp \
     zpchattype.cpp
+    zpchatwindow.cpp
 
 HEADERS  += zprava.h \
     zpform.h \
@@ -47,6 +48,7 @@ HEADERS  += zprava.h \
     zptextmessage.h \
     zpchatview.h \
     zpchattype.h
+    zpchatwindow.h
 
 RESOURCES += \
     Resources/resources.qrc

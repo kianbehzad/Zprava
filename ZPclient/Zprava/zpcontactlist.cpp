@@ -22,15 +22,19 @@ ZpContactList::ZpContactList(QScrollArea *parent) : QScrollArea(parent)
     this->setMinimumWidth(300);
     this->setContentsMargins(0, 0, 0, 0);
 
+    data_thread = new ZpContactList_Thread();
+    connect(data_thread, SIGNAL(gotData(QList<QString>)), this, SLOT(handle_gotData(QList<QString>)));
+
 }
 
-void ZpContactList::add_contact(ZpUser* user)
+void ZpContactList::add_contact(QString username)
 {
     //check if the username already exists
     for(int i{}; i < contacts_list.size(); i++)
-        if(contacts_list[i]->user->username == user->username)
+        if(contacts_list[i]->user->username == username)
             return;
-    ZpContact* new_contact = new ZpContact(user, this);
+    ZpContact* new_contact = new ZpContact(username, this);
+    connect(this, SIGNAL(trig_ZpContact()), new_contact, SLOT(updating()));
     connect(new_contact->user, SIGNAL(updated()), this, SLOT(handle_update()));
     connect(new_contact, SIGNAL(clicked(QString)), this, SLOT(handle_clicked(QString)));
     contacts_list_layout->addWidget(new_contact, 0, Qt::AlignTop);
@@ -58,7 +62,10 @@ void ZpContactList::sort()
     //update GUI
     for(const auto& contact : contacts_list)
         contacts_list_layout->addWidget(contact, 0, Qt::AlignTop);
-    filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+    if(this->height() - contacts_list.size()*ZpContact::Height > 0)
+        filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
+    else
+        filler->setFixedHeight(0);
     contacts_list_layout->addWidget(filler);
 }
 
@@ -67,12 +74,21 @@ void ZpContactList::handle_update()
     this->sort();
 }
 
+void ZpContactList::handle_gotData(QList<QString> contacts)
+{
+    for(const auto& contact: contacts)
+        this->add_contact(contact);
+}
+
+void ZpContactList::updating()
+{
+    data_thread->start();
+    emit trig_ZpContact();
+}
+
 void ZpContactList::resizeEvent(QResizeEvent *)
 {
-    if(this->height() - contacts_list.size()*ZpContact::Height >= 0)
-        filler->setFixedHeight(this->height() - contacts_list.size()*ZpContact::Height);
-    else
-        filler->setFixedHeight(0);
+    this->sort();
 }
 
 void ZpContactList::handle_clicked(QString username)
@@ -80,4 +96,5 @@ void ZpContactList::handle_clicked(QString username)
     for(const auto& contact : contacts_list)
         contact->set_focused(false);
     get_contact(username)->set_focused(true);
+    emit contact_clicked(username);
 }

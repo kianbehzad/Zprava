@@ -15,12 +15,13 @@
 #include <QImage>
 #include <QStyle>
 #include "zpuser.h"
+#include "zpchatview.h"
 
 class ZpContact : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ZpContact(ZpUser *_user, QWidget *parent = 0);
+    explicit ZpContact(QString username, QWidget *parent = 0);
     ZpUser* user;
     //ZpContact Widget public
     QLabel* picture;
@@ -34,6 +35,7 @@ public:
     void set_unmuted();
     void set_focused(bool isFocused);
     static const int Height = 70;
+    ZpChatView* chatview;
 
 
 private:
@@ -54,10 +56,13 @@ private:
 
 signals:
     void clicked(QString user);
+    void trig_ZpChatview();
 
 private slots:
     void slot_menu_triggered(QAction*menu_action);
     void handle_update();
+public slots:
+    void updating();
 protected:
     void mousePressEvent(QMouseEvent* event);
     void enterEvent(QEvent *event);

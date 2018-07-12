@@ -2,6 +2,7 @@
 
 ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
 {
+    this->opponent = _opponent;
     //layout
     messages_list_layout = new QVBoxLayout(this);
     messages_list_layout->setContentsMargins(0, 0, 0, 0);
@@ -21,6 +22,9 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     this->setWidgetResizable(true);
     this->setMinimumWidth(700);
     this->setContentsMargins(0, 0, 0, 0);
+
+    data_thread = new ZpChatView_Thread(_opponent->username);
+    connect(data_thread, SIGNAL(gotData(QList<MessageHeaders>)), this, SLOT(handle_gotData(QList<MessageHeaders>)));
 }
 
 void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpMessage::Type type)
@@ -39,7 +43,7 @@ void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpM
     message_list.push_back(msg);
 }
 
-ZpMessage *ZpChatView::get_contact(int pk)
+ZpMessage *ZpChatView::get_message(int pk)
 {
     for(const auto& msg: message_list)
         if(msg->pk == pk)
@@ -53,7 +57,7 @@ void ZpChatView::sort()
     for(const auto& msg : message_list)
         messages_list_layout->removeWidget(msg);
     messages_list_layout->removeWidget(filler);
-    std::sort(message_list.begin(), message_list.end(), [](ZpMessage* a, ZpMessage* b){return (a->datetime > b->datetime);});
+    std::sort(message_list.begin(), message_list.end(), [](ZpMessage* a, ZpMessage* b){return (a->datetime < b->datetime);});
     //update GUI
     for(const auto& msg : message_list)
     {
@@ -72,20 +76,30 @@ void ZpChatView::sort()
     }
 }
 
+QWidget *ZpChatView::get_widget()
+{
+    return messages_list_widget;
+}
+
 void ZpChatView::handle_update()
 {
     this->sort();
 }
 
+void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
+{
+    for(const auto& header: messageheaders)
+        this->add_message(opponent, header.amIPub, header.pk, header.type);
+}
+
+void ZpChatView::updating()
+{
+    data_thread->start();
+}
+
 void ZpChatView::resizeEvent(QResizeEvent *)
 {
-    int filler_height{};
-    for(const auto& msg: message_list)
-        filler_height += msg->widget_height;
-    if(this->height() - filler_height > 0)
-        filler->setFixedHeight(this->height() - filler_height);
-    else
-        filler->setFixedHeight(0);
+    this->sort();
 }
 
 
