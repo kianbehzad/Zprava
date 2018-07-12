@@ -28,6 +28,15 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
     contactlist = new ZpContactList();
     this->addWidget(contactlist);
     this->addWidget(right_widg);
+    //i dont know why but let the following be
+    prev_chatview->hide();
+    right_lay->addWidget(chatview_holder, 0, 0, 14, 1);
+    prev_chatview = chatview_holder;
+    prev_chatview->show();
+    prev_chattype->hide();
+    right_lay->addWidget(chattype_holder, 14, 0, 1, 1);
+    prev_chattype = chattype_holder;
+    prev_chattype->show();
 
     connect(contactlist, SIGNAL(contact_clicked(QString)), this, SLOT(handle_contact_clicked(QString)));
 }
