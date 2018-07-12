@@ -43,7 +43,7 @@ ZpChatType::ZpChatType(ZpUser* _opponent,QWidget *parent) : QWidget(parent)
     connect(type,SIGNAL(textChanged()), this,SLOT(check_size()));
     connect(send_but,SIGNAL(clicked()),this,SLOT(but_callback()));
     connect(this,SIGNAL(decrement_size()),this,SLOT(minus_size()));
-    connect(shortcut,SIGNAL(activated()),this,SLOT(send()));
+    //connect(shortcut,SIGNAL(activated()),this,SLOT(send()));
     //connect(send_but,SIGNAL(signalMouseHover(QLabel*)),this,SLOT(label_hover(QLabel*)));
 
 
@@ -197,7 +197,7 @@ void ZpChatType::slotReadyRead()
         }
         else
         {
-            qDebug() <<"-> read ok";//TODO: in QLabel
+            //qDebug() <<"-> read ok";//TODO: in QLabel
         }
 
         allbuf += & buf[0];

@@ -6,6 +6,7 @@
 #include <QSplitter>
 #include <QGridLayout>
 #include <QHBoxLayout>
+#include <QKeyEvent>
 #include "zpcontactlist.h"
 
 class ZpChatWindow : public QSplitter
@@ -26,6 +27,7 @@ private:
     QWidget* chattype_holder;
     QWidget* prev_chatview;
     QWidget* prev_chattype;
+    void keyPressEvent(QKeyEvent *e);
 
 signals:
 

@@ -13,16 +13,17 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
 
     //widget
     messages_list_widget = new QWidget(this);
+    messages_list_widget->setObjectName("chatview");
     messages_list_widget->setLayout(messages_list_layout);
     messages_list_widget->setContentsMargins(10, 10, 10, 10);
 
     //scroll bar
-    //messages_list_widget->setStyleSheet("background-color: cyan;");
-    QPixmap* bkgnd = new QPixmap(":/chatview_backgroun.jpg");
-    //*bkgnd = bkgnd->scaled(messages_list_widget->size(), Qt::IgnoreAspectRatio);
-    QPalette* palette = new QPalette();
-    palette->setBrush(QPalette::Background, *bkgnd);
-    messages_list_widget->setPalette(*palette);
+    messages_list_widget->setStyleSheet("QWidget#chatview{background-image:url(\":/chatview_backgroun.jpg\"); background-position: center;}");
+//    QPixmap* bkgnd = new QPixmap(":/chatview_backgroun.jpg");
+//    //*bkgnd = bkgnd->scaled(messages_list_widget->size(), Qt::IgnoreAspectRatio);
+//    QPalette* palette = new QPalette();
+//    palette->setBrush(QPalette::Background, *bkgnd);
+//    messages_list_widget->setPalette(*palette);
     this->setWidget(messages_list_widget);
     this->setAlignment(Qt::AlignCenter);
     this->setWidgetResizable(true);
@@ -96,6 +97,7 @@ void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
 {
     for(const auto& header: messageheaders)
         this->add_message(opponent, header.amIPub, header.pk, header.type);
+    this->sort();
 }
 
 void ZpChatView::updating()
