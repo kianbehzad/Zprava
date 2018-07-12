@@ -15,7 +15,7 @@ Zprava::Zprava(QWidget *parent)
     setMaximumSize(width, height);//setFixedSize(width, height);
 
     //change to ::FALSE:: for experimental mode
-    if(false)
+    if(true)
     {
         //production mode
         //stylesheet
@@ -23,6 +23,7 @@ Zprava::Zprava(QWidget *parent)
 
         //add form into main window
         form = new ZpForm(true);
+        connect(form, SIGNAL(login_validate(QString,QString)), this, SLOT(login(QString,QString)));
         QHBoxLayout* lay = new QHBoxLayout();
         form->setMaximumSize(2*width/3, 2*height/3);//form->setFixedSize(2*width/3, 2*height/3);
         lay->addWidget(form);
@@ -53,4 +54,14 @@ void Zprava::apply_stylesheet()
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();
+}
+
+void Zprava::login(QString username, QString password)
+{
+    WHOAMI = new ZpUser(username);
+    thread = new ZpThread();
+    chatwindow = new ZpChatWindow(this);
+    connect(thread, SIGNAL(updated()), chatwindow->contactlist, SLOT(updating()));
+    thread->start();
+    setCentralWidget(chatwindow);
 }

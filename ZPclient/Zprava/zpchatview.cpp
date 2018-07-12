@@ -17,6 +17,12 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     messages_list_widget->setContentsMargins(10, 10, 10, 10);
 
     //scroll bar
+    //messages_list_widget->setStyleSheet("background-color: cyan;");
+    QPixmap* bkgnd = new QPixmap(":/chatview_backgroun.jpg");
+    //*bkgnd = bkgnd->scaled(messages_list_widget->size(), Qt::IgnoreAspectRatio);
+    QPalette* palette = new QPalette();
+    palette->setBrush(QPalette::Background, *bkgnd);
+    messages_list_widget->setPalette(*palette);
     this->setWidget(messages_list_widget);
     this->setAlignment(Qt::AlignCenter);
     this->setWidgetResizable(true);
