@@ -62,7 +62,7 @@ border-right: 2px solid white;
 
 QLabel#picture_label[clicked=true]
 {
-background-color: purple;
+background-color: #990099;
 border:none;
 border-bottom: 2px solid white;
 border-left: 2px solid white;
@@ -70,7 +70,7 @@ border-top: 2px solid white;
 }
 QLabel#title_label[clicked=true]
 {
-background-color: purple;
+background-color: #990099;
 color: white;
 border:none;
 font: 20pt "Arial";
@@ -80,14 +80,14 @@ border-top: 2px solid white;
 }
 QLabel#notification_label[clicked=true]
 {
-background-color: purple;
+background-color: #990099;
 border:none;
 border-top: 2px solid white;
 border-right: 2px solid white;
 }
 QLabel#datetime_label[clicked=true]
 {
-background-color: purple;
+background-color: #990099;
 color: white;
 border-bottom: 2px solid white;
 border-right: 2px solid white;
