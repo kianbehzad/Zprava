@@ -16,6 +16,7 @@
 #include<QSizeF>
 #include<QLabel>
 #include<QPixmap>
+#include<QPalette>
 #include<QMouseEvent>
 #include<Qpixmap>
 #include<QFile>

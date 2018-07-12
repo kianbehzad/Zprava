@@ -16,9 +16,10 @@ ZpChatType::ZpChatType(ZpUser* _opponent,QWidget *parent) : QWidget(parent)
     type = new QTextEdit();
     type->setFixedHeight(26);
     type->setObjectName("type_widg");
-    type_lay->addWidget(send_but,0,0,1,1,Qt::AlignBottom);
+    type->setFrameStyle(QFrame::NoFrame);
+    type_lay->addWidget(send_but,0,23,1,1,Qt::AlignBottom);
     type_lay->addWidget(type,0,1,1,22,Qt::AlignBottom);
-    type_lay->addWidget(failure_logo,0,23,1,1,Qt::AlignBottom);
+    type_lay->addWidget(failure_logo,0,0,1,1,Qt::AlignBottom);
     failure_logo->hide();
     type_lay->setMargin(0);
     type_lay->setContentsMargins(0,0,0,0);
@@ -29,6 +30,12 @@ ZpChatType::ZpChatType(ZpUser* _opponent,QWidget *parent) : QWidget(parent)
     this->setLayout(type_lay);
     this->setMaximumHeight(27);
     this->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+
+    QPalette pal = palette();
+    // set white background
+    pal.setColor(QPalette::Background, Qt::white);
+    this->setAutoFillBackground(true);
+    this->setPalette(pal);
 
     shortcut = new QShortcut(QKeySequence(Qt::Key_Enter + Qt::Key_Q), this);
 
@@ -58,20 +65,19 @@ void ZpChatType::minus_size()
 
 void ZpChatType::but_callback()
 {
-    qDebug()<<"Clicked";
     QString s = type->toPlainText();
     initial_networking_navigationbar(s);
 }
 
 void ZpChatType::check_size()
 {
+    type->setFrameStyle(QFrame::Box);
     margins = type->contentsMargins();
     documentSize =  type->document()->documentLayout()->documentSize();
     height = documentSize.height() + margins.top() + margins.bottom() + 1;
     lines_num = (height - 29)/14;
 
-    qDebug()<<height;
-
+    type->setFrameStyle(QFrame::NoFrame);
     if(lines_num - line_nums_before == 1)
     {
         line_nums_before = lines_num;
@@ -135,7 +141,6 @@ bool ClickableLabel::event(QEvent *event)
 
 void ClickableLabel::hoverEnter(QHoverEvent *event)
 {
-    qDebug()<<"Entered";
     delete send_logo;
     send_logo = new QPixmap(":/send_logo8.png");
     this->setPixmap(*send_logo);
@@ -144,7 +149,6 @@ void ClickableLabel::hoverEnter(QHoverEvent *event)
 
 void ClickableLabel::hoverLeave(QHoverEvent *event)
 {
-    qDebug()<<"left";
     delete send_logo;
     send_logo = new QPixmap(":/send_logo9.png");
     this->setPixmap(*send_logo);
@@ -153,15 +157,15 @@ void ClickableLabel::hoverLeave(QHoverEvent *event)
 
 void ClickableLabel::hoverMove(QHoverEvent *event)
 {
-    qDebug()<<"moved";
 }
 
 void ZpChatType::initial_networking_navigationbar(QString request)
 {
     QString publisher = WHOAMI->username;
+    QString subscriber = opponent->username;
     chat_network = new QNetworkAccessManager();
     chat_request = new QNetworkRequest();
-    chat_request->setUrl(QUrl("http://127.0.0.1:8000/chat/newtextmessage/?publisher="+publisher+"&subscriber="+opponent->username+"&textmessage="
+    chat_request->setUrl(QUrl("http://127.0.0.1:8000/chat/newtextmessage/?publisher="+publisher+"&subscriber="+subscriber+"&textmessage="
                               +request));
 
     chat_reply = chat_network->get(*chat_request);
@@ -172,6 +176,7 @@ void ZpChatType::initial_networking_navigationbar(QString request)
 
 void ZpChatType::slotReadyRead()
 {
+    type->clear();
     QString reply_string;
     std::vector<char> buf;
     qint64 chunk;
@@ -199,7 +204,7 @@ void ZpChatType::slotReadyRead()
     }
 
     reply_string = allbuf;
-    qDebug() <<reply_string;//TODO remove this
+    //qDebug() <<reply_string;//TODO remove this
     handle_reply(reply_string);
 }
 
