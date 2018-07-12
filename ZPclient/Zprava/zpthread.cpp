@@ -8,7 +8,7 @@ ZpThread::ZpThread()
 void ZpThread::run()
 {
     timer = new QTimer();
-    timer->start(3000);
+    timer->start(500);
     timer->moveToThread(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(handle_timer()));
     exec();
