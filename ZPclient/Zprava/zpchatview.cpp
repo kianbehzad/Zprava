@@ -96,6 +96,7 @@ void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
 {
     for(const auto& header: messageheaders)
         this->add_message(opponent, header.amIPub, header.pk, header.type);
+    this->sort();
 }
 
 void ZpChatView::updating()
