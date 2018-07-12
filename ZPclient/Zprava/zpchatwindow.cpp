@@ -41,6 +41,22 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
     connect(contactlist, SIGNAL(contact_clicked(QString)), this, SLOT(handle_contact_clicked(QString)));
 }
 
+void ZpChatWindow::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Escape)
+    {
+        contactlist->handle_clicked("~");
+        prev_chatview->hide();
+        right_lay->addWidget(chatview_holder, 0, 0, 14, 1);
+        prev_chatview = chatview_holder;
+        prev_chatview->show();
+        prev_chattype->hide();
+        right_lay->addWidget(chattype_holder, 14, 0, 1, 1);
+        prev_chattype = chattype_holder;
+        prev_chattype->show();
+    }
+}
+
 void ZpChatWindow::handle_contact_clicked(QString username)
 {
     prev_chatview->hide();

@@ -97,6 +97,8 @@ void ZpContactList::handle_clicked(QString username)
 {
     for(const auto& contact : contacts_list)
         contact->set_focused(false);
+    if(username == "~")
+        return;
     get_contact(username)->set_focused(true);
     emit contact_clicked(username);
 }
