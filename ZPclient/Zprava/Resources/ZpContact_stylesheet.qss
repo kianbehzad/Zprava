@@ -31,42 +31,42 @@ border-right: 2px solid white;
 
 QLabel#picture_label[hovered=true]
 {
-background-color: grey;
+background-color: #d1d1e0;
 border:none;
-border-bottom: 2px solid white;
-border-left: 2px solid white;
-border-top: 2px solid white;
+border-bottom: 2px solid #666699;
+border-left: 2px solid #666699;
+border-top: 2px solid #666699;
 }
 QLabel#title_label[hovered=true]
 {
-background-color: grey;
+background-color: #d1d1e0;
 border:none;
 font: 20pt "Arial";
 font-weight: bold;
-border-bottom: 2px solid white;
-border-top: 2px solid white;
+border-bottom: 2px solid #666699;
+border-top: 2px solid #666699;
 }
 QLabel#notification_label[hovered=true]
 {
-background-color: grey;
+background-color: #d1d1e0;
 border:none;
-border-top: 2px solid white;
-border-right: 2px solid white;
+border-top: 2px solid #666699;
+border-right: 2px solid #666699;
 }
 QLabel#datetime_label[hovered=true]
 {
-background-color: grey;
-border-bottom: 2px solid white;
-border-right: 2px solid white;
+background-color: #d1d1e0;
+border-bottom: 2px solid #666699;
+border-right: 2px solid #666699;
 }
 
 QLabel#picture_label[clicked=true]
 {
 background-color: #990099;
 border:none;
-border-bottom: 2px solid white;
-border-left: 2px solid white;
-border-top: 2px solid white;
+border-bottom: 2px solid #330033;
+border-left: 2px solid #330033;
+border-top: 2px solid #330033;
 }
 QLabel#title_label[clicked=true]
 {
@@ -75,20 +75,20 @@ color: white;
 border:none;
 font: 20pt "Arial";
 font-weight: bold;
-border-bottom: 2px solid white;
-border-top: 2px solid white;
+border-bottom: 2px solid #330033;
+border-top: 2px solid #330033;
 }
 QLabel#notification_label[clicked=true]
 {
 background-color: #990099;
 border:none;
-border-top: 2px solid white;
-border-right: 2px solid white;
+border-top: 2px solid #330033;
+border-right: 2px solid #330033;
 }
 QLabel#datetime_label[clicked=true]
 {
 background-color: #990099;
 color: white;
-border-bottom: 2px solid white;
-border-right: 2px solid white;
+border-bottom: 2px solid #330033;
+border-right: 2px solid #330033;
 }

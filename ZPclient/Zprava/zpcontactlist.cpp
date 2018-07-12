@@ -12,8 +12,10 @@ ZpContactList::ZpContactList(QScrollArea *parent) : QScrollArea(parent)
 
     //widget
     contact_list_widget = new QWidget(this);
+    contact_list_widget->setObjectName("contactlist");
     contact_list_widget->setLayout(contacts_list_layout);
     contact_list_widget->setContentsMargins(0, 0, 0, 0);
+    contact_list_widget->setStyleSheet("QWidget#contactlist{background-color: white;}");
 
     //scroll bar
     this->setWidget(contact_list_widget);
