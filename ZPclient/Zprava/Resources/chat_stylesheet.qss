@@ -1,0 +1,14 @@
+ClickableLabel#send_but
+{
+height: 15px;
+width: 15px;
+}
+ClickableLabel:hover#send_but
+{
+
+height: 15px;
+width: 15px;
+}
+QTextEdit#type_widg
+{
+}
