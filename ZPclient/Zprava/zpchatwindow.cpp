@@ -10,7 +10,8 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
     File.close();
 
     //widget
-    prev = new QWidget(this);
+    prev_chatview = new QWidget(this);
+    prev_chattype = new QWidget(this);
     chatview_holder = new QWidget(this);
     chatview_holder->setMinimumWidth(700);
     chatview_holder->setContentsMargins(0, 0, 0, 0);
@@ -33,8 +34,12 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
 
 void ZpChatWindow::handle_contact_clicked(QString username)
 {
-    prev->hide();
+    prev_chatview->hide();
     right_lay->addWidget(contactlist->get_contact(username)->chatview, 0, 0, 14, 1);
-    prev = contactlist->get_contact(username)->chatview;
-    prev->show();
+    prev_chatview = contactlist->get_contact(username)->chatview;
+    prev_chatview->show();
+    prev_chattype->hide();
+    right_lay->addWidget(contactlist->get_contact(username)->chattype, 14, 0, 1, 1);
+    prev_chattype = contactlist->get_contact(username)->chattype;
+    prev_chattype->show();
 }

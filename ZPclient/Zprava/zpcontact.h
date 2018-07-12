@@ -16,6 +16,7 @@
 #include <QStyle>
 #include "zpuser.h"
 #include "zpchatview.h"
+#include "zpchattype.h"
 
 class ZpContact : public QWidget
 {
@@ -36,7 +37,7 @@ public:
     void set_focused(bool isFocused);
     static const int Height = 70;
     ZpChatView* chatview;
-
+    ZpChatType* chattype;
 
 private:
     //STYLESHEET

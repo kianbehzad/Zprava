@@ -24,8 +24,8 @@ private:
     QWidget* right_widg;
     QWidget* chatview_holder;
     QWidget* chattype_holder;
-    QWidget* prev;
-
+    QWidget* prev_chatview;
+    QWidget* prev_chattype;
 
 signals:
 
