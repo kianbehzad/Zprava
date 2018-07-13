@@ -46,9 +46,9 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
     username_info_label->setAlignment(Qt::AlignCenter);
     username_info_label->setText("UnKnown!");
     username_info_label->setObjectName("info_label");
-    username_lay = new QHBoxLayout();
-    username_lay->addWidget(username_topic_label);
-    username_lay->addWidget(username_info_label);
+    username_lay = new QGridLayout();
+    username_lay->addWidget(username_topic_label, 0, 0, 1, 1);
+    username_lay->addWidget(username_info_label, 0, 1, 1, 3);
     username_widg = new QWidget();
     username_widg->setObjectName("username_widg");
     username_widg->setLayout(username_lay);
@@ -64,9 +64,9 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
     email_info_label->setAlignment(Qt::AlignCenter);
     email_info_label->setText("UnKnown!");
     email_info_label->setObjectName("info_label");
-    email_lay = new QHBoxLayout();
-    email_lay->addWidget(email_topic_label);
-    email_lay->addWidget(email_info_label);
+    email_lay = new QGridLayout();
+    email_lay->addWidget(email_topic_label, 0, 0, 1, 1);
+    email_lay->addWidget(email_info_label, 0, 1, 1, 3);
     email_widg = new QWidget();
     email_widg->setObjectName("email_widg");
     email_widg->setLayout(email_lay);
@@ -82,16 +82,17 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
     datetime_info_label->setAlignment(Qt::AlignCenter);
     datetime_info_label->setText("UnKnown!");
     datetime_info_label->setObjectName("info_label");
-    datetime_lay = new QHBoxLayout();
-    datetime_lay->addWidget(datetime_topic_label);
-    datetime_lay->addWidget(datetime_info_label);
+    datetime_lay = new QGridLayout();
+    datetime_lay->addWidget(datetime_topic_label, 0, 0, 1, 1);
+    datetime_lay->addWidget(datetime_info_label, 0, 1, 1, 3);
     datetime_widg = new QWidget();
     datetime_widg->setObjectName("datetime_widg");
     datetime_widg->setLayout(datetime_lay);
 
     //whole info
     info_lay = new QVBoxLayout(this);
-    info_lay->setSpacing(5);
+    info_lay->setSpacing(0);
+    info_lay->setContentsMargins(0, 0, 0, 0);
     info_lay->addWidget(username_widg);
     info_lay->addWidget(email_widg);
     info_lay->addWidget(datetime_widg);

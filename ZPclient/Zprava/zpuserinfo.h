@@ -5,6 +5,7 @@
 #include <QString>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QPushButton>
 #include <QFile>
 #include <QStyle>
@@ -31,15 +32,15 @@ private:
     QWidget* topic_widg;
     QLabel* username_topic_label;
     QLabel* username_info_label;
-    QHBoxLayout* username_lay;
+    QGridLayout* username_lay;
     QWidget* username_widg;
     QLabel* email_topic_label;
     QLabel* email_info_label;
-    QHBoxLayout* email_lay;
+    QGridLayout* email_lay;
     QWidget* email_widg;
     QLabel* datetime_topic_label;
     QLabel* datetime_info_label;
-    QHBoxLayout* datetime_lay;
+    QGridLayout* datetime_lay;
     QWidget* datetime_widg;
     QVBoxLayout* info_lay;
     QWidget* info_widg;
