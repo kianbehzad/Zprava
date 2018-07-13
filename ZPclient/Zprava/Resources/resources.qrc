@@ -14,5 +14,7 @@
         <file>notification_mute.png</file>
         <file>ZpTextMessage_stylesheet.qss</file>
         <file>ZpChatWindow_stylesheet.qss</file>
+        <file>userinfo_stylesheet.qss</file>
+        <file>exo.regular.otf</file>
     </qresource>
 </RCC>

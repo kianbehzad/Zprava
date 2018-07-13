@@ -1,0 +1,52 @@
+QLabel#user_username
+{
+background-color: #b3b3cc;
+
+}
+QLabel#user_email
+{
+background-color: #b3b3cc;
+
+}
+QLabel#email_label
+{
+background-color: #b3b3cc;
+color: #9933ff
+
+}
+QLabel#username_label
+{
+background-color: #b3b3cc;
+color: #9933ff
+}
+QLabel#user_photo_label
+{
+background-color: #b3b3cc;
+}
+QPushButton#start_chat_but
+{
+background-color: white;
+border: 1px solid white;
+border-radius: 5px;
+color: #9933ff;
+font: 12pt "Arial";
+}
+QPushButton:hover#start_chat_but
+{
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 1px solid purple;
+border-radius: 5px;
+color: white;
+font: 12pt "Arial";
+}
+QPushButton:pressed#start_chat_but
+{
+
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
+border: 1px solid white;
+border-radius: 5px;
+color: white;
+font: 12pt "Arial";
+}
