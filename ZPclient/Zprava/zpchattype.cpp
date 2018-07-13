@@ -76,7 +76,7 @@ void ZpChatType::check_size()
     documentSize =  type->document()->documentLayout()->documentSize();
     height = documentSize.height() + margins.top() + margins.bottom() + 1;
     lines_num = (height - 29)/14;
-
+    qDebug()<<lines_num;
     type->setFrameStyle(QFrame::NoFrame);
     if(lines_num - line_nums_before == 1)
     {
@@ -89,6 +89,14 @@ void ZpChatType::check_size()
         emit decrement_size();
 
     }
+    else if(!(lines_num - line_nums_before == -1) && !(lines_num - line_nums_before == 1) && (lines_num == 0))
+    {
+        line_nums_before = lines_num;
+        type_height = 25;
+        type->setFixedHeight(25);
+        this->setFixedHeight(25);
+    }
+
 }
 
 void ZpChatType::apply_stylesheet()
@@ -176,6 +184,7 @@ void ZpChatType::initial_networking_navigationbar(QString request)
 
 void ZpChatType::slotReadyRead()
 {
+
     type->clear();
     QString reply_string;
     std::vector<char> buf;
