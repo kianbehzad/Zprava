@@ -37,6 +37,7 @@ private:
 signals:
 
 public slots:
+    void user_info(QString username);
     void handle_contact_clicked(QString username);
 };
 

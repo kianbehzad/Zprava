@@ -129,6 +129,9 @@ public slots:
     void slotTextChanged(QString);
     void slotSearchButClicked();
     void slotSettingButClicked();
+
+signals:
+    void navigation_view(QString username);
 };
 
 #endif // ZPNAVIGATIONBAR_H

@@ -151,7 +151,7 @@ void ZpNavigationBar::slotTextChanged(QString s)
 
 void ZpNavigationBar::slotSearchButClicked()
 {
-    initial_networking_navigationbar(this->search_bar->text());
+    emit navigation_view(search_bar->text());
 }
 
 void ZpNavigationBar::slotSettingButClicked()

@@ -31,6 +31,7 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QWidget(parent)
     splitter->addWidget(contactlist);
     splitter->addWidget(right_widg);
     navigationbar = new ZpNavigationBar(this);
+    connect(navigationbar, SIGNAL(navigation_view(QString)), this, SLOT(user_info(QString)));
     whole_lay = new QVBoxLayout(this);
     whole_lay->setSpacing(0);
     whole_lay->setContentsMargins(0, 0, 0, 0);
@@ -64,6 +65,11 @@ void ZpChatWindow::keyPressEvent(QKeyEvent *e)
         prev_chattype = chattype_holder;
         prev_chattype->show();
     }
+}
+
+void ZpChatWindow::user_info(QString username)
+{
+    qDebug() << username;
 }
 
 void ZpChatWindow::handle_contact_clicked(QString username)
