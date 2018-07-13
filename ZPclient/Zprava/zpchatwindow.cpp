@@ -70,6 +70,7 @@ void ZpChatWindow::keyPressEvent(QKeyEvent *e)
 void ZpChatWindow::add_new_contact(bool)
 {
     contactlist->add_contact(userinfo->user->username);
+    contactlist->handle_clicked(userinfo->user->username);
     handle_contact_clicked(userinfo->user->username);
 }
 
