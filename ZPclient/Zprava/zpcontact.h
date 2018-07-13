@@ -18,6 +18,8 @@
 #include "zpchatview.h"
 #include "zpchattype.h"
 
+extern ZpUser* WHOAMI;
+
 class ZpContact : public QWidget
 {
     Q_OBJECT
@@ -53,6 +55,10 @@ private:
     QMenu* context_menu;
     QAction* menu_set_muted;
     QAction* menu_set_unmuted;
+private:
+    QNetworkAccessManager* network;
+    QNetworkRequest* request;
+    QNetworkReply* reply;
 
 
 signals:
