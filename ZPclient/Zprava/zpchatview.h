@@ -84,6 +84,7 @@ public:
     ZpMessage* get_message(int pk);
     void sort();
     QWidget* get_widget();
+    QList<ZpMessage*> message_list;
 
 private slots:
     void handle_update();
@@ -94,7 +95,6 @@ public slots:
 private:
     //create ZpContactList widget
     ZpUser* opponent;
-    QList<ZpMessage*> message_list;
     QVBoxLayout* messages_list_layout;
     QWidget* messages_list_widget;
     QWidget* filler;

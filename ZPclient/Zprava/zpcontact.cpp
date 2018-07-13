@@ -48,6 +48,16 @@ ZpContact::ZpContact(QString username, QWidget *parent) : QWidget(parent)
 
 void ZpContact::set_notification()
 {
+    int notification_nums{};
+    for(const auto& msg: chatview->message_list)
+        if(!msg->amIpublisher && !msg->is_seen)
+            notification_nums++;
+    if(notification_nums == 0)
+    {
+        remove_notification();
+        return;
+    }
+    //else
     if(!is_muted)
     {
         notification_map->load(":/notification_unmute.png");
@@ -56,7 +66,7 @@ void ZpContact::set_notification()
     {
         notification_map->load(":/notification_mute.png");
     }
-    notification->setAlignment(Qt::AlignRight);
+    notification->setAlignment(Qt::AlignCenter);
     notification->setPixmap(*notification_map);
     has_notification = true;
 }
@@ -129,6 +139,7 @@ void ZpContact::handle_update()
 void ZpContact::updating()
 {
     emit trig_ZpChatview();
+    set_notification();
 }
 
 void ZpContact::mousePressEvent(QMouseEvent *event)
