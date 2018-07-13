@@ -1,0 +1,22 @@
+QLabel#icon_logo
+{
+background-color: rgb(155,151,156);
+height: 15px;
+}
+QLabel:hover#icon_logo
+{
+color: purple;
+height: 15px;
+}
+QLineEdit#search_bar
+{
+height: 40px;
+background-color: rgb(99,13,121);
+border: 1px rgb(99,13,121);
+border-radius: 13px;
+padding-left: 6px;
+color: white;
+outline: 0px;
+}
+
+

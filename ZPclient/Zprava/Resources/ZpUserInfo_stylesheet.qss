@@ -1,0 +1,86 @@
+QLabel#photo_label
+{
+background-color: #9933ff;
+border-radius: 48px;
+}
+QLabel#topic_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 12pt "Arial";
+}
+QLabel#topic
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 20pt "Arial";
+}
+QLabel#topic_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 20pt "Arial";
+border: 2px solid white;
+border-radius: 10px;
+}
+QLabel#info_label
+{
+selection-color: rgb(255, 255, 255);
+color: #00ff00;
+font: 20pt "Arial";
+border: 1px solid #00ff00;
+border-radius: 10px;
+}
+QLabel#info_label[invalid=true]
+{
+selection-color: rgb(255, 255, 255);
+color: red;
+font: 20pt "Arial";
+border: 1px solid red;
+border-radius: 10px;
+}
+QWidget#form_widg
+{
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
+border-radius: 20px;
+}
+QPushButton#start_messaging_button
+{
+height: 30px;
+padding: 10px;
+width: 400px;
+background-color: white;
+border: 1px solid white;
+border-radius: 25px;
+color: black;
+font: 18pt "Arial";
+}
+QPushButton:hover#start_messaging_button
+{
+height: 30px;
+padding: 10px;
+width: 400px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 1px solid white;
+border-radius: 25px;
+color: white;
+font: 18pt "Arial";
+}
+QPushButton:pressed#start_messaging_button
+{
+height: 30px;
+padding: 10px;
+width: 400px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
+border: 1px solid white;
+border-radius: 25px;
+color: white;
+font: 18pt "Arial";
+}
+QWidget
+{
+border: none;
+}
