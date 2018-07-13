@@ -1,6 +1,6 @@
 #include "zpchatwindow.h"
 
-ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
+ZpChatWindow::ZpChatWindow(QWidget *parent) : QWidget(parent)
 {
     //getting style sheets
     File.setFileName(":/ZpChatWindow_stylesheet.qss");
@@ -26,8 +26,17 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QSplitter(parent)
     right_widg->setContentsMargins(0, 0, 0, 0);
     right_widg->setLayout(right_lay);
     contactlist = new ZpContactList();
-    this->addWidget(contactlist);
-    this->addWidget(right_widg);
+    splitter = new QSplitter(this);
+    splitter->setChildrenCollapsible(false);
+    splitter->addWidget(contactlist);
+    splitter->addWidget(right_widg);
+    navigationbar = new ZpNavigationBar(this);
+    whole_lay = new QVBoxLayout(this);
+    whole_lay->setSpacing(0);
+    whole_lay->setContentsMargins(0, 0, 0, 0);
+    whole_lay->addWidget(navigationbar);
+    whole_lay->addWidget(splitter);
+    this->setLayout(whole_lay);
     //i dont know why but let the following be
     prev_chatview->hide();
     right_lay->addWidget(chatview_holder, 0, 0, 14, 1);
