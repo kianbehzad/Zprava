@@ -17,6 +17,7 @@ class ZpUserInfo : public QWidget
 public:
     explicit ZpUserInfo(QString username ,QWidget *parent = 0);
     ZpUser* user;
+    QPushButton* start_messaging_button;
 
 private:
     //stylesheet
@@ -44,7 +45,6 @@ private:
     QWidget* datetime_widg;
     QVBoxLayout* info_lay;
     QWidget* info_widg;
-    QPushButton* start_messaging_button;
     QHBoxLayout* start_messaging_lay;
     QWidget* start_messaging_widg;
     QVBoxLayout* form_lay;

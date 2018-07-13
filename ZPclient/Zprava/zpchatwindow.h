@@ -34,10 +34,12 @@ private:
     QWidget* prev_chatview;
     QWidget* prev_chattype;
     void keyPressEvent(QKeyEvent *e);
+    ZpUserInfo* userinfo;
 
 signals:
 
 public slots:
+    void add_new_contact(bool);
     void user_info(QString username);
     void handle_contact_clicked(QString username);
 };

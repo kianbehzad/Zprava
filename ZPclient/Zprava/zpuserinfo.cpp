@@ -132,6 +132,8 @@ void ZpUserInfo::handle_update()
     datetime_info_label->setText(user->last_message_datetime.toString("hh:mm"));
     if(user->username == "Invalid Username")
     {
+        start_messaging_button->setDisabled(true);
+        start_messaging_button->setText("Can't Send Message");
         username_info_label->setProperty("invalid", true);
         username_info_label->style()->unpolish(username_info_label);
         username_info_label->style()->polish(username_info_label);

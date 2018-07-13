@@ -67,9 +67,16 @@ void ZpChatWindow::keyPressEvent(QKeyEvent *e)
     }
 }
 
+void ZpChatWindow::add_new_contact(bool)
+{
+    contactlist->add_contact(userinfo->user->username);
+    handle_contact_clicked(userinfo->user->username);
+}
+
 void ZpChatWindow::user_info(QString username)
 {
-    ZpUserInfo* userinfo = new ZpUserInfo(username);
+    userinfo = new ZpUserInfo(username);
+    connect(userinfo->start_messaging_button, SIGNAL(clicked(bool)), this, SLOT(add_new_contact(bool)));
     prev_chatview->hide();
     prev_chattype->hide();
     right_lay->addWidget(userinfo, 0, 0, 14, 1);
