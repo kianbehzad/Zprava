@@ -21,19 +21,26 @@ void ZpUser::handle_reply(QString _reply)//TODO for just returning states
     if(_reply == "InvalidUserName")
     {
         qWarning() << "ZpUser -> invalid username";
-        return;
+        username = "Invalid Username";
+        email = "Unknown!";
+        last_message_datetime = QDateTime::currentDateTime();
     }
-    //else
-    QJsonDocument document = QJsonDocument::fromJson(_reply.toUtf8());
-    QJsonObject object = document.object();
-    username = object["username"].toString();
-    email = object["email"].toString();
-    if(!QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate).isValid())
+    else
     {
-        qWarning() << "ZpUser -> invalid datetime";
-        return;
+        QJsonDocument document = QJsonDocument::fromJson(_reply.toUtf8());
+        QJsonObject object = document.object();
+        username = object["username"].toString();
+        email = object["email"].toString();
+        if(!QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate).isValid())
+        {
+            qWarning() << "ZpUser -> invalid datetime";
+            last_message_datetime = QDateTime::currentDateTime();
+        }
+        else
+        {
+            last_message_datetime = QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate);
+        }
     }
-    last_message_datetime = QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate);
     emit updated();
 }
 

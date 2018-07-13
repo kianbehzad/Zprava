@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include "zpcontactlist.h"
 #include "zpnavigationbar.h"
+#include "zpuserinfo.h"
 
 class ZpChatWindow : public QWidget
 {

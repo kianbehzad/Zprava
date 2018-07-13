@@ -27,5 +27,6 @@
         <file>setting_logo2.png</file>
         <file>DancingScript-Regular.otf</file>
         <file>nav_stylesheet.qss</file>
+        <file>ZpUserInfo_stylesheet.qss</file>
     </qresource>
 </RCC>

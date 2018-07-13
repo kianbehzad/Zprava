@@ -69,7 +69,12 @@ void ZpChatWindow::keyPressEvent(QKeyEvent *e)
 
 void ZpChatWindow::user_info(QString username)
 {
-    qDebug() << username;
+    ZpUserInfo* userinfo = new ZpUserInfo(username);
+    prev_chatview->hide();
+    prev_chattype->hide();
+    right_lay->addWidget(userinfo, 0, 0, 14, 1);
+    prev_chatview = userinfo;
+    prev_chatview->show();
 }
 
 void ZpChatWindow::handle_contact_clicked(QString username)
