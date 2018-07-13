@@ -62,10 +62,7 @@ void ZpTextMessage::handle_reply(QString _reply)
     //else
     QJsonDocument document = QJsonDocument::fromJson(_reply.toUtf8());
     QJsonObject object = document.object();
-    if(object["is_seen"].toString() == "false")
-        is_seen = false;
-    else
-        is_seen = true;
+    is_seen = object["is_seen"].toBool();
     text = object["text"].toString();
     int num_lines{}, max_lenght{};
     text_label->setText(text_process(max_lenght, num_lines));
@@ -81,6 +78,18 @@ void ZpTextMessage::handle_reply(QString _reply)
     datetime = QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
     datetime_label->setText(datetime.toString("hh:mm"));
     emit updated();
+}
+
+void ZpTextMessage::updating()
+{
+    //network
+    network = new QNetworkAccessManager();
+    request = new QNetworkRequest();
+    request->setUrl(QUrl("http://127.0.0.1:8000/chat/getmessage/?firstside="+opponent->username+"&secondside="+WHOAMI->username+"&pk="+QString::number(pk)));
+    reply = network->get(*request);
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)),          this, SLOT(slotSslErrors(QList<QSslError>)));
 }
 
 QString ZpTextMessage::text_process(int &max_lenght, int &num_lines)

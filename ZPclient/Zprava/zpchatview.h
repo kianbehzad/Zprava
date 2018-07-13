@@ -101,6 +101,9 @@ private:
     void resizeEvent(QResizeEvent*);
     ZpChatView_Thread* data_thread;
 
+signals:
+    void trig_Message();
+
 };
 
 #endif // ZPCHATVIEW_H

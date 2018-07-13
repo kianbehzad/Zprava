@@ -46,6 +46,7 @@ void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpM
         ZpTextMessage* new_message = new ZpTextMessage(_opponent, _amIpublisher, _pk);
         msg = new_message;
     }
+    connect(this, SIGNAL(trig_Message()), msg, SLOT(updating()));
     connect(msg, SIGNAL(updated()), this, SLOT(handle_update()));
     message_list.push_back(msg);
 }
@@ -103,6 +104,7 @@ void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
 void ZpChatView::updating()
 {
     data_thread->start();
+    emit trig_Message();
 }
 
 void ZpChatView::resizeEvent(QResizeEvent *)

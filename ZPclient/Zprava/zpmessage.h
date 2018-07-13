@@ -39,6 +39,7 @@ protected slots:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError err);
     void slotSslErrors(QList<QSslError> err);
+    virtual void updating() = 0;
 
 signals:
     void updated();

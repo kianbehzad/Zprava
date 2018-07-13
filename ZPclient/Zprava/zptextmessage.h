@@ -18,6 +18,9 @@ public:
     virtual void handle_reply(QString _reply) override;
     QString text;
 
+protected slots:
+    void updating() override;
+
 private:
     //widget
     QGridLayout* grid;
