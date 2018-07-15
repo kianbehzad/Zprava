@@ -20,13 +20,18 @@ ZpTextMessage::ZpTextMessage(ZpUser* _opponent, bool _amIpublisher, int _pk)
     this->setStyleSheet(FormStyleSheet);
     File.close();
 
+    forward = new QLabel(this);
+    forward->setObjectName("forward");
+    forward->setText("forward");
+    forward->setAlignment(Qt::AlignLeft);
+    forward->setContentsMargins(10, 5, 10, 5);
     text_label = new QLabel(this);
     text_label->setObjectName("text_label");
     int num_lines{}, max_lenght{};
     text_label->setText(text_process(max_lenght, num_lines));
     text_label->setAlignment(Qt::AlignLeft);
     text_label->setContentsMargins(10, 5, 0, 5);
-    widget_height = num_lines* 15 + 15;
+    widget_height = num_lines* 15 + 45;
     widget_width = max_lenght*8 + 90;
     datetime_label = new QLabel(this);
     datetime_label->setObjectName("datetime_label");
@@ -64,9 +69,37 @@ void ZpTextMessage::handle_reply(QString _reply)
     QJsonObject object = document.object();
     is_seen = object["is_seen"].toBool();
     text = object["text"].toString();
+    is_forward = object["is_forward"].toBool();
+    if(is_forward)
+    {
+        origin_publisher = new ZpUser(object["origin_publisher"].toString());
+        forward->setText("forward from "+origin_publisher->username);
+        datetime_label->setProperty("amIpublisherIsforward", amIpublisher);
+        datetime_label->style()->unpolish(datetime_label);
+        datetime_label->style()->polish(datetime_label);
+        datetime_label->update();
+        text_label->setProperty("amIpublisherIsforward", amIpublisher);
+        text_label->style()->unpolish(text_label);
+        text_label->style()->polish(text_label);
+        text_label->update();
+        forward->setProperty("amIpublisherIsforward", amIpublisher);
+        forward->style()->unpolish(forward);
+        forward->style()->polish(forward);
+        forward->update();
+        grid->removeWidget(text_label);
+        grid->removeWidget(datetime_label);
+        grid->addWidget(forward, 0, 0, 1, 11);
+        grid->addWidget(text_label, 1, 0, 4, 10);
+        grid->addWidget(datetime_label, 1, 10, 4, 1);
+    }
+    else
+    {
+        origin_publisher = nullptr;
+    }
     int num_lines{}, max_lenght{};
     text_label->setText(text_process(max_lenght, num_lines));
     widget_height = num_lines* 15 + 15;
+    if(is_forward)  widget_height += 30;
     widget_width = max_lenght*8 + 90;
     this->setFixedSize(widget_width, widget_height);
     QDateTime tmp =  QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
@@ -79,6 +112,17 @@ void ZpTextMessage::handle_reply(QString _reply)
     datetime = tmp;
     datetime_label->setText(datetime.toString("hh:mm"));
     emit updated();
+}
+
+void ZpTextMessage::slot_menu_triggered(QAction * menu_action)
+{
+    if(menu_action->text() == "forward")
+    {
+        if(amIpublisher)
+            emit message_menu_trig("forward", WHOAMI->username, this->text);
+        else
+            emit message_menu_trig("forward", opponent->username, this->text);
+    }
 }
 
 void ZpTextMessage::updating()
@@ -146,7 +190,12 @@ QString ZpTextMessage::text_process(int &max_lenght, int &num_lines)
             if(max_lenght < v[i].size())
                 max_lenght = v[i].size();
         }
-
+        if(is_forward)
+        {
+            QString forward_len{"forward from "+origin_publisher->username};
+            if(forward_len.size() > max_lenght)
+                max_lenght = forward_len.size();
+        }
         QStringList final_list{};
         for(auto& _v : v)
             final_list << _v;

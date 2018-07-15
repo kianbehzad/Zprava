@@ -36,6 +36,7 @@ void ZpContactList::add_contact(QString username)
         if(contacts_list[i]->user->username == username)
             return;
     ZpContact* new_contact = new ZpContact(username, this);
+    connect(new_contact->chatview, SIGNAL(message_menu_trig(QString,QString,QString)), this, SLOT(handle_message_menu_trig(QString,QString,QString)));
     connect(this, SIGNAL(trig_ZpContact()), new_contact, SLOT(updating()));
     connect(new_contact->user, SIGNAL(updated()), this, SLOT(handle_update()));
     connect(new_contact, SIGNAL(clicked(QString)), this, SLOT(handle_clicked(QString)));
@@ -101,4 +102,9 @@ void ZpContactList::handle_clicked(QString username)
         return;
     get_contact(username)->set_focused(true);
     emit contact_clicked(username);
+}
+
+void ZpContactList::handle_message_menu_trig(QString which_content, QString publisher, QString message_data)
+{
+    emit message_menu_trig(which_content, publisher, message_data);
 }

@@ -1,0 +1,6 @@
+QLabel#forward_descriptor
+{
+background-color: rgba(102, 102, 153, 0.8);
+color: white;
+font: 20px;
+}

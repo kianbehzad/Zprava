@@ -29,3 +29,55 @@ border: none;
 border-top-right-radius: 10px;
 border-bottom-right-radius: 10px;
 }
+
+QLabel#forward[amIpublisherIsforward=true]
+{
+background-color: #00ff00;
+color: blue;
+border: none;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+}
+QLabel#text_label[amIpublisherIsforward=true]
+{
+background-color: #00ff00;
+border: none;
+border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;
+border-bottom-left-radius: 10px;
+}
+QLabel#datetime_label[amIpublisherIsforward=true]
+{
+background-color: #00ff00;
+color: gray;
+border: none;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
+border-bottom-right-radius: 10px;
+}
+
+QLabel#forward[amIpublisherIsforward=false]
+{
+background-color: white;
+color: blue;
+border: none;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+}
+QLabel#text_label[amIpublisherIsforward=false]
+{
+background-color: white;
+border: none;
+border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;
+border-bottom-left-radius: 10px;
+}
+QLabel#datetime_label[amIpublisherIsforward=false]
+{
+background-color: white;
+color: gray;
+border: none;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
+border-bottom-right-radius: 10px;
+}
