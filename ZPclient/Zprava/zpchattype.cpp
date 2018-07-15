@@ -173,7 +173,7 @@ void ZpChatType::initial_networking_navigationbar(QString request)
     QString subscriber = opponent->username;
     chat_network = new QNetworkAccessManager();
     chat_request = new QNetworkRequest();
-    chat_request->setUrl(QUrl("http://127.0.0.1:8000/chat/newtextmessage/?publisher="+publisher+"&subscriber="+subscriber+"&textmessage="
+    chat_request->setUrl(QUrl("http://zprava.ir/chat/newtextmessage/?publisher="+publisher+"&subscriber="+subscriber+"&textmessage="
                               +request));
 
     chat_reply = chat_network->get(*chat_request);

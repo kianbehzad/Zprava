@@ -37,9 +37,9 @@ void ZpThread::handle_timer()
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
     //if(getallchats)
-        request->setUrl(QUrl("http://127.0.0.1:8000/chat/chatheaders/?username=" + WHOAMI->username));
+        request->setUrl(QUrl("http://zprava.ir/chat/chatheaders/?username=" + WHOAMI->username));
     //else
-    //    request->setUrl(QUrl("http://127.0.0.1:8000/chat/getnewchats/?username=" + username));
+    //    request->setUrl(QUrl("http://zprava.ir/chat/getnewchats/?username=" + username));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
