@@ -69,13 +69,15 @@ void ZpTextMessage::handle_reply(QString _reply)
     widget_height = num_lines* 15 + 15;
     widget_width = max_lenght*8 + 90;
     this->setFixedSize(widget_width, widget_height);
-    if(!QDateTime::fromString(object["datetime"].toString(), Qt::ISODate).isValid())
+    QDateTime tmp =  QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
+    qDebug() << tmp.toString();
+    if(!tmp.isValid())
     {
         datetime = QDateTime::currentDateTime();
-        qWarning() << "ZpUser -> invalid datetime";
+        qWarning() << "ZpTextMessage -> invalid datetime";
         return;
     }
-    datetime = QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
+    datetime = tmp;
     datetime_label->setText(datetime.toString("hh:mm"));
     emit updated();
 }
