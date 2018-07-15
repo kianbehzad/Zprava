@@ -76,7 +76,7 @@ void ZpChatType::check_size()
     documentSize =  type->document()->documentLayout()->documentSize();
     height = documentSize.height() + margins.top() + margins.bottom() + 1;
     lines_num = (height - 29)/14;
-    qDebug()<<lines_num;
+    //qDebug()<<lines_num;
     type->setFrameStyle(QFrame::NoFrame);
     if(lines_num - line_nums_before == 1)
     {
