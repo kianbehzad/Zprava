@@ -5,6 +5,7 @@ ZpMessage::ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QWidget *pa
     opponent = _opponent;
     amIpublisher = _amIpublisher;
     pk = _pk;
+    is_forward = false;
 }
 
 void ZpMessage::slotReadyRead()

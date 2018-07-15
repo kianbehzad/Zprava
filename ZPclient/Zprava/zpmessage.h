@@ -24,6 +24,8 @@ public:
     int widget_height;
     int widget_width;
     ZpUser* opponent;
+    ZpUser* origin_publisher;
+    bool is_forward;
     bool amIpublisher;
     QDateTime datetime;
     bool is_seen;

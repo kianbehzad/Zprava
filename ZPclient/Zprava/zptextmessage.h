@@ -25,6 +25,7 @@ protected slots:
 private:
     //widget
     QGridLayout* grid;
+    QLabel* forward;
     QLabel* text_label;
     QLabel* datetime_label;
     //STYLESHEET
