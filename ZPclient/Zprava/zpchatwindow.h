@@ -9,10 +9,19 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include "zpcontactlist.h"
 #include "zpnavigationbar.h"
 #include "zpuserinfo.h"
 #include "zpglobals.h"
+
+struct ForwardInfo{
+    ForwardInfo()
+    {which_content = ""; origin_publisher = ""; message_data = "";}
+    QString which_content; QString origin_publisher; QString message_data;
+};
 
 
 class ZpChatWindow : public QWidget
@@ -39,6 +48,12 @@ private:
     QLabel* forward_descriptor;
     void keyPressEvent(QKeyEvent *e);
     ZpUserInfo* userinfo;
+    //forward feature
+    ForwardInfo forwardinfo;
+    bool is_forward_proccess;
+    QNetworkAccessManager* network;
+    QNetworkRequest* request;
+    QNetworkReply* reply;
 
 signals:
 
