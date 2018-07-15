@@ -6,6 +6,24 @@ ZpMessage::ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QWidget *pa
     amIpublisher = _amIpublisher;
     pk = _pk;
     is_forward = false;
+
+    context_menu = new QMenu(this);
+    menu_forward = context_menu->addAction("forward");
+    connect(context_menu, SIGNAL(triggered(QAction*)), this, SLOT(slot_menu_triggered(QAction*)));
+}
+
+void ZpMessage::mousePressEvent(QMouseEvent *event)
+{
+    switch (event->button())
+    {
+        case Qt::RightButton:
+        {
+            context_menu->exec(event->globalPos());
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 void ZpMessage::slotReadyRead()

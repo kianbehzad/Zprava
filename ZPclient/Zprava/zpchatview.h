@@ -93,6 +93,7 @@ private slots:
     void handle_gotData(QList<MessageHeaders> messageheaders);
 public slots:
     void updating();
+    void handle_message_menu_trig(QString which_content, QString publisher, QString message_data);
 
 private:
     //create ZpContactList widget
@@ -105,6 +106,7 @@ private:
 
 signals:
     void trig_Message();
+    void message_menu_trig(QString which_content, QString publisher, QString message_data);
 
 };
 

@@ -114,6 +114,17 @@ void ZpTextMessage::handle_reply(QString _reply)
     emit updated();
 }
 
+void ZpTextMessage::slot_menu_triggered(QAction * menu_action)
+{
+    if(menu_action->text() == "forward")
+    {
+        if(amIpublisher)
+            emit message_menu_trig("forward", WHOAMI->username, this->text);
+        else
+            emit message_menu_trig("forward", opponent->username, this->text);
+    }
+}
+
 void ZpTextMessage::updating()
 {
     //network

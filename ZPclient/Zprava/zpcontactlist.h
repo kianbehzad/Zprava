@@ -70,9 +70,11 @@ private:
 signals:
     void trig_ZpContact();
     void contact_clicked(QString username);
+    void message_menu_trig(QString which_content, QString publisher, QString message_data);
 
 public slots:
     void handle_clicked(QString username);
+    void handle_message_menu_trig(QString which_content, QString publisher, QString message_data);
 };
 
 #endif // ZPCONTACTLIST_H

@@ -38,6 +38,11 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QWidget(parent)
     whole_lay->addWidget(navigationbar);
     whole_lay->addWidget(splitter);
     this->setLayout(whole_lay);
+
+    forward_descriptor = new QLabel();
+    forward_descriptor->setObjectName("forward_descriptor");
+    forward_descriptor->setText("Please Choose A User From Your Contacts");
+    forward_descriptor->setAlignment(Qt::AlignCenter);
     //i dont know why but let the following be
     prev_chatview->hide();
     right_lay->addWidget(chatview_holder, 0, 0, 14, 1);
@@ -49,6 +54,7 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QWidget(parent)
     prev_chattype->show();
 
     connect(contactlist, SIGNAL(contact_clicked(QString)), this, SLOT(handle_contact_clicked(QString)));
+    connect(contactlist, SIGNAL(message_menu_trig(QString,QString,QString)), this, SLOT(handle_message_menu_trig(QString,QString,QString)));
 }
 
 void ZpChatWindow::keyPressEvent(QKeyEvent *e)
@@ -96,3 +102,18 @@ void ZpChatWindow::handle_contact_clicked(QString username)
     prev_chattype = contactlist->get_contact(username)->chattype;
     prev_chattype->show();
 }
+
+void ZpChatWindow::handle_message_menu_trig(QString which_content, QString origin_publisher, QString message_data)
+{
+    //qDebug() << which_content << origin_publisher << message_data;
+    prev_chatview->hide();
+    prev_chattype->hide();
+    right_lay->addWidget(forward_descriptor, 0, 0, 14, 1);
+    prev_chatview = forward_descriptor;
+    prev_chatview->show();
+}
+
+
+
+
+

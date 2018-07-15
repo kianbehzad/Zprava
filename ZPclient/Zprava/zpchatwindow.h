@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QKeyEvent>
+#include <QLabel>
 #include "zpcontactlist.h"
 #include "zpnavigationbar.h"
 #include "zpuserinfo.h"
@@ -35,6 +36,7 @@ private:
     QWidget* chattype_holder;
     QWidget* prev_chatview;
     QWidget* prev_chattype;
+    QLabel* forward_descriptor;
     void keyPressEvent(QKeyEvent *e);
     ZpUserInfo* userinfo;
 
@@ -44,6 +46,7 @@ public slots:
     void add_new_contact(bool);
     void user_info(QString username);
     void handle_contact_clicked(QString username);
+    void handle_message_menu_trig(QString which_content, QString origin_publisher, QString message_data);
 };
 
 #endif // ZPCHATWINDOW_H
