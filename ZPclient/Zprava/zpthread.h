@@ -12,6 +12,7 @@
 #include <QApplication>
 #include <QTextStream>
 #include "zpuser.h"
+#include "zpglobals.h"
 
 extern ZpUser* WHOAMI;
 

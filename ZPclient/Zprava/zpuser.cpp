@@ -9,7 +9,7 @@ ZpUser::ZpUser(QString _username, QObject *parent) : QObject(parent)
     //network
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    request->setUrl(QUrl("http://zprava.ir/navigation/userdata/?username=" + _username));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "navigation/userdata/?username=" + _username));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));

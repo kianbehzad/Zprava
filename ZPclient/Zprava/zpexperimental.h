@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include "zpglobals.h"
 
 class ZpExperimental : public QWidget
 {

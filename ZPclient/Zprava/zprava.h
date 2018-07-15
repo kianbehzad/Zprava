@@ -9,6 +9,7 @@
 #include "zpuser.h"
 #include "zpthread.h"
 #include "zpchatwindow.h"
+#include "zpglobals.h"
 
 
 

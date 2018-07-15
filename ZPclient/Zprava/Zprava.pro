@@ -52,7 +52,8 @@ HEADERS  += zprava.h \
     zpchattype.h \
     zpchatwindow.h \
     zpnavigationbar.h \
-    zpuserinfo.h
+    zpuserinfo.h \
+    zpglobals.h
 
 RESOURCES += \
     Resources/resources.qrc

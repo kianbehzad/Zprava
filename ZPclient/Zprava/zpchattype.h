@@ -33,6 +33,8 @@
 #include<QTimer>
 #include<QShortcut>
 #include"zpuser.h"
+#include "zpglobals.h"
+
 extern ZpUser* WHOAMI;
 
 class ClickableLabel : public QLabel {

@@ -98,7 +98,7 @@ void ZpContact::set_focused(bool isFocused)
         //network
         network = new QNetworkAccessManager();
         request = new QNetworkRequest();
-        request->setUrl(QUrl("http://zprava.ir/chat/seen/?whoami="+WHOAMI->username+"&secondside="+user->username));
+        request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "chat/seen/?whoami="+WHOAMI->username+"&secondside="+user->username));
         reply = network->get(*request);
     }
 

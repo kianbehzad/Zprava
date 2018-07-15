@@ -9,6 +9,7 @@
 #include <QThread>
 #include <QApplication>
 #include "zpcontact.h"
+#include "zpglobals.h"
 
 class ZpContactList_Thread : public QThread
 {

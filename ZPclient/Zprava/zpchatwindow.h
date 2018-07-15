@@ -11,6 +11,8 @@
 #include "zpcontactlist.h"
 #include "zpnavigationbar.h"
 #include "zpuserinfo.h"
+#include "zpglobals.h"
+
 
 class ZpChatWindow : public QWidget
 {

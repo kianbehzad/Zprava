@@ -31,6 +31,7 @@
 #include<QMouseEvent>
 #include<QObject>
 #include<QColor>
+#include "zpglobals.h"
 
 
 class NavigationLabel : public QLabel {

@@ -14,6 +14,8 @@
 #include "zpuser.h"
 #include "zpmessage.h"
 #include "zptextmessage.h"
+#include "zpglobals.h"
+
 
 struct MessageHeaders{
     MessageHeaders(bool _amIPub, int _pk, ZpMessage::Type _type){amIPub = _amIPub; pk = _pk; type = _type;}

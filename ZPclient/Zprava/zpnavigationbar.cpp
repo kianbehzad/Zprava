@@ -66,7 +66,7 @@ void ZpNavigationBar::initial_networking_navigationbar(QString request)
 {
     nav_network = new QNetworkAccessManager();
     nav_request = new QNetworkRequest();
-    nav_request->setUrl(QUrl("http://zprava.ir/navigation/search/?word="+request));
+    nav_request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "navigation/search/?word="+request));
 
     nav_reply = nav_network->get(*nav_request);
     connect(nav_reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));

@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QStyle>
 #include "zpuser.h"
+#include "zpglobals.h"
 
 class ZpUserInfo : public QWidget
 {

@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include "zpglobals.h"
 
 class ZpUser : public QObject
 {

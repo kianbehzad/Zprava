@@ -17,6 +17,8 @@
 #include "zpuser.h"
 #include "zpchatview.h"
 #include "zpchattype.h"
+#include "zpglobals.h"
+
 
 extern ZpUser* WHOAMI;
 

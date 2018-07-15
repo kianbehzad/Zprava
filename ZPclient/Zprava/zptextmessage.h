@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include "zpmessage.h"
+#include "zpglobals.h"
 
 class ZpTextMessage : public ZpMessage
 {

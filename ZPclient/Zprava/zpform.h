@@ -24,6 +24,8 @@
 #include <QAction>
 #include <QTimer>
 #include <QCheckBox>
+#include "zpglobals.h"
+
 
 class ZpForm : public QWidget
 {

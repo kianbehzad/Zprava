@@ -516,7 +516,7 @@ void ZpForm::initiate_networking()
 {
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    request->setUrl(QUrl("http://zprava.ir/signup/hello/"));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "signup/hello/"));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -526,7 +526,7 @@ void ZpForm::initiate_networking()
 void ZpForm::send_login_info()
 {
     state = ZpForm::STATE::LOGIN;
-    request->setUrl(QUrl("http://zprava.ir/login/login/?username="+username+"&&password="+password));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "login/login/?username="+username+"&&password="+password));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -536,7 +536,7 @@ void ZpForm::send_login_info()
 void ZpForm::send_signup_info(QString email)
 {
     state = ZpForm::STATE::SIGNUP;
-    request->setUrl(QUrl("http://zprava.ir/signup/registration/?username="+username+"&&password="+password+"&&email="+email));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "signup/registration/?username="+username+"&&password="+password+"&&email="+email));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -546,7 +546,7 @@ void ZpForm::send_signup_info(QString email)
 void ZpForm::send_verify_info(QString code)
 {
     state = ZpForm::STATE::VERIFY;
-    request->setUrl(QUrl("http://zprava.ir/signup/verification/?username="+username+"&&verification_code="+code));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "signup/verification/?username="+username+"&&verification_code="+code));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -556,7 +556,7 @@ void ZpForm::send_verify_info(QString code)
 void ZpForm::send_forget_info(QString email)
 {
     state = ZpForm::STATE::FORGET;
-    request->setUrl(QUrl("http://zprava.ir/login/forget/?email="+email));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "login/forget/?email="+email));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));

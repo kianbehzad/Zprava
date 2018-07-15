@@ -7,7 +7,7 @@ ZpTextMessage::ZpTextMessage(ZpUser* _opponent, bool _amIpublisher, int _pk)
     //network
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    request->setUrl(QUrl("http://zprava.ir/chat/getmessage/?firstside="+opponent->username+"&secondside="+WHOAMI->username+"&pk="+QString::number(pk)));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "chat/getmessage/?firstside="+opponent->username+"&secondside="+WHOAMI->username+"&pk="+QString::number(pk)));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
@@ -70,7 +70,6 @@ void ZpTextMessage::handle_reply(QString _reply)
     widget_width = max_lenght*8 + 90;
     this->setFixedSize(widget_width, widget_height);
     QDateTime tmp =  QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
-    qDebug() << tmp.toString();
     if(!tmp.isValid())
     {
         datetime = QDateTime::currentDateTime();
@@ -87,7 +86,7 @@ void ZpTextMessage::updating()
     //network
     network = new QNetworkAccessManager();
     request = new QNetworkRequest();
-    request->setUrl(QUrl("http://zprava.ir/chat/getmessage/?firstside="+opponent->username+"&secondside="+WHOAMI->username+"&pk="+QString::number(pk)));
+    request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "chat/getmessage/?firstside="+opponent->username+"&secondside="+WHOAMI->username+"&pk="+QString::number(pk)));
     reply = network->get(*request);
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),   this, SLOT(slotError(QNetworkReply::NetworkError)));
