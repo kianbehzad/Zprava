@@ -31,8 +31,7 @@ Zprava::Zprava(QWidget *parent)
         QWidget* w = new QWidget(this);
         w->setLayout(lay);
         setCentralWidget(w);
-        connection = new QLabel(this);
-        connection = new QLabel(this);
+        connection = new QLabel();
         connection->setContentsMargins(10, 5, 10, 5);
         connection->setGeometry(0, this->height()-30, 100, 30);
         connection->setText("connecting...");
