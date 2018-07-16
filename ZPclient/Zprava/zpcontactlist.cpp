@@ -83,7 +83,6 @@ void ZpContactList::handle_gotData(QList<QString> username, QList<QString> delet
         this->add_contact(contact);
     for(const auto& del: deleted)
     {
-        qDebug() << del;
         ZpContact* tmp = get_contact(del);
         contacts_list_layout->removeWidget(tmp);
         tmp->hide();

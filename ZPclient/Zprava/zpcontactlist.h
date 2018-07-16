@@ -34,17 +34,19 @@ public:
         for(const auto& username: object.keys())
             new_contacts.push_back(username);
         if(!new_contacts.isEmpty())
-        for(const auto& last: last_contacts)
         {
-            bool exist{false};
-            for(const auto& _new: new_contacts)
-                if(last == _new)
-                    exist = true;
-            if(!exist)
-                deleted_contacts.push_back(last);
+            for(const auto& last: last_contacts)
+            {
+                bool exist{false};
+                for(const auto& _new: new_contacts)
+                    if(last == _new)
+                        exist = true;
+                if(!exist)
+                    deleted_contacts.push_back(last);
+            }
+            last_contacts.clear();
+            last_contacts = new_contacts;
         }
-        last_contacts.clear();
-        last_contacts = new_contacts;
         emit gotData(new_contacts, deleted_contacts);
     }
 
