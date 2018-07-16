@@ -25,7 +25,7 @@ ZpContactList::ZpContactList(QScrollArea *parent) : QScrollArea(parent)
     this->setContentsMargins(0, 0, 0, 0);
 
     data_thread = new ZpContactList_Thread();
-    connect(data_thread, SIGNAL(gotData(QList<QString>)), this, SLOT(handle_gotData(QList<QString>)));
+    connect(data_thread, SIGNAL(gotData(QList<QString>,QList<QString>)), this, SLOT(handle_gotData(QList<QString>,QList<QString>)));
 
 }
 
@@ -77,10 +77,19 @@ void ZpContactList::handle_update()
     this->sort();
 }
 
-void ZpContactList::handle_gotData(QList<QString> contacts)
+void ZpContactList::handle_gotData(QList<QString> username, QList<QString> deleted)
 {
-    for(const auto& contact: contacts)
+    for(const auto& contact: username)
         this->add_contact(contact);
+    for(const auto& del: deleted)
+    {
+        ZpContact* tmp = get_contact(del);
+        contacts_list_layout->removeWidget(tmp);
+        tmp->hide();
+        for(int i{}; i < contacts_list.size(); i++)
+            if(contacts_list[i]->user->username == del)
+                contacts_list.removeAt(i);
+    }
 }
 
 void ZpContactList::updating()

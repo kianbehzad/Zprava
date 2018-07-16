@@ -47,7 +47,8 @@ public:
                 QJsonValue usr{ object[_username] };
                 mine = usr.toObject();
             }
-        QList<MessageHeaders> messageheaders;
+        new_messageheaders.clear();
+        deleted_messageheaders.clear();
         for(const auto& pk : mine.keys())
         {
             int Pk;
@@ -66,17 +67,34 @@ public:
                     is_seen = static_cast<bool>(item.toDouble());
             }
             if(type == "TEXT")
-                messageheaders.push_back(MessageHeaders(amIPub, Pk, ZpMessage::Type::TEXT, is_seen));
+                new_messageheaders.push_back(MessageHeaders(amIPub, Pk, ZpMessage::Type::TEXT, is_seen));
         }
-        emit gotData(messageheaders);
+        if(!new_messageheaders.isEmpty())
+        {
+            for(const auto& last: last_messageheaders)
+            {
+                bool exist{false};
+                for(const auto& _new: new_messageheaders)
+                    if(last.pk == _new.pk)
+                        exist = true;
+                if(!exist)
+                    deleted_messageheaders.push_back(last);
+            }
+            last_messageheaders.clear();
+            last_messageheaders = new_messageheaders;
+        }
+        emit gotData(new_messageheaders, deleted_messageheaders);
     }
 
 public:
     QFile file;
     QString username;
+    QList<MessageHeaders> new_messageheaders;
+    QList<MessageHeaders> last_messageheaders;
+    QList<MessageHeaders> deleted_messageheaders;
 
 signals:
-    void gotData(QList<MessageHeaders> messageheaders);
+    void gotData(QList<MessageHeaders> messageheaders, QList<MessageHeaders> deleted);
 
 };
 
@@ -93,7 +111,7 @@ public:
 
 private slots:
     void handle_update();
-    void handle_gotData(QList<MessageHeaders> messageheaders);
+    void handle_gotData(QList<MessageHeaders> messageheaders, QList<MessageHeaders> deleted);
 public slots:
     void updating();
     void handle_message_menu_trig(QString which_content, QString publisher, QString message_data);

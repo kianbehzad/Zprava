@@ -31,7 +31,7 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     this->setContentsMargins(0, 0, 0, 0);
 
     data_thread = new ZpChatView_Thread(_opponent->username);
-    connect(data_thread, SIGNAL(gotData(QList<MessageHeaders>)), this, SLOT(handle_gotData(QList<MessageHeaders>)));
+    connect(data_thread, SIGNAL(gotData(QList<MessageHeaders>, QList<MessageHeaders>)), this, SLOT(handle_gotData(QList<MessageHeaders>, QList<MessageHeaders>)));
 }
 
 void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpMessage::Type type, bool is_seen)
@@ -99,11 +99,20 @@ void ZpChatView::handle_update()
     this->sort();
 }
 
-void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
+void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders, QList<MessageHeaders> deleted)
 {
         for(const auto& header: messageheaders)
             this->add_message(opponent, header.amIPub, header.pk, header.type, header.is_seen);
         this->sort();
+        for(const auto& del: deleted)
+        {
+            ZpMessage* tmp = get_message(del.pk);
+            messages_list_layout->removeWidget(tmp);
+            tmp->hide();
+            for(int i{}; i < message_list.size(); i++)
+                if(message_list[i]->pk == del.pk)
+                    message_list.removeAt(i);
+        }
 }
 
 void ZpChatView::updating()
