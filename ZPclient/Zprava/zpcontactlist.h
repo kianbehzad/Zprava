@@ -66,6 +66,7 @@ private:
     QWidget* filler;
     void resizeEvent(QResizeEvent*);
     ZpContactList_Thread* data_thread;
+    QList<QString> last_contacts;
 
 signals:
     void trig_ZpContact();

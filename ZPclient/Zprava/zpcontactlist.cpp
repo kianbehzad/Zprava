@@ -79,8 +79,32 @@ void ZpContactList::handle_update()
 
 void ZpContactList::handle_gotData(QList<QString> contacts)
 {
-    for(const auto& contact: contacts)
-        this->add_contact(contact);
+    bool is_correct_data{!contacts.isEmpty()};
+    if(is_correct_data)
+    {
+        for(const auto& last: last_contacts)
+        {
+            bool exist{false};
+            for(const auto& _new: contacts)
+                if(last == _new)
+                    exist = true;
+            if(!exist)
+            {
+                contacts_list_layout->removeWidget(get_contact(last));
+                get_contact(last)->hide();
+                for(const auto& c: contacts_list)
+                    if(c->user->username == last)
+                        contacts_list.removeOne(c);
+                //delete get_contact(last);
+            }
+        }
+        last_contacts.clear();
+        for(const auto& contact: contacts)
+        {
+            this->add_contact(contact);
+            last_contacts.push_back(contact);
+        }
+    }
 }
 
 void ZpContactList::updating()
