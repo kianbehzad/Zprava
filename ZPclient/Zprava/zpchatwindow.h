@@ -58,6 +58,7 @@ private:
     ZpSettings* settings;
 
 signals:
+    void logout();
 
 public slots:
     void add_new_contact(bool);
@@ -65,6 +66,7 @@ public slots:
     void handle_contact_clicked(QString username);
     void handle_message_menu_trig(QString which_content, QString origin_publisher, QString message_data);
     void handle_setting_clicked();
+    void handle_logout(bool);
 };
 
 #endif // ZPCHATWINDOW_H

@@ -25,6 +25,7 @@ class ZpSettings : public QWidget
     Q_OBJECT
 public:
     explicit ZpSettings(QWidget *parent = 0);
+    QPushButton* logout_button;
 
 private:
     //stylesheet
@@ -50,7 +51,6 @@ private:
     QWidget* info_widg;
     QPushButton* change_username_button;
     QPushButton* change_password_button;
-    QPushButton* logout_button;
     QGridLayout* buttons_lay;
     QWidget* buttons_widg;
     QVBoxLayout* form_lay;

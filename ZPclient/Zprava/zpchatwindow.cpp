@@ -134,11 +134,17 @@ void ZpChatWindow::handle_setting_clicked()
     if(settings != nullptr)
         delete settings;
     settings = new ZpSettings();
+    connect(settings->logout_button, SIGNAL(clicked(bool)), this, SLOT(handle_logout(bool)));
     prev_chatview->hide();
     prev_chattype->hide();
     right_lay->addWidget(settings, 0, 0, 14, 1);
     prev_chatview = settings;
     prev_chatview->show();
+}
+
+void ZpChatWindow::handle_logout(bool)
+{
+    emit logout();
 }
 
 
