@@ -47,7 +47,7 @@ ZpNavigationBar::ZpNavigationBar(QWidget *parent) : QWidget(parent)
 
     connect(search_bar,SIGNAL(textEdited(QString)), this,SLOT(slotTextChanged(QString)));
     connect(search_but,SIGNAL(clicked()),this,SLOT(slotSearchButClicked()));
-    connect(setting_but,SIGNAL(clicked()),this,SLOT(slotSettingButClicked()));
+    //connect(setting_but,SIGNAL(clicked()),this,SLOT(slotSettingButClicked()));
 
 
 }
@@ -154,10 +154,10 @@ void ZpNavigationBar::slotSearchButClicked()
     emit navigation_view(search_bar->text());
 }
 
-void ZpNavigationBar::slotSettingButClicked()
-{
-    qDebug()<<"setting";
-}
+//void ZpNavigationBar::slotSettingButClicked()
+//{
+//    qDebug()<<"setting";
+//}
 
 NavigationLabel::NavigationLabel(QPixmap* pic, QWidget* parent, Qt::WindowFlags f)
 : QLabel(parent)
