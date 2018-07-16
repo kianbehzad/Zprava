@@ -1,13 +1,10 @@
-#include "zpuserinfo.h"
+#include "zpsettings.h"
 
-ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
+ZpSettings::ZpSettings(QWidget *parent) : QWidget(parent)
 {
-    user = new ZpUser(username);
-    connect(user, SIGNAL(updated()), this, SLOT(handle_update()));
-
     //getting style sheets
-    File.setFileName(":/ZpUserInfo_stylesheet.qss");
-    qDebug() << "is qt ZpUserInfo_stylesheet opend:" <<File.open(QFile::ReadOnly);
+    File.setFileName(":/ZpSettings_stylesheet.qss");
+    qDebug() << "is qt ZpSettings_stylesheet opend:" <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();
@@ -27,7 +24,7 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
 
     //topic name
     topic_label = new QLabel();
-    topic_label->setText("USER INFO");
+    topic_label->setText("SETTINGS");
     topic_label->setObjectName("topic");
     topic_lay = new QHBoxLayout();
     topic_lay->addWidget(topic_label);
@@ -44,7 +41,7 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
     username_info_label = new QLabel();
     username_info_label->setContentsMargins(5, 5, 5, 5);
     username_info_label->setAlignment(Qt::AlignCenter);
-    username_info_label->setText("UnKnown!");
+    username_info_label->setText(WHOAMI->username);
     username_info_label->setObjectName("info_label");
     username_lay = new QGridLayout();
     username_lay->addWidget(username_topic_label, 0, 0, 1, 1);
@@ -62,7 +59,7 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
     email_info_label = new QLabel();
     email_info_label->setContentsMargins(5, 5, 5, 5);
     email_info_label->setAlignment(Qt::AlignCenter);
-    email_info_label->setText("UnKnown!");
+    email_info_label->setText(WHOAMI->email);
     email_info_label->setObjectName("info_label");
     email_lay = new QGridLayout();
     email_lay->addWidget(email_topic_label, 0, 0, 1, 1);
@@ -71,80 +68,44 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
     email_widg->setObjectName("email_widg");
     email_widg->setLayout(email_lay);
 
-    //datetime label
-    datetime_topic_label = new QLabel();
-    datetime_topic_label->setContentsMargins(5, 5, 5, 5);
-    datetime_topic_label->setAlignment(Qt::AlignCenter);
-    datetime_topic_label->setText("Last Activity");
-    datetime_topic_label->setObjectName("topic_label");
-    datetime_info_label = new QLabel();
-    datetime_info_label->setContentsMargins(5, 5, 5, 5);
-    datetime_info_label->setAlignment(Qt::AlignCenter);
-    datetime_info_label->setText("UnKnown!");
-    datetime_info_label->setObjectName("info_label");
-    datetime_lay = new QGridLayout();
-    datetime_lay->addWidget(datetime_topic_label, 0, 0, 1, 1);
-    datetime_lay->addWidget(datetime_info_label, 0, 1, 1, 3);
-    datetime_widg = new QWidget();
-    datetime_widg->setObjectName("datetime_widg");
-    datetime_widg->setLayout(datetime_lay);
-
     //whole info
     info_lay = new QVBoxLayout(this);
     info_lay->setSpacing(0);
     info_lay->setContentsMargins(0, 0, 0, 0);
     info_lay->addWidget(username_widg);
     info_lay->addWidget(email_widg);
-    info_lay->addWidget(datetime_widg);
     info_widg = new QWidget();
     info_widg->setObjectName("info_widg");
     info_widg->setLayout(info_lay);
 
-    //button
-    start_messaging_button = new QPushButton();
-    start_messaging_button->setObjectName("start_messaging_button");
-    start_messaging_button->setText("Send Message");
-    start_messaging_lay = new QHBoxLayout();
-    start_messaging_lay->addWidget(start_messaging_button);
-    start_messaging_lay->setAlignment(start_messaging_button, Qt::AlignCenter);
-    start_messaging_widg = new QWidget();
-    start_messaging_widg->setLayout(start_messaging_lay);
+    //buttons
+    change_username_button = new QPushButton(this);
+    change_username_button->setObjectName("change_button");
+    change_username_button->setText("Change Username");
+    change_password_button = new QPushButton(this);
+    change_password_button->setObjectName("change_button");
+    change_password_button->setText("Change Password");
+    logout_button = new QPushButton(this);
+    logout_button->setObjectName("logout_button");
+    logout_button->setText("Logout");
+
+    buttons_lay = new QGridLayout();
+    buttons_lay->addWidget(change_username_button, 0, 0, 1, 4);
+    buttons_lay->addWidget(change_password_button, 0, 4, 1, 4);
+    buttons_lay->addWidget(logout_button, 0, 8, 1, 2);
+    buttons_widg = new QWidget(this);
+    buttons_widg->setLayout(buttons_lay);
 
     //final form
     form_lay = new QVBoxLayout();
     form_lay->addWidget(photo_widg);
     form_lay->addWidget(topic_widg);
     form_lay->addWidget(info_widg);
-    form_lay->addWidget(start_messaging_widg);
+    form_lay->addWidget(buttons_widg);
     form_widg = new QWidget();
     form_widg->setObjectName("form_widg");
     form_widg->setLayout(form_lay);
     lay = new QHBoxLayout();
     lay->addWidget(form_widg);
     this->setLayout(lay);
-
-}
-
-void ZpUserInfo::handle_update()
-{
-    username_info_label->setText(user->username);
-    email_info_label->setText(user->email);
-    datetime_info_label->setText(user->last_message_datetime.toString("hh:mm"));
-    if(user->username == "Invalid Username")
-    {
-        start_messaging_button->setDisabled(true);
-        start_messaging_button->setText("Can't Send Message");
-        username_info_label->setProperty("invalid", true);
-        username_info_label->style()->unpolish(username_info_label);
-        username_info_label->style()->polish(username_info_label);
-        username_info_label->update();
-        email_info_label->setProperty("invalid", true);
-        email_info_label->style()->unpolish(email_info_label);
-        email_info_label->style()->polish(email_info_label);
-        email_info_label->update();
-        datetime_info_label->setProperty("invalid", true);
-        datetime_info_label->style()->unpolish(datetime_info_label);
-        datetime_info_label->style()->polish(datetime_info_label);
-        datetime_info_label->update();
-    }
 }
