@@ -1,0 +1,108 @@
+QPushButton#logout_but
+{
+width: 20px;
+background-color: white;
+border: 1px solid white;
+border-radius: 10px;
+color: black;
+font: 18pt "Arial";
+}
+QPushButton:hover#logout_but
+{
+width: 20px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 1px solid white;
+border-radius: 10px;
+color: white;
+font: 18pt "Arial";
+}
+QPushButton:pressed#logout_but
+{
+width: 20px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
+border: 1px solid white;
+border-radius: 10px;
+color: white;
+font: 18pt "Arial";
+}
+QPushButton#save_but
+{
+height: 30px;
+padding: 10px;
+width: 380px;
+background-color: white;
+border: 1px solid white;
+border-radius: 25px;
+color: black;
+font: 18pt "Arial";
+}
+QPushButton:hover#save_but
+{
+height: 30px;
+padding: 10px;
+width: 380px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 1px solid white;
+border-radius: 25px;
+color: white;
+font: 18pt "Arial";
+}
+QPushButton:pressed#save_but
+{
+height: 30px;
+padding: 10px;
+width: 380px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
+border: 1px solid white;
+border-radius: 25px;
+color: white;
+font: 18pt "Arial";
+}
+QLabel#setting_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 28pt "Exo";
+}
+QLabel#username_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 20pt "Arial";
+}
+QLabel#password_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 20pt "Arial";
+}
+QLabel#timezone_label
+{
+selection-color: rgb(255, 255, 255);
+color: white;
+font: 20pt "Arial";
+}
+QLineEdit#username_change
+{
+height: 25px;
+background-color: rgba(0%, 0%, 0%, 0%);
+border: 3px solid white;
+border-radius: 8px;
+padding-left: 6px;
+color: white;
+font: 12pt "Arial";
+}
+QLineEdit#password_change
+{
+height: 25px;
+background-color: rgba(0%, 0%, 0%, 0%);
+border: 3px solid white;
+border-radius: 8px;
+padding-left: 6px;
+color: white;
+font: 12pt "Arial";
+}
