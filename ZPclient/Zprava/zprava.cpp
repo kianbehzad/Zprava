@@ -1,6 +1,7 @@
 #include "zprava.h"
 
 ZpUser* WHOAMI;
+qint64 TIMESPEC = 60*60*4.5;
 
 
 Zprava::Zprava(QWidget *parent)
