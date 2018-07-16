@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFile>
+#include <QLabel>
 #include <QString>
 #include "zpexperimental.h"
 #include "zpform.h"
@@ -28,6 +29,8 @@ public:
     ZpExperimental* experiment;
     //FORM
     ZpForm* form;
+    //not connected
+    QLabel* connection;
 
     //LOGIN
     ZpThread* thread;
@@ -35,6 +38,7 @@ public:
 
 public slots:
     void login(QString username,QString password);
+    void handle_is_connected(bool is_connected);
 
 };
 

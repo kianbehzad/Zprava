@@ -48,6 +48,7 @@ void ZpThread::handle_timer()
 
 void ZpThread::slotReadyRead()
 {
+    emit is_connected(true);
     QString reply_string;
     std::vector<char> buf;
     qint64 chunk;
@@ -83,11 +84,13 @@ void ZpThread::slotError(QNetworkReply::NetworkError err)
 {
     //TODO: in QLabel
     qDebug() << "network error" << err;
+    emit is_connected(false);
 }
 
 void ZpThread::slotSslErrors(QList<QSslError> err)
 {
     //TODO: in QLabel
     qDebug() << "unknown network error";
+    emit is_connected(false);
 
 }
