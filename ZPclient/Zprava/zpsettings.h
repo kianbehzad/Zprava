@@ -11,6 +11,10 @@
 #include <QRect>
 #include <QStyle>
 #include <QLineEdit>
+#include <QKeyEvent>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include "zpuser.h"
 #include "zpglobals.h"
 
@@ -61,12 +65,53 @@ private:
     QWidget* username_info_widg;
     QVBoxLayout* change_username_lay;
     QWidget* change_username_widg;
+    QAction* wrong_username_input_action;
+
+    //change password widget
+    QLabel* old_password_title;
+    QLineEdit* old_password_editor;
+    QLabel* new_password_title;
+    QLineEdit* new_password_editor;
+    QPushButton* password_submit;
+    QGridLayout* old_password_info_lay;
+    QGridLayout* new_password_info_lay;
+    QWidget* old_password_info_widg;
+    QWidget* new_password_info_widg;
+    QVBoxLayout* password_info_lay;
+    QWidget* password_info_widg;
+    QVBoxLayout* change_password_lay;
+    QWidget* change_password_widg;
+    QAction* wrong_old_password_input_action;
+    QAction* wrong_new_password_input_action;
+
+    //
+    void resizeEvent(QResizeEvent*) override;
+    QNetworkAccessManager* network;
+    QNetworkRequest* request;
+    QNetworkReply* reply;
+    void handle_reply(QString _reply);
+    enum class STATE
+    {
+        NONE = 0,
+        USERNAME = 1,
+        PASSWORD = 2,
+    };
+    STATE state = ZpSettings::STATE::NONE;
+
+
 
 
 signals:
 
 private slots:
     void handle_change_username_button(bool);
+    void handle_change_password_button(bool);
+    void handle_send_username(bool);
+    void handle_send_password(bool);
+    void slotReadyRead();
+    void slotError(QNetworkReply::NetworkError err);
+    void slotSslErrors(QList<QSslError> err);
+
 };
 
 #endif // ZPSETTINGS_H
