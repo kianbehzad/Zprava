@@ -56,6 +56,8 @@ ZpChatWindow::ZpChatWindow(QWidget *parent) : QWidget(parent)
     is_forward_proccess = false;
     connect(contactlist, SIGNAL(contact_clicked(QString)), this, SLOT(handle_contact_clicked(QString)));
     connect(contactlist, SIGNAL(message_menu_trig(QString,QString,QString)), this, SLOT(handle_message_menu_trig(QString,QString,QString)));
+    connect(navigationbar->setting_but, SIGNAL(clicked()), this, SLOT(handle_setting_clicked()));
+    settings = nullptr;
 }
 
 void ZpChatWindow::keyPressEvent(QKeyEvent *e)
@@ -125,6 +127,18 @@ void ZpChatWindow::handle_message_menu_trig(QString which_content, QString origi
     prev_chatview = forward_descriptor;
     prev_chatview->show();
     is_forward_proccess = true;
+}
+
+void ZpChatWindow::handle_setting_clicked()
+{
+    if(settings != nullptr)
+        delete settings;
+    settings = new ZpSettings();
+    prev_chatview->hide();
+    prev_chattype->hide();
+    right_lay->addWidget(settings, 0, 0, 14, 1);
+    prev_chatview = settings;
+    prev_chatview->show();
 }
 
 
