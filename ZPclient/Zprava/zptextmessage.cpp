@@ -103,6 +103,7 @@ void ZpTextMessage::handle_reply(QString _reply)
     widget_width = max_lenght*8 + 90;
     this->setFixedSize(widget_width, widget_height);
     QDateTime tmp =  QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
+    tmp = tmp.addSecs(TIMESPEC);
     if(!tmp.isValid())
     {
         datetime = QDateTime::currentDateTime();

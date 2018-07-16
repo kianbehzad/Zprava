@@ -34,16 +34,20 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     connect(data_thread, SIGNAL(gotData(QList<MessageHeaders>)), this, SLOT(handle_gotData(QList<MessageHeaders>)));
 }
 
-void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpMessage::Type type)
+void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpMessage::Type type, bool is_seen)
 {
     //check if the message already exists
     for(int i{}; i < message_list.size(); i++)
         if(message_list[i]->pk == _pk)
+        {
+            message_list[i]->is_seen = is_seen;
             return;
+        }
     ZpMessage* msg;
     if(type == ZpMessage::Type::TEXT)
     {
         ZpTextMessage* new_message = new ZpTextMessage(_opponent, _amIpublisher, _pk);
+        new_message->is_seen = is_seen;
         msg = new_message;
     }
     //connect(this, SIGNAL(trig_Message()), msg, SLOT(updating()));
@@ -98,7 +102,7 @@ void ZpChatView::handle_update()
 void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
 {
         for(const auto& header: messageheaders)
-            this->add_message(opponent, header.amIPub, header.pk, header.type);
+            this->add_message(opponent, header.amIPub, header.pk, header.type, header.is_seen);
         this->sort();
 }
 

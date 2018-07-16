@@ -18,8 +18,8 @@
 
 
 struct MessageHeaders{
-    MessageHeaders(bool _amIPub, int _pk, ZpMessage::Type _type){amIPub = _amIPub; pk = _pk; type = _type;}
-    bool amIPub; int pk; ZpMessage::Type type;
+    MessageHeaders(bool _amIPub, int _pk, ZpMessage::Type _type, bool _is_seen){amIPub = _amIPub; pk = _pk; type = _type; is_seen = _is_seen;}
+    bool amIPub; int pk; ZpMessage::Type type; bool is_seen;
 };
 
 class ZpChatView_Thread : public QThread
@@ -53,6 +53,7 @@ public:
             int Pk;
             bool amIPub;
             QString type;
+            bool is_seen;
             Pk = QString(pk).toInt();
             QJsonObject pkobj{ mine[pk].toObject() };
             for(const auto& item : pkobj)
@@ -61,9 +62,11 @@ public:
                     amIPub = item.toBool();
                 if(item.isString())
                     type = item.toString();
+                if(item.isDouble())
+                    is_seen = static_cast<bool>(item.toDouble());
             }
             if(type == "TEXT")
-                messageheaders.push_back(MessageHeaders(amIPub, Pk, ZpMessage::Type::TEXT));
+                messageheaders.push_back(MessageHeaders(amIPub, Pk, ZpMessage::Type::TEXT, is_seen));
         }
         emit gotData(messageheaders);
     }
@@ -82,7 +85,7 @@ class ZpChatView : public QScrollArea
     Q_OBJECT
 public:
     explicit ZpChatView(ZpUser* _opponent, QScrollArea *parent = 0);
-    void add_message(ZpUser *_opponent, bool _amIpublisher, int _pk, ZpMessage::Type type);
+    void add_message(ZpUser *_opponent, bool _amIpublisher, int _pk, ZpMessage::Type type, bool is_seen);
     ZpMessage* get_message(int pk);
     void sort();
     QWidget* get_widget();
