@@ -8,7 +8,9 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QFile>
+#include <QRect>
 #include <QStyle>
+#include <QLineEdit>
 #include "zpuser.h"
 #include "zpglobals.h"
 
@@ -51,10 +53,20 @@ private:
     QWidget* form_widg;
     QHBoxLayout* lay;
 
+    //change username widget
+    QLabel* username_title;
+    QLineEdit* username_editor;
+    QPushButton* username_submit;
+    QGridLayout* username_info_lay;
+    QWidget* username_info_widg;
+    QVBoxLayout* change_username_lay;
+    QWidget* change_username_widg;
+
 
 signals:
 
-public slots:
+private slots:
+    void handle_change_username_button(bool);
 };
 
 #endif // ZPSETTINGS_H

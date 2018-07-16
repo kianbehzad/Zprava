@@ -108,4 +108,39 @@ ZpSettings::ZpSettings(QWidget *parent) : QWidget(parent)
     lay = new QHBoxLayout();
     lay->addWidget(form_widg);
     this->setLayout(lay);
+
+    //change username
+    connect(change_username_button, SIGNAL(clicked(bool)), this, SLOT(handle_change_username_button(bool)));
+    change_username_widg = new QWidget();
+    change_username_widg->setObjectName("change_widg");
+    username_title = new QLabel(change_username_widg);
+    username_title->setObjectName("change_label");
+    username_title->setContentsMargins(10, 0, 10, 0);
+    username_title->setText("New Username");
+    username_editor = new QLineEdit(change_username_widg);
+    username_editor->setObjectName("change_editor");
+    username_info_lay = new QGridLayout(change_username_widg);
+    username_info_lay->addWidget(username_title, 0, 0, 1, 2);
+    username_info_lay->addWidget(username_editor, 0, 2, 1, 4);
+    username_info_widg = new QWidget(change_username_widg);
+    username_info_widg->setObjectName("change_info_widg");
+    username_info_widg->setLayout(username_info_lay);
+    username_submit = new QPushButton(change_username_widg);
+    username_submit->setObjectName("change_submit");
+    username_submit->setText("Submit");
+    change_username_lay = new QVBoxLayout(change_username_widg);
+    change_username_lay->addWidget(username_info_widg);
+    change_username_lay->addWidget(username_submit);
+    change_username_widg->setLayout(change_username_lay);
+
+}
+
+void ZpSettings::handle_change_username_button(bool)
+{
+    change_username_widg->setParent(this);
+    change_username_widg->setFixedSize(this->width()*2/3, this->height()*2/3);
+    QRect r = change_username_widg->geometry();
+    r.moveCenter(this->geometry().center());
+    change_username_widg->setGeometry(r);
+    change_username_widg->show();
 }
