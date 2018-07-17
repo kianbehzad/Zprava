@@ -11,20 +11,20 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     filler = new QWidget(this);
     messages_list_layout->addWidget(filler);
 
-    //widget
+    //widgets
     messages_list_widget = new QWidget(this);
     messages_list_widget->setObjectName("chatview");
     messages_list_widget->setLayout(messages_list_layout);
     messages_list_widget->setContentsMargins(10, 10, 10, 10);
 
-    //scroll bar
+    //scroll bar handle
     messages_list_widget->setStyleSheet("QWidget#chatview{background-image:url(\":/chatview_backgroun.jpg\"); background-position: center;}");
 //    QPixmap* bkgnd = new QPixmap(":/chatview_backgroun.jpg");
 //    //*bkgnd = bkgnd->scaled(messages_list_widget->size(), Qt::IgnoreAspectRatio);
 //    QPalette* palette = new QPalette();
 //    palette->setBrush(QPalette::Background, *bkgnd);
 //    messages_list_widget->setPalette(*palette);
-    this->setWidget(messages_list_widget);
+    this->setWidget(messages_list_widget); 
     this->setAlignment(Qt::AlignCenter);
     this->setWidgetResizable(true);
     this->setMinimumWidth(700);
