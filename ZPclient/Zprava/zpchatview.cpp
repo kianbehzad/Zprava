@@ -17,7 +17,7 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     messages_list_widget->setLayout(messages_list_layout);
     messages_list_widget->setContentsMargins(10, 10, 10, 10);
 
-    //scroll bar handle
+    //scroll bar handling
     messages_list_widget->setStyleSheet("QWidget#chatview{background-image:url(\":/chatview_backgroun.jpg\"); background-position: center;}");
 //    QPixmap* bkgnd = new QPixmap(":/chatview_backgroun.jpg");
 //    //*bkgnd = bkgnd->scaled(messages_list_widget->size(), Qt::IgnoreAspectRatio);
