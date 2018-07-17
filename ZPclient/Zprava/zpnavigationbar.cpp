@@ -95,7 +95,7 @@ void ZpNavigationBar::slotReadyRead()
         }
         else
         {
-            qDebug() <<"-> read ok";//TODO: in QLabel
+            //qDebug() <<"-> read ok";//TODO: in QLabel
         }
 
         allbuf += & buf[0];
@@ -131,8 +131,11 @@ void ZpNavigationBar::handle_reply(QString _reply)
         tdelimiter = QString::fromStdString(token);
         suggested_words.append(tdelimiter);
     }
-    suggested_words[0].remove("\"");
-    suggested_words.last().remove("\"");
+    if(suggested_words.size() > 0)
+    {
+        suggested_words[0].remove("\"");
+        suggested_words.last().remove("\"");
+    }
 
     // Auto-complete handling
     delete completer;

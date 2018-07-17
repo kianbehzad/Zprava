@@ -11,7 +11,7 @@
 #include<QString>
 #include<QWidget>
 #include<QPixmap>
-#include<Qlabel>
+#include<QLabel>
 #include<QFile>
 #include <QLatin1String>
 #include<QGridLayout>
