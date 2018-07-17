@@ -18,8 +18,8 @@
 
 
 struct MessageHeaders{
-    MessageHeaders(bool _amIPub, int _pk, ZpMessage::Type _type){amIPub = _amIPub; pk = _pk; type = _type;}
-    bool amIPub; int pk; ZpMessage::Type type;
+    MessageHeaders(bool _amIPub, int _pk, ZpMessage::Type _type, bool _is_seen){amIPub = _amIPub; pk = _pk; type = _type; is_seen = _is_seen;}
+    bool amIPub; int pk; ZpMessage::Type type; bool is_seen;
 };
 
 class ZpChatView_Thread : public QThread
@@ -47,12 +47,14 @@ public:
                 QJsonValue usr{ object[_username] };
                 mine = usr.toObject();
             }
-        QList<MessageHeaders> messageheaders;
+        new_messageheaders.clear();
+        deleted_messageheaders.clear();
         for(const auto& pk : mine.keys())
         {
             int Pk;
             bool amIPub;
             QString type;
+            bool is_seen;
             Pk = QString(pk).toInt();
             QJsonObject pkobj{ mine[pk].toObject() };
             for(const auto& item : pkobj)
@@ -61,19 +63,38 @@ public:
                     amIPub = item.toBool();
                 if(item.isString())
                     type = item.toString();
+                if(item.isDouble())
+                    is_seen = static_cast<bool>(item.toDouble());
             }
             if(type == "TEXT")
-                messageheaders.push_back(MessageHeaders(amIPub, Pk, ZpMessage::Type::TEXT));
+                new_messageheaders.push_back(MessageHeaders(amIPub, Pk, ZpMessage::Type::TEXT, is_seen));
         }
-        emit gotData(messageheaders);
+        if(!new_messageheaders.isEmpty())
+        {
+            for(const auto& last: last_messageheaders)
+            {
+                bool exist{false};
+                for(const auto& _new: new_messageheaders)
+                    if(last.pk == _new.pk)
+                        exist = true;
+                if(!exist)
+                    deleted_messageheaders.push_back(last);
+            }
+            last_messageheaders.clear();
+            last_messageheaders = new_messageheaders;
+        }
+        emit gotData(new_messageheaders, deleted_messageheaders);
     }
 
 public:
     QFile file;
     QString username;
+    QList<MessageHeaders> new_messageheaders;
+    QList<MessageHeaders> last_messageheaders;
+    QList<MessageHeaders> deleted_messageheaders;
 
 signals:
-    void gotData(QList<MessageHeaders> messageheaders);
+    void gotData(QList<MessageHeaders> messageheaders, QList<MessageHeaders> deleted);
 
 };
 
@@ -82,7 +103,7 @@ class ZpChatView : public QScrollArea
     Q_OBJECT
 public:
     explicit ZpChatView(ZpUser* _opponent, QScrollArea *parent = 0);
-    void add_message(ZpUser *_opponent, bool _amIpublisher, int _pk, ZpMessage::Type type);
+    void add_message(ZpUser *_opponent, bool _amIpublisher, int _pk, ZpMessage::Type type, bool is_seen);
     ZpMessage* get_message(int pk);
     void sort();
     QWidget* get_widget();
@@ -90,7 +111,7 @@ public:
 
 private slots:
     void handle_update();
-    void handle_gotData(QList<MessageHeaders> messageheaders);
+    void handle_gotData(QList<MessageHeaders> messageheaders, QList<MessageHeaders> deleted);
 public slots:
     void updating();
     void handle_message_menu_trig(QString which_content, QString publisher, QString message_data);

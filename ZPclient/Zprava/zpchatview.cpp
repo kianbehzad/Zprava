@@ -31,19 +31,23 @@ ZpChatView::ZpChatView(ZpUser *_opponent, QScrollArea *parent)
     this->setContentsMargins(0, 0, 0, 0);
 
     data_thread = new ZpChatView_Thread(_opponent->username);
-    connect(data_thread, SIGNAL(gotData(QList<MessageHeaders>)), this, SLOT(handle_gotData(QList<MessageHeaders>)));
+    connect(data_thread, SIGNAL(gotData(QList<MessageHeaders>, QList<MessageHeaders>)), this, SLOT(handle_gotData(QList<MessageHeaders>, QList<MessageHeaders>)));
 }
 
-void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpMessage::Type type)
+void ZpChatView::add_message(ZpUser* _opponent, bool _amIpublisher, int _pk, ZpMessage::Type type, bool is_seen)
 {
     //check if the message already exists
     for(int i{}; i < message_list.size(); i++)
         if(message_list[i]->pk == _pk)
+        {
+            message_list[i]->is_seen = is_seen;
             return;
+        }
     ZpMessage* msg;
     if(type == ZpMessage::Type::TEXT)
     {
         ZpTextMessage* new_message = new ZpTextMessage(_opponent, _amIpublisher, _pk);
+        new_message->is_seen = is_seen;
         msg = new_message;
     }
     //connect(this, SIGNAL(trig_Message()), msg, SLOT(updating()));
@@ -95,11 +99,20 @@ void ZpChatView::handle_update()
     this->sort();
 }
 
-void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders)
+void ZpChatView::handle_gotData(QList<MessageHeaders> messageheaders, QList<MessageHeaders> deleted)
 {
         for(const auto& header: messageheaders)
-            this->add_message(opponent, header.amIPub, header.pk, header.type);
+            this->add_message(opponent, header.amIPub, header.pk, header.type, header.is_seen);
         this->sort();
+        for(const auto& del: deleted)
+        {
+            ZpMessage* tmp = get_message(del.pk);
+            messages_list_layout->removeWidget(tmp);
+            tmp->hide();
+            for(int i{}; i < message_list.size(); i++)
+                if(message_list[i]->pk == del.pk)
+                    message_list.removeAt(i);
+        }
 }
 
 void ZpChatView::updating()

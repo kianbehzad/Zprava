@@ -11,7 +11,7 @@
 #include<QString>
 #include<QWidget>
 #include<QPixmap>
-#include<Qlabel>
+#include<QLabel>
 #include<QFile>
 #include <QLatin1String>
 #include<QGridLayout>
@@ -99,6 +99,7 @@ class ZpNavigationBar : public QWidget
 public:
     explicit ZpNavigationBar(QWidget *parent = 0);
     void apply_stylesheet();
+    NavigationLabel* setting_but;
 
 private:
     void initial_networking_navigationbar(QString);
@@ -110,7 +111,6 @@ private:
     QGridLayout* navigation_bar_layout;
     QLineEdit* search_bar;
     NavigationLabel2* search_but;
-    NavigationLabel* setting_but;
     QPixmap* search_logo1;
     QPixmap* search_logo2;
     QPixmap* setting_logo1;
@@ -129,7 +129,7 @@ public slots:
     void slotSslErrors(QList<QSslError> err);
     void slotTextChanged(QString);
     void slotSearchButClicked();
-    void slotSettingButClicked();
+    //void slotSettingButClicked();
 
 signals:
     void navigation_view(QString username);

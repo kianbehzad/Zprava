@@ -13,6 +13,8 @@
 #include <QJsonValue>
 #include "zpglobals.h"
 
+extern qint64 TIMESPEC;
+
 class ZpUser : public QObject
 {
     Q_OBJECT

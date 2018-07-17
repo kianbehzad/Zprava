@@ -12,6 +12,8 @@
 #include "zpmessage.h"
 #include "zpglobals.h"
 
+extern qint64 TIMESPEC;
+
 class ZpTextMessage : public ZpMessage
 {
 public:

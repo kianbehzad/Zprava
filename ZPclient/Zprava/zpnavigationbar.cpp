@@ -47,7 +47,7 @@ ZpNavigationBar::ZpNavigationBar(QWidget *parent) : QWidget(parent)
 
     connect(search_bar,SIGNAL(textEdited(QString)), this,SLOT(slotTextChanged(QString)));
     connect(search_but,SIGNAL(clicked()),this,SLOT(slotSearchButClicked()));
-    connect(setting_but,SIGNAL(clicked()),this,SLOT(slotSettingButClicked()));
+    //connect(setting_but,SIGNAL(clicked()),this,SLOT(slotSettingButClicked()));
 
 
 }
@@ -95,7 +95,7 @@ void ZpNavigationBar::slotReadyRead()
         }
         else
         {
-            qDebug() <<"-> read ok";//TODO: in QLabel
+            //qDebug() <<"-> read ok";//TODO: in QLabel
         }
 
         allbuf += & buf[0];
@@ -131,8 +131,11 @@ void ZpNavigationBar::handle_reply(QString _reply)
         tdelimiter = QString::fromStdString(token);
         suggested_words.append(tdelimiter);
     }
-    suggested_words[0].remove("\"");
-    suggested_words.last().remove("\"");
+    if(suggested_words.size() > 0)
+    {
+        suggested_words[0].remove("\"");
+        suggested_words.last().remove("\"");
+    }
 
     // Auto-complete handling
     delete completer;
@@ -154,10 +157,10 @@ void ZpNavigationBar::slotSearchButClicked()
     emit navigation_view(search_bar->text());
 }
 
-void ZpNavigationBar::slotSettingButClicked()
-{
-    qDebug()<<"setting";
-}
+//void ZpNavigationBar::slotSettingButClicked()
+//{
+//    qDebug()<<"setting";
+//}
 
 NavigationLabel::NavigationLabel(QPixmap* pic, QWidget* parent, Qt::WindowFlags f)
 : QLabel(parent)

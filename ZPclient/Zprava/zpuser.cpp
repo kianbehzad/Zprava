@@ -39,6 +39,7 @@ void ZpUser::handle_reply(QString _reply)//TODO for just returning states
         else
         {
             last_message_datetime = QDateTime::fromString(object["last_message_datetime"].toString(), Qt::ISODate);
+            last_message_datetime = last_message_datetime.addSecs(TIMESPEC);
         }
     }
     emit updated();

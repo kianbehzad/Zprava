@@ -7,7 +7,7 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
 
     //getting style sheets
     File.setFileName(":/ZpUserInfo_stylesheet.qss");
-    qDebug() << "is qt form_stylesheet opend:" <<File.open(QFile::ReadOnly);
+    qDebug() << "is qt ZpUserInfo_stylesheet opend:" <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();
@@ -130,6 +130,8 @@ void ZpUserInfo::handle_update()
     username_info_label->setText(user->username);
     email_info_label->setText(user->email);
     datetime_info_label->setText(user->last_message_datetime.toString("hh:mm"));
+    if(user->username == "Invalid Username")
+        datetime_info_label->setText("--:--");
     if(user->username == "Invalid Username")
     {
         start_messaging_button->setDisabled(true);

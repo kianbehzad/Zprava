@@ -39,6 +39,7 @@ public:
 
 signals:
     void updated();
+    void is_connected(bool is_connected);
 
 };
 

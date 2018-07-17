@@ -18,7 +18,6 @@
 #include<QPixmap>
 #include<QPalette>
 #include<QMouseEvent>
-#include<Qpixmap>
 #include<QFile>
 #include<QLatin1String>
 #include<QSizePolicy>

@@ -29,17 +29,35 @@ public:
         file.close();
         QJsonDocument document = QJsonDocument::fromJson(file_data.toUtf8());
         QJsonObject object = document.object();
-        QList<QString> contacts;
+        new_contacts.clear();
+        deleted_contacts.clear();
         for(const auto& username: object.keys())
-            contacts.push_back(username);
-        emit gotData(contacts);
+            new_contacts.push_back(username);
+        if(!new_contacts.isEmpty())
+        {
+            for(const auto& last: last_contacts)
+            {
+                bool exist{false};
+                for(const auto& _new: new_contacts)
+                    if(last == _new)
+                        exist = true;
+                if(!exist)
+                    deleted_contacts.push_back(last);
+            }
+            last_contacts.clear();
+            last_contacts = new_contacts;
+        }
+        emit gotData(new_contacts, deleted_contacts);
     }
 
 public:
     QFile file;
+    QList<QString> new_contacts;
+    QList<QString> last_contacts;
+    QList<QString> deleted_contacts;
 
 signals:
-    void gotData(QList<QString> username);
+    void gotData(QList<QString> username, QList<QString> deleted);
 
 };
 
@@ -54,7 +72,7 @@ public:
 
 private slots:
     void handle_update();
-    void handle_gotData(QList<QString> contacts);
+    void handle_gotData(QList<QString> username, QList<QString> deleted);
 public slots:
     void updating();
 

@@ -28,5 +28,6 @@
         <file>DancingScript-Regular.otf</file>
         <file>nav_stylesheet.qss</file>
         <file>ZpUserInfo_stylesheet.qss</file>
+        <file>ZpSettings_stylesheet.qss</file>
     </qresource>
 </RCC>
