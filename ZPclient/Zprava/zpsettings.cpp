@@ -242,6 +242,7 @@ void ZpSettings::handle_change_username_button(bool)
 {
     state = ZpSettings::STATE::USERNAME;
     change_username_widg->setParent(this);
+    change_password_widg->hide();
     change_username_widg->show();
 }
 
@@ -249,6 +250,7 @@ void ZpSettings::handle_change_password_button(bool)
 {
     state = ZpSettings::STATE::PASSWORD;
     change_password_widg->setParent(this);
+    change_username_widg->hide();
     change_password_widg->show();
 }
 
