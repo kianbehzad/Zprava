@@ -9,6 +9,7 @@ ZpMessage::ZpMessage(ZpUser* _opponent, bool _amIpublisher, int _pk, QWidget *pa
 
     context_menu = new QMenu(this);
     menu_forward = context_menu->addAction("forward");
+    menu_forward = context_menu->addAction("delete");
     connect(context_menu, SIGNAL(triggered(QAction*)), this, SLOT(slot_menu_triggered(QAction*)));
 }
 

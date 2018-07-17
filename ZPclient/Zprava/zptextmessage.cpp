@@ -103,6 +103,7 @@ void ZpTextMessage::handle_reply(QString _reply)
     widget_width = max_lenght*8 + 90;
     this->setFixedSize(widget_width, widget_height);
     QDateTime tmp =  QDateTime::fromString(object["datetime"].toString(), Qt::ISODate);
+    tmp = tmp.addSecs(TIMESPEC);
     if(!tmp.isValid())
     {
         datetime = QDateTime::currentDateTime();
@@ -123,6 +124,14 @@ void ZpTextMessage::slot_menu_triggered(QAction * menu_action)
         else
             emit message_menu_trig("forward", opponent->username, this->text);
     }
+    if(menu_action->text() == "delete")
+        if(amIpublisher)
+        {
+            network = new QNetworkAccessManager();
+            request = new QNetworkRequest();
+            request->setUrl(QUrl(QString::fromStdString(IP_ADDRESS) + "chat/deletemessage/?pk="+QString::number(pk)));
+            reply = network->get(*request);
+        }
 }
 
 void ZpTextMessage::updating()

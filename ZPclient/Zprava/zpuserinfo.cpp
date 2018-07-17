@@ -7,7 +7,7 @@ ZpUserInfo::ZpUserInfo(QString username, QWidget *parent) : QWidget(parent)
 
     //getting style sheets
     File.setFileName(":/ZpUserInfo_stylesheet.qss");
-    qDebug() << "is qt form_stylesheet opend:" <<File.open(QFile::ReadOnly);
+    qDebug() << "is qt ZpUserInfo_stylesheet opend:" <<File.open(QFile::ReadOnly);
     FormStyleSheet = QLatin1String(File.readAll());
     this->setStyleSheet(FormStyleSheet);
     File.close();
