@@ -107,6 +107,7 @@ background-color: white;
 }
 QLabel#change_label
 {
+height: 40px;
 selection-color: rgb(255, 255, 255);
 border: 1px solid white;
 border-radius: 10px;
@@ -116,6 +117,7 @@ font: 16pt "Arial";
 }
 QLineEdit#change_editor
 {
+height: 40px;
 selection-color: rgb(255, 255, 255);
 border: 1px solid white;
 border-radius: 10px;
