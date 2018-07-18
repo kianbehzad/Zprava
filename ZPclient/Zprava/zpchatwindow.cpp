@@ -131,12 +131,12 @@ void ZpChatWindow::handle_message_menu_trig(QString which_content, QString origi
 
 void ZpChatWindow::handle_setting_clicked()
 {
+    prev_chatview->hide();
+    prev_chattype->hide();
     if(settings != nullptr)
         delete settings;
     settings = new ZpSettings();
     connect(settings->logout_button, SIGNAL(clicked(bool)), this, SLOT(handle_logout(bool)));
-    prev_chatview->hide();
-    prev_chattype->hide();
     right_lay->addWidget(settings, 0, 0, 14, 1);
     prev_chatview = settings;
     prev_chatview->show();
